@@ -1,0 +1,304 @@
+<!-- BEGIN pos -->
+ 
+
+<div class="pos pos-with-menu pos-with-sidebar" id="pos" [ngClass]="{ 'pos-mobile-sidebar-toggled': mobileSidebarToggled }">
+	
+	<div class="pos-header">
+		<div class="logo">
+			<a routerLink="/pos/counter-checkout">
+				<div class="logo-img"><i class="fa fa-bowl-rice" style="font-size: 1.5rem;"></i></div>
+				<div class="logo-text">Pine & Dine</div>
+			</a>
+		</div>
+		<!-- <div class="time" id="time">{{ getTime() }}</div> -->
+		<div class="nav">
+			<div class="nav-item">
+				<a routerLink="/pos/kitchen-order" class="nav-link">
+					<i class="far fa-clock nav-icon"></i>
+				</a>
+			</div>
+			<div class="nav-item">
+				<a routerLink="/pos/table-booking" class="nav-link">
+					<i class="far fa-calendar-check nav-icon"></i>
+				</a>
+			</div>
+			<div class="nav-item">
+				<a routerLink="/pos/menu-stock" class="nav-link">
+					<i class="fa fa-chart-pie nav-icon"></i>
+				</a>
+			</div>
+		</div>
+	</div>
+	<!-- <div class="pos-container"> -->
+
+	
+		<!-- BEGIN pos-menu -->
+		<div class="pos-menu">
+
+			<!-- BEGIN nav-container -->
+			<div class="nav-container">
+				<ng-scrollbar>
+					<ul class="nav nav-tabs">
+						<li class="nav-item" *ngFor="let category of menu.category">
+							<a class="nav-link" [ngClass]="{'active': category.active }" href="javascript:;" (click)="showType($event, category.type)">
+								<i [ngClass]="category.icon"></i> {{ category.text }}
+							</a>
+						</li>
+					</ul>
+				</ng-scrollbar>
+			</div>
+			<!-- END nav-container -->
+		</div>
+		<!-- END pos-menu -->
+	
+		<!-- BEGIN pos-content -->
+		<div class="pos-content">
+			<div class="pos-content-container p-4">
+				<div class="row gx-4">
+					<ng-container *ngFor="let food of menu.food">
+						<div class="custom-col pb-4" *ngIf="!food.hide">
+							<a href="javascript:;" class="pos-product" [ngClass]="{ 'not-available': !food.available }" (click)="food.available ? showFoodModal($event, food.id) : ''">
+								<!-- <div class="img" [ngStyle]="{ backgroundImage: 'url('+ food.image +')' }"></div> -->
+								<div class="info">
+									<div class="title">{{ food.title }}</div>
+									<!-- <div class="desc">{{ food.description }}</div> -->
+									<div class="price">${{ food.price }}</div>
+								</div>
+								<div class="not-available-text" *ngIf="!food.available">
+									<div>Not Available</div>
+								</div>
+							</a>
+						</div>
+					</ng-container>
+				</div>
+			</div>
+		</div>
+		<!-- END pos-content -->
+		
+		<!-- BEGIN pos-sidebar -->
+		<div class="pos-sidebar" id="pos-sidebar">
+			<div class="h-100 d-flex flex-column p-0">
+				<!-- BEGIN pos-sidebar-header -->
+				<div class="pos-sidebar-header">
+					<div class="back-btn">
+						<button type="button" (click)="toggleMobileSidebar()" class="btn">
+							<i class="fa fa-chevron-left"></i>
+						</button>
+					</div>
+					<div class="icon"><i class="fa fa-plate-wheat"></i></div>
+					<div class="title">Table {{ tableNo }}</div>
+					<div class="order small">Order: <b>{{ orderNo }}</b></div>
+				</div>
+				<!-- END pos-sidebar-header -->
+			
+				<!-- BEGIN pos-sidebar-nav -->
+				<div class="pos-sidebar-nav">
+					<ul class="nav nav-tabs nav-fill">
+						<li class="nav-item">
+							<a class="nav-link active" href="#" data-bs-toggle="tab" data-bs-target="#newOrderTab">New Order ({{ getOrderTotal() }})</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#" data-bs-toggle="tab" data-bs-target="#orderHistoryTab">Order History ({{ getOrderHistoryTotal() }})</a>
+						</li>
+					</ul>
+				</div>
+				<!-- END pos-sidebar-nav -->
+			
+				<!-- BEGIN pos-sidebar-body -->
+				<div class="pos-sidebar-body tab-content">
+					<!-- BEGIN #newOrderTab -->
+					<div class="tab-pane fade h-100 show active" id="newOrderTab">
+						<!-- BEGIN pos-order -->
+						<ng-container *ngIf="order.length > 0">
+							<ng-scrollbar>
+								<div class="pos-order" *ngFor="let order of order">
+									<div class="pos-order-product">
+										<div class="img" [style]="{ backgroundImage: 'url('+ order.image +')' }"></div>
+										<div class="flex-1">
+											<div class="h6 mb-1">{{ order.title }}</div>
+											<div class="small">${{ order.price }}</div>
+											<div class="small mb-2">
+												<div *ngFor="let option of order.options">- {{ option.key }}: {{ option.value }}</div>
+											</div>
+											<div class="d-flex">
+												<a href="#" class="btn btn-secondary btn-sm" (click)="deductQty($event, order.id)"><i class="fa fa-minus"></i></a>
+												<input type="text" [(ngModel)]="order.quantity" class="form-control w-50px form-control-sm mx-2 bg-white bg-opacity-25 text-center" />
+												<a href="#" class="btn btn-secondary btn-sm" (click)="addQty($event, order.id)"><i class="fa fa-plus"></i></a>
+											</div>
+										</div>
+									</div>
+									<div class="pos-order-price d-flex flex-column">
+										<div class="flex-1">${{ (order.price * order.quantity).toFixed(2) }}</div>
+										<div class="text-end mt-auto"><a href="#" (click)="toggleConfirmation($event, order.id, true)" class="btn btn-default btn-sm"><i class="fa fa-trash"></i></a></div>
+									</div>
+							
+									<div class="pos-order-confirmation text-center d-flex flex-column justify-content-center" *ngIf="order.confirmation">
+										<div class="mb-1">
+											<i class="bi bi-trash fs-36px lh-1"></i>
+										</div>
+										<div class="mb-2">Remove this item?</div>
+										<div>
+											<a href="#" (click)="toggleConfirmation($event, order.id, false)" class="btn btn-outline-white btn-sm ms-auto me-2 width-100px">No</a>
+											<a href="#" (click)="removeOrder($event, order.id)" class="btn btn-outline-theme btn-sm width-100px">Yes</a>
+										</div>
+									</div>
+								</div>
+							</ng-scrollbar>
+						</ng-container>
+						<div *ngIf="order.length == 0" class="h-100 d-flex align-items-center justify-content-center text-center p-20">
+							<div>
+								<div class="mb-3 mt-n5">
+									<svg width="6em" height="6em" viewBox="0 0 16 16" class="text-gray-300" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+										<path fill-rule="evenodd" d="M14 5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5zM1 4v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4H1z"/>
+										<path d="M8 1.5A2.5 2.5 0 0 0 5.5 4h-1a3.5 3.5 0 1 1 7 0h-1A2.5 2.5 0 0 0 8 1.5z"/>
+									</svg>
+								</div>
+								<h5>No order history found</h5>
+							</div>
+						</div>
+						<!-- END pos-order -->
+					</div>
+					<!-- END #orderHistoryTab -->
+				
+					<!-- BEGIN #orderHistoryTab -->
+					<div class="tab-pane fade h-100" id="orderHistoryTab">
+						<div class="h-100 d-flex align-items-center justify-content-center text-center p-20">
+							<div>
+								<div class="mb-3 mt-n5">
+									<svg width="6em" height="6em" viewBox="0 0 16 16" class="text-gray-300" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+										<path fill-rule="evenodd" d="M14 5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5zM1 4v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4H1z"/>
+										<path d="M8 1.5A2.5 2.5 0 0 0 5.5 4h-1a3.5 3.5 0 1 1 7 0h-1A2.5 2.5 0 0 0 8 1.5z"/>
+									</svg>
+								</div>
+								<h5>No order history found</h5>
+							</div>
+						</div>
+					</div>
+					<!-- END #orderHistoryTab -->
+				</div>
+				<!-- END pos-sidebar-body -->
+			
+				<!-- BEGIN pos-sidebar-footer -->
+				<div class="pos-sidebar-footer">
+					<div class="d-flex align-items-center mb-2">
+						<div>Subtotal</div>
+						<div class="flex-1 text-end h6 mb-0">${{ getSubTotalPrice() }}</div>
+					</div>
+					<div class="d-flex align-items-center">
+						<div>Taxes (6%)</div>
+						<div class="flex-1 text-end h6 mb-0">${{ getTaxesPrice() }}</div>
+					</div>
+					<hr />
+					<div class="d-flex align-items-center mb-2">
+						<div>Total</div>
+						<div class="flex-1 text-end h4 mb-0">${{ getTotalPrice() }}</div>
+					</div>
+					<div class="mt-3">
+						<div class="d-flex">
+							<a href="#" class="btn btn-default w-70px me-10px d-flex align-items-center justify-content-center">
+								<span>
+									<i class="fa fa-bell fa-lg my-10px d-block"></i>
+									<span class="small fw-semibold">Service</span>
+								</span>
+							</a>
+							<a href="#" class="btn btn-default w-70px me-10px d-flex align-items-center justify-content-center">
+								<span>
+									<i class="fa fa-receipt fa-fw fa-lg my-10px d-block"></i>
+									<span class="small fw-semibold">Bill</span>
+								</span>
+							</a>
+							<a href="#" class="btn btn-theme flex-fill d-flex align-items-center justify-content-center">
+								<span>
+									<i class="fa fa-cash-register fa-lg my-10px d-block"></i>
+									<span class="small fw-semibold">Submit Order</span>
+								</span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<!-- END pos-sidebar-footer -->
+			</div>
+		</div>
+		<!-- END pos-sidebar -->
+	<!-- </div> -->
+</div>
+<!-- END pos -->
+
+<!-- BEGIN pos-mobile-sidebar-toggler -->
+<a href="javascript:;" class="pos-mobile-sidebar-toggler" (click)="toggleMobileSidebar()">
+	<i class="fa fa-shopping-bag"></i>
+	<span class="badge">{{ getOrderTotal() }}</span>
+</a>
+<!-- END pos-mobile-sidebar-toggler -->
+
+<div class="modal modal-pos fade" id="modalPosItem">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content border-0">
+			<form (ngSubmit)="addToCart($event)" *ngIf="modalData">
+				<a href="#" data-bs-dismiss="modal" class="btn-close position-absolute top-0 end-0 m-4"></a>
+				<div class="modal-pos-product">
+					<div class="modal-pos-product-img">
+						<div class="img" [ngStyle]="{ backgroundImage: 'url('+ modalData.image +')' }"></div>
+					</div>
+					<div class="modal-pos-product-info">
+						<div class="fs-4 fw-semibold">{{ modalData.title }}</div>
+						<div class="text-body text-opacity-50 mb-2">
+							{{ modalData.description }}
+						</div>
+						<div class="fs-3 fw-bold mb-3">${{ modalData.price }}</div>
+						<div class="d-flex mb-3">
+							<a href="#" class="btn btn-secondary" (click)="deductModalQty($event)"><i class="fa fa-minus"></i></a>
+							<input type="text" class="form-control w-50px fw-bold mx-2 text-center" name="qty" [value]="modalQuantity" />
+							<a href="#" class="btn btn-secondary" (click)="addModalQty($event)"><i class="fa fa-plus"></i></a>
+						</div>
+						<ng-container *ngIf="modalData.options">
+							<hr class="opacity-1" />
+							<div class="mb-2" *ngIf="modalData.options.size">
+								<div class="fw-bold">Size:</div>
+								<div class="option-list">
+									<div class="option" *ngFor="let size of modalData.options.size; let i = index">
+										<input type="radio" [id]="'size['+ i +']'" name="size" class="option-input" [(ngModel)]="modalSelectedSize" [value]="size.text" />
+										<label class="option-label" [for]="'size['+ i +']'">
+											<span class="option-text">{{ size.text }}</span>
+											<span class="option-price">+{{ size.price }}</span>
+										</label>
+									</div>
+								</div>
+							</div>
+							<div class="mb-2" *ngIf="modalData.options.addon">
+								<div class="fw-bold">Add On:</div>
+								<div class="option-list">
+									<div class="option" *ngFor="let addon of modalData.options.addon; let i = index">
+										<input type="checkbox" [name]="'addon['+ i +']'" [(ngModel)]="modalSelectedAddon[addon.text]" class="option-input" [id]="'addon['+ i +']'" />
+										<label class="option-label" [for]="'addon['+ i +']'">
+											<span class="option-text">{{ addon.text }}</span>
+											<span class="option-price">+{{ addon.price }}</span>
+										</label>
+									</div>
+								</div>
+							</div>
+						</ng-container>
+						<hr class="opacity-1" />
+						<div class="row">
+							<div class="col-4">
+								<a href="#" class="btn btn-default fw-semibold mb-0 d-block py-3" data-bs-dismiss="modal">Cancel</a>
+							</div>
+							<div class="col-8">
+								<button type="submit" class="btn btn-theme fw-semibold d-flex justify-content-center align-items-center py-3 m-0 w-100">Add to cart <i class="fa fa-plus ms-2 my-n3"></i></button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="fixed-footers">
+    <div class="footer-contents">
+      <button type="button" class="footer-btn btn btn-theme">Hold</button>
+      <button type="button" class="footer-btn btn btn-purple">Reset</button>
+      <button type="button" class="footer-btn btn btn-yellow">View Orders</button>
+	  <button type="button" class="footer-btn btn btn-yellow">Payment</button>
+	  <button type="button" class="footer-btn btn btn-yellow">Tables</button>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+<div class="app-float-submenu" *ngIf="menus" (mouseenter)="remainMenu()" (mouseleave)="hideMenu()" [style.top]="(top) ? top : ''" [style.left]="(left) ? left : ''" [style.right]="right" [style.bottom]="bottom">
+  <!-- render subMenuNav -->
+  <ng-template #subMenuNav let-menu="menu">
+    <div class="menu-text">
+    	{{ menu.text }}
+    	<i class="fa fa-paper-plane text-theme ms-5px" *ngIf="menu.highlight"></i>
+    </div>
+    <div class="menu-caret" *ngIf="menu.caret"></div>
+  </ng-template>
+
+  <div class="app-float-submenu-container overflow-scroll" style="max-height: 100%">
+    <div class="menu-item" *ngFor="let menu of menus" routerLinkActive="active" #rla="routerLinkActive" [routerLinkActiveOptions]="{exact: true}" [ngClass]="{ 'expand': menu.expand }">
+      <a class="menu-link" *ngIf="menu.children" (click)="(menu.children) ? expandCollapseSubmenu($event, menu, menus, rla) : ''">
+        <ng-template *ngTemplateOutlet="subMenuNav; context: {menu: menu}"></ng-template>
+      </a>
+      <a class="menu-link" *ngIf="!menu.children" [routerLink]="menu.path">
+        <ng-template *ngTemplateOutlet="subMenuNav; context: {menu: menu}"></ng-template>
+      </a>
+    </div>
+  </div>
+</div>

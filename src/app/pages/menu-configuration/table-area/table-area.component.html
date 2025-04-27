@@ -1,0 +1,274 @@
+<div id="tabsV2" class="mb-5">
+
+    <card>
+        <card-body class="pt-1">
+            <!-- BEGIN nav-tabs -->
+            <ul class="nav nav-tabs nav-tabs-v2">
+                <li class="nav-item me-3"><a href="#tabletab" class="nav-link active" data-bs-toggle="tab">Table</a>
+                </li>
+                <li class="nav-item me-3"><a href="#areatab" class="nav-link" data-bs-toggle="tab">Area</a></li>
+
+            </ul>
+            <!-- END nav-tabs -->
+            <!-- BEGIN tab-content -->
+            <div class="tab-content pt-3">
+                <!-- BEGIN tab-pane -->
+                <div class="tab-pane fade show active" id="tabletab">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="ms-auto">
+                            <a href="#tableModal" data-bs-toggle="modal" #myButton class="btn btn-theme">
+                                <i class="fa fa-plus-circle fa-fw me-1"></i> Create Table
+                            </a>
+                        </div>
+                    </div>
+                    <div class="input-group mb-4">
+                        <div class="flex-fill position-relative">
+                            <div class="input-group">
+                                <input type="text" class="form-control ps-35px" placeholder="Search Tables" [(ngModel)]="searchTable">
+                                <div class="input-group-text position-absolute top-0 bottom-0 bg-none border-0"
+                                    style="z-index: 1020;">
+                                    <i class="fa fa-search opacity-5"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- BEGIN table -->
+                    <div class="table-responsive">
+                        <table class="table table-hover text-nowrap">
+                            <thead>
+                                <tr>
+                                    <!-- <th class="border-top-0 pt-0 pb-2"></th> -->
+                                    <th class="border-top-0 pt-0 pb-2">Table No</th>
+                                    <th class="border-top-0 pt-0 pb-2"># Persons</th>
+                                    <th class="border-top-0 pt-0 pb-2">Additional Info</th>
+                                    <th class="border-top-0 pt-0 pb-2">Area Name</th>
+                                    <th class="border-top-0 pt-0 pb-2">Status</th>
+                                    <th class="border-top-0 pt-0 pb-2">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let table of filteredTables">
+                                    <!-- <td class="w-10px align-middle">
+                                    {{ i + 1 }}
+                                </td> -->
+                                    <td class="align-middle">{{table.tableNumber}}</td>
+                                    <td class="align-middle">{{table.numberOfPersons }}</td>
+                                    <td class="align-middle">{{table.extraInformation}}</td>
+                                    <td class="align-middle">{{table.areaName}}</td>
+                                    <td class="align-middle">
+                                        <span
+                                            class="badge bg-teal text-teal-800 bg-opacity-25 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
+                                            *ngIf="table.status">
+                                            <i class="fa fa-circle text-teal fs-9px fa-fw me-5px"></i> Active
+                                        </span>
+                                        <span
+                                            class="badge bg-orange bg-opacity-20 text-orange px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
+                                            *ngIf="!table.status">
+                                            <i class="fa fa-circle fs-9px fa-fw me-5px"></i> Inactive
+                                        </span>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div class="me-4 mb-md-0 mb-2" (click)="onEdit(table)" data-bs-toggle="modal"
+                                            data-bs-target="#tableModal">
+                                            <i class="fa fa-pen me-2 text-body text-opacity-50 my-n1"></i> Edit
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- END tab-pane -->
+                <!-- BEGIN tab-pane -->
+                <div class="tab-pane fade" id="areatab">
+                    <div class="tab-pane fade show active" id="areatab">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="ms-auto">
+                                <a href="#areaModal" data-bs-toggle="modal" #myButton class="btn btn-theme">
+                                    <i class="fa fa-plus-circle fa-fw me-1"></i> Create Area
+                                </a>
+                            </div>
+                        </div>
+                        <div class="input-group mb-4">
+                            <div class="flex-fill position-relative">
+                                <div class="input-group">
+                                    <input type="text" class="form-control ps-35px" placeholder="Search Area" [(ngModel)]="searchArea">
+                                    <div class="input-group-text position-absolute top-0 bottom-0 bg-none border-0"
+                                        style="z-index: 1020;">
+                                        <i class="fa fa-search opacity-5"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- BEGIN table -->
+                        <div class="table-responsive">
+                            <table class="table table-hover text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th class="border-top-0 pt-0 pb-2">Area Type</th>
+                                        <th class="border-top-0 pt-0 pb-2">Area Name</th>
+                                        <th class="border-top-0 pt-0 pb-2">Tables</th>
+                                        <th class="border-top-0 pt-0 pb-2">Status</th>
+                                        <th class="border-top-0 pt-0 pb-2">Created Date</th>
+                                        <th class="border-top-0 pt-0 pb-2">Actions</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let area of filteredAreas">
+                                        <td class="align-middle">{{area.areaType}}</td>
+                                        <td class="align-middle">{{area.areaName}}</td>
+                                        <td class="align-middle">{{getTableNames(area.tableIds)}}</td>
+                                        <td class="align-middle">
+                                            <span
+                                                class="badge bg-teal text-teal-800 bg-opacity-25 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
+                                                *ngIf="area.status">
+                                                <i class="fa fa-circle text-teal fs-9px fa-fw me-5px"></i> Active
+                                            </span>
+                                            <span
+                                                class="badge bg-orange bg-opacity-20 text-orange px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"
+                                                *ngIf="!area.status">
+                                                <i class="fa fa-circle fs-9px fa-fw me-5px"></i> Inactive
+                                            </span>
+                                        </td>
+                                        <td class="align-middle">{{area.createdDate | date}}</td>
+                                        <td class="align-middle">
+                                            <div class="me-4 mb-md-0 mb-2" (click)="onEditArea(area)" data-bs-toggle="modal"
+                                                data-bs-target="#areaModal">
+                                                <i class="fa fa-pen me-2 text-body text-opacity-50 my-n1"></i> Edit
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- END tab-pane -->
+                <!-- BEGIN tab-pane -->
+
+                <!-- END tab-pane -->
+            </div>
+            <!-- END tab-content -->
+        </card-body>
+
+    </card>
+</div>
+
+<div class="modal fade" id="tableModal" #tableModal>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Table</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" id="myButton"
+                    (click)="clearTableModal()"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="tableForm" (ngSubmit)="createTable()">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label>Table Number <span class="text-danger">*</span></label>
+                            <input formControlName="tableNumber" type="text" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label># Persons <span class="text-danger">*</span></label>
+                            <input formControlName="numberOfPersons" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label>Additional Info</label>
+                        <textarea formControlName="additionalInfo" class="form-control"></textarea>
+                    </div>
+                    <div class="mb-3 form-check form-switch">
+                        <label>Status</label>
+                        <input formControlName="status" type="checkbox" class="form-check-input">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-bs-dismiss="modal"
+                            (click)="clearTableModal()">Close</button>
+                        <button type="submit" class="btn btn-theme">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="areaModal" #areaModal>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Area</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" #myButton2 id="myButton2"
+                    (click)="clearAreaModal()"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="areaForm" (ngSubmit)="createArea()">
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="mb-lg-0 mb-3">
+                                    <label class="form-label">Area Type <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" formControlName="areaType" required />
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="mb-lg-0 mb-3">
+                                    <label class="form-label">Area Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" formControlName="areaName" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check form-switch ms-auto">
+                            <label class="form-label" for="activeStatus">Active</label>
+                            <input type="checkbox" class="form-check-input" formControlName="status" id="activeStatus">
+                        </div>
+                    </div>
+
+                    <div class="col-xl-12">
+                        <div class="small text-inverse text-opacity-50 mb-1"><b class="fw-bold">Tables</b></div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="selectAllTables"
+                                (change)="selectAllTables($event)">
+                            <label class="form-check-label" for="selectAllTables">Select All</label>
+                        </div>
+                        <div class="form-group mb-3">
+                            <div class="checkbox-grid">
+                                <div class="form-check" *ngFor="let table of tables">
+                                   
+                                        <input class="form-check-input" type="checkbox" [id]="'table' + table.id"
+                                        [value]="table.id" (change)="onTableSelect($event, table.id)"
+                                        [checked]="selectedTableIds.includes(table.id)"
+                                        [ngClass]="{
+                                            'assigned-table': isTableAssignedToOtherArea(table.id)
+                                        }">
+                                    <label class="form-check-label" [for]="'table' + table.id">{{ table.tableNumber
+                                        }}</label>
+                                  
+                                        <div *ngIf="isTableAssignedToOtherArea(table.id)" class="d-flex mt-1 text-body text-opacity-50 small">
+                                            <div><i class="fa fa-circle text-warning fs-6px d-block mt-2"></i></div>
+                                            <div class="flex-1 ps-2">
+                                                <div class="mb-2">
+                                                    <!-- Display area names for the assigned table -->
+                                                    {{ getAssignedAreaNameForTable(table.id) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-bs-dismiss="modal"
+                            (click)="clearAreaModal()">Close</button>
+                        <button type="submit" class="btn btn-theme">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,855 @@
+<card class="mb-4">
+    <card-header class="d-flex align-items-center bg-none fw-bold">
+        Discounts
+    </card-header>
+    <card-body>
+        <div class="row mb-2">
+            <div class="col-4">
+                <div class="mb-3">
+                    <label class="form-label">Discount Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="title" [(ngModel)]="discountName">
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="mb-3">
+                    <label class="form-label">Discount On <span class="text-danger">*</span></label>
+                    <select class="form-select" [(ngModel)]="discountOn" required>
+                        <option value="Point of Sale">Point of Sale (POS)</option>
+                        <option value="Online">Online</option>
+                        <option value="Zomato">Zomato</option>
+                        <option value="Kiosk">Kiosk</option>
+                        <option value="Google Pay">Google Pay</option>
+                        <option value="Talabat">Talabat</option>
+                        <option value="OS Aggregator">OS Aggregator</option>
+                    </select>
+                </div>
+            </div>          
+        </div>
+
+        <div class="col-4" *ngIf="discountOn === 'Zomato'">
+            <div class="mb-3">
+                <label class="form-label">Outlet List <span class="text-danger">*</span></label>
+                <select class="form-select" [(ngModel)]="outletList" required>
+                    <option value="Point of Sale">Point of Sale (POS)</option>
+                    <option value="Online">Online</option>
+                    <option value="Zomato">Zomato</option>
+                </select>
+            </div>
+        </div>   
+
+    <div class="row mb-2">
+        <div class="col-xl-6">
+            <div class="row mb-2">
+                <div class="fw-bold col-4">Discount Type<span class="text-danger">*</span></div>
+            </div>
+                <div class="form-group mb-4">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox1" value="Percentage"
+                            [(ngModel)]="selectedDiscountType" name="discountType">
+                        <label class="form-check-label" for="inlineCheckbox1">Percentage</label>
+                    </div>
+                    <div class="form-check form-check-inline" *ngIf="discountOn !== 'Zomato'">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox2" value="Fixed"
+                            [(ngModel)]="selectedDiscountType" name="discountType">
+                        <label class="form-check-label" for="inlineCheckbox2">Fixed</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox3" value="BOGO"
+                            [(ngModel)]="selectedDiscountType" name="discountType">
+                        <label class="form-check-label" for="inlineCheckbox3">BOGO</label>
+                    </div>
+                    <div class="form-check form-check-inline" *ngIf="discountOn === 'Zomato'">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox4" value="DISH"
+                            [(ngModel)]="selectedDiscountType" name="discountType">
+                        <label class="form-check-label" for="inlineCheckbox4">DISH</label>
+                    </div>
+                    <div class="form-check form-check-inline" *ngIf="discountOn === 'Zomato'">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox5" value="Flat Rate"
+                            [(ngModel)]="selectedDiscountType" name="discountType">
+                        <label class="form-check-label" for="inlineCheckbox5">Flat Rate</label>
+                    </div>
+                    <div class="form-check form-check-inline" *ngIf="discountOn === 'Zomato'">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox6" value="BXGY"
+                            [(ngModel)]="selectedDiscountType" name="discountType">
+                        <label class="form-check-label" for="inlineCheckbox6">BXGY</label>
+                    </div>
+                    <div class="form-check form-check-inline" *ngIf="discountOn === 'Zomato'">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox7" value="FREEBIE"
+                            [(ngModel)]="selectedDiscountType" name="discountType">
+                        <label class="form-check-label" for="inlineCheckbox7">FREEBIE</label>
+                    </div>
+                    <div class="d-flex mt-1 text-body text-opacity-50 small" *ngIf="discountOn === 'Zomato' &&  selectedDiscountType !== 'Flat Rate'">
+                        <div><i class="fa fa-circle text-warning fs-6px d-block mt-2"></i></div>
+                        <div class="flex-1 ps-2">
+                            <div class="mb-2">
+                                Zomato allows one DISCOUNT offer, one BOGO offer, and multiple DISCOUNT offers at a time.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div><i class="fa fa-circle text-warning fs-6px d-block mt-2"></i></div>
+                    <div class="mt-2 text-body text-opacity-50 small" *ngIf="discountOn === 'Zomato' &&  selectedDiscountType !== 'Flat Rate'">
+                        Zomato allows one DISCOUNT offer, one BOGO offer, and multiple DISCOUNT offers at a time
+                    </div> -->
+                        <!-- <ul>
+                            <li>One DISCOUNT offer</li>
+                            <li>One BOGO offer</li>
+                            <li>Multiple DISCOUNT offers</li>
+                        </ul> -->
+
+                </div>
+        </div>
+        <div class="col-xl-4" *ngIf="discountOn !== 'Online' && discountOn !== 'Kiosk' && discountOn !== 'Zomato' && discountOn !== 'Google Pay' && discountOn !== 'Talabat' && discountOn !== 'OS Aggregator'">
+            <div class="row mb-2">
+                <div class="fw-bold col-4">Order Type</div>
+            </div>
+            <div class="form-group mb-4">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="Delivery"
+                        [(ngModel)]="isSelected.delivery" (change)="onChangeOrderType('Delivery', isSelected.delivery)">
+                    <label class="form-check-label" for="inlineCheckbox1">Delivery</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="Pick Up"
+                        [(ngModel)]="isSelected.pickUp" (change)="onChangeOrderType('Pick Up', isSelected.pickUp)">
+                    <label class="form-check-label" for="inlineCheckbox2">Pick Up</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="Dine In"
+                        [(ngModel)]="isSelected.dineIn" (change)="onChangeOrderType('Dine In', isSelected.dineIn)">
+                    <label class="form-check-label" for="inlineCheckbox3">Dine In</label>
+                </div>
+            </div>
+        </div>
+
+        </div>
+
+        <div class="col-4" *ngIf="discountOn === 'Zomato' && selectedDiscountType === 'DISH' " >
+            <label class="form-label fw-bold">Choose Option: </label>
+            <div class="form-group mb-4">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="inlineCheckbox1" value="Percentage"
+                        [(ngModel)]="selectedZomatoChooseOption" name="Choose Option">
+                    <label class="form-check-label" for="inlineCheckbox1">Percentage</label>              
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="inlineCheckbox2" value="Fixed"
+                        [(ngModel)]="selectedZomatoChooseOption" name="Choose Option">
+                    <label class="form-check-label" for="inlineCheckbox2">Fixed</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-4" *ngIf="selectedDiscountType !== 'BOGO' &&  selectedDiscountType !== 'BXGY' && selectedDiscountType !== 'FREEBIE'">
+                <div class="mb-3">
+                    <label class="form-label d-flex align-items-center">Amount 
+                        <span *ngIf="selectedDiscountType !== 'Fixed' && selectedDiscountType !== 'BOGO'"> (%)</span>
+                        <span class="text-danger">*</span></label>
+                    <input type="number" class="form-control" name="title" [(ngModel)]="amount">
+                    <div class="d-flex mt-1 text-body text-opacity-50 small" *ngIf="discountOn === 'Zomato' &&  selectedDiscountType === 'Percentage'  &&  selectedDiscountType === 'DISh' ">
+                        <div><i class="fa fa-circle text-warning fs-6px d-block mt-2"></i></div>
+                        <div class="flex-1 ps-2">
+                            <div class="mb-2">
+                                For PERCENTAGE discounts, the value should be between 10% and 50%, and for FIXED discounts, it must be at least Rs. 30.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+             <div class="col-4"  *ngIf="discountOn !== 'Zomato' && selectedDiscountType !== 'Fixed' && selectedDiscountType !== 'BOGO' ">
+                <div class="mb-3">
+                    <label class="form-label">Allow Max Discount </label>
+                    <input type="number" class="form-control" name="title" [(ngModel)]="allowMaxDiscount" placeholder="Leave blank for no limit">
+                </div>
+            </div>
+            <div class="col-4" *ngIf="discountOn !== 'Zomato'&& selectedDiscountType === 'BOGO'" >
+                <div class="mb-3">
+                    <label class="form-label">Item Amount Limit (>=) </label>
+                    <input type="number" class="form-control" name="title" [(ngModel)]="itemAmountLimit" placeholder="Leave blank for no limit">
+                </div>
+            </div>
+            <div class="col-xl-4"  *ngIf="discountOn !== 'Zomato' && selectedDiscountType !== 'BOGO'">
+                <label class="form-label fw-bold">Add Discount On <span class="text-danger">*</span></label>
+                    <div class="form-group mb-4">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="inlineCheckbox1" value="Add On Core"
+                                [(ngModel)]="selectedAddOn">
+                            <label class="form-check-label" for="inlineCheckbox1">Add On Core</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="inlineCheckbox2" value="Add On Total"
+                                [(ngModel)]="selectedAddOn">
+                            <label class="form-check-label" for="inlineCheckbox2">Add On Total</label>
+                        </div>
+                    </div>
+            </div>
+        </div>
+ 
+
+        <div class="row mb-2" *ngIf="discountOn !== 'Zomato'">
+            <div class="col-xl-3" *ngIf="selectedDiscountType !== 'BOGO'">
+                <div class="file-manager h-100"
+                    [ngClass]="{ 'file-manager-sidebar-mobile-toggled': mobileSidebarToggled }">
+                    <div class="file-manager-sidebar">
+                        <div class="fw-bold flex-1">
+                            <!-- <span *ngIf="selectedDiscountType === 'BOGO'">Applicable On (Buy):</span> -->
+                            <span >Applicable On:</span>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="all" name="applicableOn"
+                                (click)="setApplicableOn('all')">
+                            <label class="form-check-label" for="all">All</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="category" name="applicableOn"
+                                (click)="setApplicableOn('category')">
+                            <label class="form-check-label" for="category">Category</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="items" name="applicableOn"
+                                (click)="setApplicableOn('items')">
+                            <label class="form-check-label" for="items">Items</label>
+                        </div>
+                        <div *ngIf="applicableOn !== 'all'" class="file-manager-sidebar-content mt-3">
+                            <div class="file-tree">
+                                <div class="file-node">
+                                    <label>
+                                        <input class="form-check-input" type="checkbox" [(ngModel)]="selectAll"
+                                            (change)="toggleSelectAll(applicableOn)" />
+                                        Select All
+                                    </label>
+                                </div>
+
+                                <div *ngIf="applicableOn === 'category' || applicableOn === 'items'">
+                                    <div *ngFor="let category of categories">
+                                        <div class="file-node has-sub" [ngClass]="{ 'expand': category.expanded }">
+                                            <a href="javascript:;" class="file-link" *ngIf="applicableOn === 'items'"
+                                                (click)="category.expanded = !category.expanded">
+                                                <span class="file-arrow"></span>
+                                                <span class="file-info">
+                                                    <label>
+                                                        <input
+                                                            *ngIf="applicableOn !== 'all' && applicableOn !== 'items'"
+                                                            class="form-check-input" type="checkbox" />
+                                                        {{ category.categoryName }}
+                                                    </label>
+                                                </span>
+                                            </a>
+                                            <label *ngIf="applicableOn === 'category'">
+                                                <input *ngIf="applicableOn !== 'all' && applicableOn !== 'items'"
+                                                    class="form-check-input" type="checkbox"
+                                                    [checked]="selectedCategories.includes(category.categoryId)"
+                                                    (change)="toggleCategory(category.categoryId)" />
+                                                {{ category.categoryName }}
+                                            </label>
+                                            <div *ngIf="category.expanded && applicableOn === 'items'"
+                                                class="file-tree">
+                                                <div *ngFor="let item of category.items" class="file-node">
+                                                    <a href="javascript:;" class="file-link">
+                                                        <span class="file-info">
+                                                            <label>
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    [checked]="selectedItems.includes(item.itemId)"
+                                                                    (change)="toggleItem(item.itemId)" />
+                                                                {{ item.itemName }}
+                                                            </label>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+       
+        </div>
+
+<!-- Drag and drop code -->
+<div class="container mb-2" *ngIf="selectedDiscountType === 'BOGO'">
+    <div class="row mb-2">
+      <div class="col-xl-6">
+        <div class="file-manager">
+          <div class="fw-bold">Applicable On (Buy):</div>
+          <div class="mb-2">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" id="all" name="applicableOn"
+                (click)="setApplicableOn('all')">
+              <label class="form-check-label" for="all">All</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" id="category" name="applicableOn"
+                (click)="setApplicableOn('category')">
+              <label class="form-check-label" for="category">Category</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" id="items" name="applicableOn"
+                (click)="setApplicableOn('items')">
+              <label class="form-check-label" for="items">Items</label>
+            </div>
+          </div>
+          <div *ngIf="applicableOn !== 'all'" class="file-manager-sidebar-content mt-3">
+            <div cdkDropList #sourceList="cdkDropList" [cdkDropListData]="availableSource"
+              [cdkDropListConnectedTo]="buyMappingLists"  class="example-list file-tree"
+              (cdkDropListDropped)="dropFromSource($event, 'buy')">
+              <div *ngIf="availableSource.length === 0" class="empty-placeholder">
+                Drop items here
+              </div>
+              <div *ngFor="let data of availableSource" class="example-box" cdkDrag>
+                <ng-container *ngIf="applicableOn==='category'">{{ data.categoryName }}</ng-container>
+                <ng-container *ngIf="applicableOn==='items'">{{ data.itemName }}</ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="col-xl-6">
+        <div class="file-manager">
+          <div class="fw-bold">Applicable On (Get):</div>
+          <div class="mb-2">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" id="allGet" name="applicableOnGet"
+                (click)="setApplicableOnGet('all')">
+              <label class="form-check-label" for="allGet">All</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" id="categoryGet" name="applicableOnGet"
+                (click)="setApplicableOnGet('category')">
+              <label class="form-check-label" for="categoryGet">Category</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" id="itemsGet" name="applicableOnGet"
+                (click)="setApplicableOnGet('items')">
+              <label class="form-check-label" for="itemsGet">Items</label>
+            </div>
+          </div>
+          <div *ngIf="applicableOnGet !== 'all'" class="file-manager-sidebar-content mt-3">
+            <div cdkDropList #sourceListGet="cdkDropList" [cdkDropListData]="availableSourceGet"
+              [cdkDropListConnectedTo]="getMappingLists" class="example-list file-tree scrollable-container"
+              (cdkDropListDropped)="dropFromSource($event, 'get')">
+              <div *ngIf="availableSourceGet.length === 0" class="empty-placeholder">
+                Drop items here
+              </div>
+              <div *ngFor="let data of availableSourceGet" class="example-box scrollable-container" cdkDrag>
+                <ng-container *ngIf="applicableOnGet==='category'">{{ data.categoryName }}</ng-container>
+                <ng-container *ngIf="applicableOnGet==='items'">{{ data.itemName }}</ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="row mt-4">
+      <div class="col-xl-12">
+        <h5>Discount Mappings</h5>
+        <div *ngFor="let mapping of mappings; let i = index" class="mapping-container"
+        [ngClass]="{'mapping-marked': mapping.marked}">
+     <div class="mapping-header">
+       <!-- <span>Mapping {{ i + 1 }}</span>
+       <button type="button" class="btn btn-theme" (click)="markMapping(i)">
+         {{ mapping.marked ? 'Unmark' : 'Mark' }}
+       </button>
+       <button type="button" class="btn btn-dark" *ngIf="mapping.marked" (click)="removeMapping(i)">
+         Remove
+       </button> -->
+     </div>
+     <div class="row">
+      
+       <div class="col-xl-6">
+         <h6>Buy Items</h6>
+         <div cdkDropList #buyList="cdkDropList" [cdkDropListData]="mapping.buyBogoItems"
+              [cdkDropListConnectedTo]="[sourceList]"
+              [cdkDropListDisabled]="mapping.marked"
+              class="example-list mapping-list"
+              (cdkDropListDropped)="dropToMapping($event, i, 'buy')">
+           <div *ngIf="mapping.buyBogoItems.length === 0" class="empty-placeholder">
+             Drag BUY items here
+           </div>
+           <div *ngFor="let item of mapping.buyBogoItems" class="example-box" cdkDrag
+                [cdkDragDisabled]="mapping.marked">
+             <ng-container *ngIf="applicableOn==='category'">{{ item.categoryName }}</ng-container>
+             <ng-container *ngIf="applicableOn==='items'">{{ item.itemName }}</ng-container>
+           </div>
+         </div>
+       </div>
+       <div class="col-xl-6">
+         <h6>Get Items</h6>
+         <div cdkDropList #getList="cdkDropList" [cdkDropListData]="mapping.getBogoItems"
+              [cdkDropListConnectedTo]="[sourceListGet]"
+              [cdkDropListDisabled]="mapping.marked"
+              class="example-list mapping-list scrollable-container"
+              (cdkDropListDropped)="dropToMapping($event, i, 'get')">
+           <div *ngIf="mapping.getBogoItems.length === 0" class="empty-placeholder">
+             Drag GET items here
+           </div>
+           <div *ngFor="let item of mapping.getBogoItems" class="example-box" cdkDrag
+                [cdkDragDisabled]="mapping.marked">
+             <ng-container *ngIf="applicableOnGet==='category'">{{ item.categoryName }}</ng-container>
+             <ng-container *ngIf="applicableOnGet==='items'">{{ item.itemName }}</ng-container>
+           </div>
+         </div>
+       </div>
+       
+     </div>
+   </div>
+        <!-- <div class="mt-3">
+          <button type="button" class="btn btn-theme" (click)="addNewMapping()">+ Add New Mapping</button>
+        </div> -->
+      </div>
+    </div>
+  
+  </div>
+
+
+        <div  *ngIf="discountOn !== 'Zomato'&& selectedDiscountType === 'BOGO'">
+        <div class="row mb-2">
+            <div class="fw-bold col-4">BOGO Offer Details:</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-4">
+                <div class="mb-3">
+                    <label class="form-label">Buy </label>
+                    <input type="text" class="form-control" name="title" [(ngModel)]="buyItem">
+                    <div class="d-flex mt-1 text-body text-opacity-50 small">
+                        <div><i class="fa fa-circle text-warning fs-6px d-block mt-2"></i></div>
+                        <div class="flex-1 ps-2">
+                            <div class="mb-2">
+                                For Ex:- BUY 2 GET 2 or BUY 3 GET 2
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="mb-3">
+                    <label class="form-label">Get</label>
+                    <input type="text" class="form-control" name="title" [(ngModel)]="getItem">
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div *ngIf="discountOn !== 'Zomato'&& selectedDiscountType === 'BOGO'">
+            <!-- BOGO Discount Type and BOGO Amount in Same Row -->
+            <div class="row mb-2">
+                <div class="col-4">
+                    <label class="form-label fw-bold">BOGO Discount Type: </label>
+                    <div class="form-group mb-4">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="inlineCheckbox1" value="Percentage"
+                                [(ngModel)]="selectedBOGODiscountType" name="BOGOType">
+                            <label class="form-check-label" for="inlineCheckbox1">Percentage</label>              
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="inlineCheckbox2" value="Fixed"
+                                [(ngModel)]="selectedBOGODiscountType" name="BOGOType">
+                            <label class="form-check-label" for="inlineCheckbox2">Fixed</label>
+                        </div>
+                    </div>
+                </div>
+        
+                <!-- BOGO Amount field in the same row -->
+                <div class="col-4">
+                    <label class="form-label fw-bold">BOGO Amount:</label>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" name="title" [(ngModel)]="buyItem">
+                        <div class="d-flex mt-1 text-body text-opacity-50 small">
+                            <div><i class="fa fa-circle text-warning fs-6px d-block mt-2"></i></div>
+                            <div class="flex-1 ps-2">
+                                <div class="mb-2">
+                                    Enter a value between 1% and 100% for Percentage discounts.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div *ngIf="discountOn !== 'Zomato'&& selectedDiscountType === 'BOGO'">
+                <div class="col-xl-4">
+                    <label class="form-label fw-bold">BOGO Get Item Type: </label>
+                    <div class="form-group mb-4">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="inlineCheckbox1" value="Lower Price"
+                                [(ngModel)]="selectedBOGOGetItemType" name="BOGOGetItemType">
+                            <label class="form-check-label" for="inlineCheckbox1">Lower Price</label>              
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="inlineCheckbox2" value="Higher Price"
+                                [(ngModel)]="selectedBOGOGetItemType" name="BOGOGetItemType">
+                            <label class="form-check-label" for="inlineCheckbox2">Higher Price</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="inlineCheckbox3" value="Same Items Only"
+                                [(ngModel)]="selectedBOGOGetItemType" name="BOGOGetItemType">
+                            <label class="form-check-label" for="inlineCheckbox2">Same Items Only</label>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="selectedBOGOGetItemType === 'Lower Price' || selectedBOGOGetItemType === 'Higher Price'" class="form-group mb-4">
+                    <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="BogoGetItemType"
+                        [(ngModel)]="isSelected.bogoGetItemType" (change)="onChangeOrderType('BogoGetItemType', isSelected.bogoGetItemType)">
+                    <label class="form-check-label" for="inlineCheckbox1">Do you wish to show the quantity for the BOGO discount on POS?</label>
+                    <div class="d-flex mt-1 text-body text-opacity-50 small">
+                        <div><i class="fa fa-circle text-warning fs-6px d-block mt-2"></i></div>
+                        <div class="flex-1 ps-2">
+                            <div class="mb-2">
+                                If left unchecked, the BOGO discount will apply to all eligible items.
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+        </div>
+        
+        <div *ngIf="discountOn !== 'Zomato'&& selectedDiscountType === 'BOGO'">
+            <div class="col-xl-4">
+                <label class="form-label">
+                    <span class="fw-bold">BOGO Buy Item Type:</span>
+                    <span class="d-flex mt-1 text-body text-opacity-50 small ms-2">
+                        <div><i class="fa fa-circle text-warning fs-6px d-block mt-2"></i></div>
+                        <div class="flex-1 ps-2">
+                            This option will be functional only if the 'BOGO Buy Amount' is correctly defined.
+                        </div>
+                    </span>
+                </label>
+                <div class="form-group mb-4">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox1" value="Lower Price"
+                            [(ngModel)]="selectedBOGOBuyItemType" name="BOGOBuyItemType">
+                        <label class="form-check-label" for="inlineCheckbox1">Lower Price</label>              
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox2" value="Higher Price"
+                            [(ngModel)]="selectedBOGOBuyItemType" name="BOGOBuyItemType">
+                        <label class="form-check-label" for="inlineCheckbox2">Higher Price</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="fw-bold col-4">BOGO Buy Amount</div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-4">
+                    <div class="mb-3">
+                        <input type="number" class="form-control" name="title" [(ngModel)]="minDiscount">
+                        <div class="d-flex mt-1 text-body text-opacity-50 small">
+                            <div><i class="fa fa-circle text-warning fs-6px d-block mt-2"></i></div>
+                            <div class="flex-1 ps-2">
+                                <div class="mb-2">
+                                    Enter a value between 1% and 100% for Percentage discounts.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+<div *ngIf = "discountOn === 'Zomato' && (selectedDiscountType === 'Percentage' || selectedDiscountType === 'BOGO' || selectedDiscountType === 'FREEBIE') ">
+    <div class="row mb-2">
+        <div class="fw-bold col-4">Minimum Order Amount</div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-4">
+            <div class="mb-3">
+                <label class="form-label">Min (>=) </label>
+                <input type="number" class="form-control" name="title" [(ngModel)]="minOrderDiscount">
+                <div class="d-flex mt-1 text-body text-opacity-50 small">
+                    <div><i class="fa fa-circle text-warning fs-6px d-block mt-2"></i></div>
+                    <div class="flex-1 ps-2">
+                        <div class="mb-2">
+                            This will be applied to the Core Total of the Order.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+     
+    </div>
+</div>
+
+    <div class="col-4" *ngIf="discountOn === 'Zomato' && selectedDiscountType === 'FREEBIE'">
+        <div class="mb-3">
+            <label class="form-label">No. of Freebie item(s) offered (Quantity) <span class="text-danger">*</span></label>
+            <select class="form-select" [(ngModel)]="freebieItems" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+        </div>
+    </div> 
+
+    <div *ngIf = "discountOn !== 'Zomato'  ">
+        <div class="row mb-2">
+            <div class="fw-bold col-4">Applicable Amount</div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-4">
+                <div class="mb-3">
+                    <label class="form-label">Min (>=) </label>
+                    <input type="number" class="form-control" name="title" [(ngModel)]="minDiscount">
+                    <div class="d-flex mt-1 text-body text-opacity-50 small">
+                        <div><i class="fa fa-circle text-warning fs-6px d-block mt-2"></i></div>
+                        <div class="flex-1 ps-2">
+                            <div class="mb-2">
+                                This will be applied to the Core Total of the Order.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="mb-3">
+                    <label class="form-label">Max (<=)</label>
+                    <input type="number" class="form-control" name="title" [(ngModel)]="maxDiscount">
+                </div>
+            </div> 
+        </div>
+    </div>
+
+    <div *ngIf = "discountOn === 'Zomato' && selectedDiscountType === 'BXGY' ">
+        
+        <div class="row mb-2">
+            <div class="col-4">
+                <div class="mb-3">
+                    <label class="form-label">Buy Count </label>
+                    <input type="number" class="form-control" name="title" [(ngModel)]="buyCount">
+                    <div class="d-flex mt-1 text-body text-opacity-50 small">
+                        <div><i class="fa fa-circle text-warning fs-6px d-block mt-2"></i></div>
+                        <div class="flex-1 ps-2">
+                            <div class="mb-2">
+                                No. of items(s) that customer buys.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="mb-3">
+                    <label class="form-label">Free Count</label>
+                    <input type="number" class="form-control" name="title" [(ngModel)]="freeCount">
+                    <div class="d-flex mt-1 text-body text-opacity-50 small">
+                        <div><i class="fa fa-circle text-warning fs-6px d-block mt-2"></i></div>
+                        <div class="flex-1 ps-2">
+                            <div class="mb-2">
+                                No. of items(s) that customer gets for free.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </div>
+
+        <div class="row" >
+            <!-- Date Duration Section -->
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="form-label fw-bold">Discount Validity</label>
+                    <div class="row">
+                        <!-- From Date Input -->
+                        <div class="col-3">
+                            <div class="mb-3">
+                                <label class="form-label">From Date <span class="text-danger">*</span></label>
+                                <input name="datepicker_default" class="form-control" placeholder="yyyy-mm-dd"
+                                    (click)="d1.toggle()" [(ngModel)]="dateTimeData.fromDate" ngbDatepicker
+                                    #d1="ngbDatepicker" autocomplete="off" />
+                            </div>
+                        </div>
+        
+                        <!-- From Time Input -->
+                        <div class="col-3">
+                            <div class="mb-3">
+                                <label class="form-label">Time <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <input class="form-control" [value]="formatTime(dateTimeData.fromTime)"
+                                        placeholder="Select Time" />
+                                    <div class="dropdown-menu dropdown-menu-end p-2">
+                                        <ngb-timepicker name="timepicker_component"
+                                            [(ngModel)]="dateTimeData.fromTime"
+                                            [meridian]="true" ></ngb-timepicker>
+                                    </div>
+                                    <button class="btn btn-outline-default bi bi-clock" data-bs-toggle="dropdown"
+                                        data-bs-auto-close="outside" type="button"></button>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <!-- To Date Input -->
+                        <div class="col-3">
+                            <div class="mb-3">
+                                <label class="form-label">To Date <span class="text-danger">*</span></label>
+                                <input name="datepicker_default" class="form-control" placeholder="yyyy-mm-dd"
+                                    (click)="d2.toggle()" [(ngModel)]="dateTimeData.toDate" ngbDatepicker
+                                    #d2="ngbDatepicker" autocomplete="off" [minDate]="dateTimeData.fromDate"/>
+                            </div>
+                        </div>
+        
+                        <!-- To Time Input -->
+                        <div class="col-3">
+                            <div class="mb-3">
+                                <label class="form-label">Time <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <input class="form-control" [value]="formatTime(dateTimeData.toTime)"
+                                        placeholder="Select Time" />
+                                    <div class="dropdown-menu dropdown-menu-end p-2">
+                                        <ngb-timepicker name="timepicker_component"
+                                            [(ngModel)]="dateTimeData.toTime"
+                                            [meridian]="true"></ngb-timepicker>
+                                    </div>
+                                    <button class="btn btn-outline-default bi bi-clock" data-bs-toggle="dropdown"
+                                        data-bs-auto-close="outside" type="button"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Time Duration Section -->
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="form-label fw-bold">Discount Duration</label>
+                    <div class="row">
+                        <!-- From Time (Second Section) -->
+                        <div class="col-6">
+                            <div class="mb-4">
+                                <label class="form-label">From Time <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <input class="form-control" [value]="formatTime(dateTimeData.fromTime)"
+                                        placeholder="with input group addon" />
+                                    <div class="dropdown-menu dropdown-menu-end p-2">
+                                        <ngb-timepicker name="timepicker_component"
+                                            [(ngModel)]="dateTimeData.fromTime"
+                                            [meridian]="true"></ngb-timepicker>
+                                    </div>
+                                    <button class="btn btn-outline-default bi bi-clock" data-bs-toggle="dropdown"
+                                        data-bs-auto-close="outside" type="button"></button>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <!-- To Time (Second Section) -->
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <label class="form-label">To Time <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <input class="form-control" [value]="formatTime(dateTimeData.toTime)"
+                                        placeholder="with input group addon" />
+                                    <div class="dropdown-menu dropdown-menu-end p-2">
+                                        <ngb-timepicker name="timepicker_component"
+                                            [(ngModel)]="dateTimeData.toTime"
+                                            [meridian]="true"></ngb-timepicker>
+                                    </div>
+                                    <button class="btn btn-outline-default bi bi-clock" data-bs-toggle="dropdown"
+                                        data-bs-auto-close="outside" type="button"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mb-2" >
+            <div class="row mb-2" *ngIf="discountOn !== 'Zomato'">
+                <label class="form-label">Validation<span class="text-danger">*</span></label>
+            
+                <div class="col-4">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox1" name="validationOption" 
+                               [(ngModel)]="Validation" value="Without code without validation">
+                        <label class="form-check-label" for="inlineCheckbox1">Discount available without code or validation</label>
+                        <div class="d-flex mt-1 text-body text-opacity-50 small">
+                            <div><i class="fa fa-circle text-warning fs-6px d-block mt-2"></i></div>
+                            <div class="flex-1 ps-2">
+                                <div class="mb-2">
+                                    Select this option to apply a discount without entering a code. No code validation will be performed.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="col-4" *ngIf="discountOn !== 'Online' && discountOn !== 'Kiosk' && discountOn !== 'Zomato' && discountOn !== 'Google Pay' && discountOn !== 'Talabat' && discountOn !== 'OS Aggregator'">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox2" name="validationOption" 
+                               [(ngModel)]="Validation" value="With code without validation">
+                        <label class="form-check-label" for="inlineCheckbox2">Discount available with code, no validation required</label>
+                        <div class="d-flex mt-1 text-body text-opacity-50 small">
+                            <div><i class="fa fa-circle text-warning fs-6px d-block mt-2"></i></div>
+                            <div class="flex-1 ps-2">
+                                <div class="mb-2">
+                                    Select this option if you'd like to apply a discount by entering the code details. Please note that the code will not be validated.
+                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="col-4">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" id="inlineCheckbox3" name="validationOption" 
+                               [(ngModel)]="Validation" value="Assign coupon">
+                        <label class="form-check-label" for="inlineCheckbox3">Assign coupon</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="form-group mb-4" *ngIf="discountOn !== 'Zomato'">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="allDaysCheckbox"
+                            [(ngModel)]="allDaysSelected" (change)="toggleAllDays()">
+                        <label class="form-check-label" for="allDaysCheckbox">All Days</label>
+                    </div>
+                    <div  class="mt-2">
+                        <div class="form-check form-check-inline" *ngFor="let day of daysOfWeek">
+                            <input class="form-check-input" type="checkbox" [(ngModel)]="day.selected"
+                                (change)="updateAllDaysStatus()" [id]="day.name">
+                            <label class="form-check-label" [for]="day.name">{{ day.name }}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mb-4" *ngIf="discountOn !== 'Zomato'">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [(ngModel)]="allowRuntimeChanges">
+                        <label class="form-check-label" for="inlineCheckbox1">Allow run time changes</label>
+                    </div>
+                </div>
+                <div class="form-group mb-4">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" [(ngModel)]="status">
+                        <label class="form-check-label" for="inlineCheckbox1">Status</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-2" *ngIf="discountOn !== 'Zomato'">
+            <div class="mb-3">
+                <label class="form-label">Description </label>
+                <input type="text" class="form-control" name="title" [(ngModel)]="description">
+            </div>
+        </div>
+        <div class="row mb-2" *ngIf="discountOn !== 'Zomato'">
+            <div class="col-4">Terms & Conditions</div>
+        </div>
+        <div class="mb-3" *ngIf="discountOn !== 'Zomato'">
+            <quill-editor class="h-200px"></quill-editor>
+        </div>
+    </card-body>
+    <card-footer class="bg-gray-100 d-flex p-3 sticky-footer ">
+        <button type="button" class="btn btn-default fw-semibold fs-13px ms-auto" (click)="oncancel()">Cancel</button>
+        <button type="submit" class="btn btn-theme fw-semibold fs-13px ms-2" [disabled]="!validation()" (click)="onSubmit()">Save Discount</button>
+    </card-footer>
+</card>

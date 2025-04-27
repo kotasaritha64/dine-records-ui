@@ -1,0 +1,135 @@
+<card class="mb-4">
+  <div class="p-3 d-flex align-items-center">
+		<a (click)="closeAddon()" class="btn btn-outline-default text-nowrap btn-sm px-3 rounded-pill"><i
+				class="fa fa-arrow-left me-1 ms-n1"></i> Back</a>
+	</div>
+    <card-header class="d-flex align-items-center bg-none fw-bold">
+        Configuration
+    </card-header>
+    <card-body>
+        <div *ngFor="let department of addons" class="alert alert-light d-flex justify-content-between align-items-center">
+          <!-- Department Name -->
+          <span>{{ department.departmentName }}</span>
+          <!-- Toggle button for expanding the department -->
+          <button class="btn btn-primary btn-sm" (click)="toggleExpand(department.id)">
+            <i *ngIf="expandedDepartments.includes(department.id)" class="fa fa-minus"></i>
+            <i *ngIf="!expandedDepartments.includes(department.id)" class="fa fa-plus"></i>
+          </button>
+           <!-- Expanded Section: Show addonGroupItems when department is expanded -->
+          <div *ngIf="expandedDepartments.includes(department.id)" class="p-3">
+            <div class="row mb-2">
+                <div class="col-4">
+                    <div class="mb-3">
+                        <select class="form-select" name="allowAddons" [value]="addOnRequestMap.get(department.id).allowAddons" (change)="allowSelection(department.id , $event)">
+                            <option value="Allow Single Selection">Allow Single Selection</option>
+                            <option value="Allow All">Allow All</option>
+                        </select>						
+                    </div>
+                </div>
+                <div class="col-4" *ngIf="addOnRequestMap.get(department.id).allowAddons === 'Allow Single Selection'">
+                    <div class="input-group">
+                        <span class="input-group-text">Min</span>
+                        <input type="number" class="form-control" [value]="addOnRequestMap.get(department.id).min"  [min] = "1" [max]="department.addonGroupItems.length"  placeholder="0"  name="length" (input)="minMaxchange('min',$event,department.id , department.addonGroupItems.length)"> 
+                    </div>
+                </div>
+                <div class="col-4" *ngIf="addOnRequestMap.get(department.id).allowAddons === 'Allow Single Selection'">
+                    <div class="input-group">
+                        <span class="input-group-text">Max</span>
+                        <input type="number" class="form-control" [value]="addOnRequestMap.get(department.id).max" [min] = "1" [max]="department.addonGroupItems.length" placeholder="0" name="length" (input)="minMaxchange('max',$event,department.id , department.addonGroupItems.length)">
+                    </div>
+                </div>				
+            </div>
+            <div class="row mb-2">
+                <card-header class="d-flex align-items-center bg-none fw-bold">
+                     AddOn Items
+                </card-header>
+            <div class="col-4" *ngFor="let item of department.addonGroupItems">
+              <div class="small text-inverse text-opacity-50 mb-1">
+                <div class="form-group mb-4">
+                  <div class="form-check form-check-inline">
+                    <div class="flex-fill">
+                        <input class="form-check-input" type="checkbox" [checked]="addOnRequestMap.get(department.id).addonItemIds.includes(item.id)" (change)="addonGroupItems(department.id , item.id)">
+                        <div class="fw-bold">{{ item.name }}</div>
+                        <div class="input-group">
+                            <span class="input-group-text">Price</span>
+                            <input type="text" class="form-control" readonly placeholder=" {{ item.price }}" name="length"> 
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="mb-lg-0 mb-3">
+                        <label class="form-label">Select Group Category(s):</label>
+                        <select class="form-select" name="warranty_type_id">
+                            <option value="1">All</option>
+                            <option value="2">Local Supplier Warranty</option>
+                            <option value="3">Local Manufacturer Warranty</option>
+                            <option value="4">International Manufacturer Warranty</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="file-manager h-100" [ngClass]="{ 'file-manager-sidebar-mobile-toggled': mobileSidebarToggled }">
+                      <div class="file-manager-sidebar">
+                        <div class="fw-bold flex-1">Select Item(s):</div>                
+                        <div class="file-manager-sidebar-content">
+                          <ng-scrollbar class="h-100">
+                            <div class="p-3">
+                              <div class="file-tree mb-3">                               
+                                <div class="file-node">
+                                  <label>
+                                    <input class="form-check-input" type="checkbox"
+                                    [checked]="addOnRequestMap.get(department.id).categoryIds.length == categories.length"
+                                     (change)="selectAllItems(department.id , $event)" />
+                                    Select All Menu Items
+                                  </label>
+                                </div>                 
+                                <div *ngFor="let category of categories">
+                                  <div class="file-node has-sub" [ngClass]="{ 'expand': category.expanded }">                                   
+                                    <a href="javascript:;" class="file-link" (click)="category.expanded = !category.expanded">
+                                      <span class="file-arrow"></span>
+                                      <span class="file-info">
+                                        <label>
+                                          <input class="form-check-input" type="checkbox" [checked]="addOnRequestMap.get(department.id).categoryIds.includes(category.categoryId)" 
+                                          (change)="onCategoryChange(department.id , category.categoryId)" />
+                                          {{ category.categoryName }}
+                                        </label>
+                                      </span>
+                                    </a>                
+                                    <div *ngIf="category.expanded" class="file-tree">
+                                      <div *ngFor="let item of category.items" class="file-node">
+                                        <a href="javascript:;" class="file-link">
+                                          <span class="file-info">
+                                            <!-- <span class="file-icon"><i class="far fa-file-code fa-lg text-body text-opacity-50"></i></span> -->
+                                            <label>
+                                              <input class="form-check-input" type="checkbox" [checked]="addOnRequestMap.get(department.id).menuItemIds.includes(item.itemId) || addOnRequestMap.get(department.id).categoryIds.includes(category.categoryId)" (change)="onMenuIemChange(department.id , category.categoryId , item.itemId , $event)"/>
+                                              {{ item.itemName }}
+                                            </label>
+                                          </span>
+                                        </a>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>                              
+                              </div>
+                            </div>
+                          </ng-scrollbar>
+                        </div>
+                      </div>
+                    </div>
+                  </div>                 
+            </div>
+          </div>
+        </div>
+        <card-footer class="bg-none d-flex p-3">
+            <button type="button" class="btn btn-default fw-semibold fs-13px ms-auto"
+                >Cancel</button>
+            <button type="submit" class="btn btn-theme fw-semibold fs-13px ms-2" (click)="onSubmit()"
+            >Save Assign AddOns</button>
+        </card-footer>
+      </card-body>
+</card>

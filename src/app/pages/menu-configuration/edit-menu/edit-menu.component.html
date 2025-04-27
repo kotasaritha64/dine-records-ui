@@ -1,0 +1,862 @@
+<div class="p-3 d-flex align-items-center" (click)="onCloseMenu()">
+	<a class="btn btn-outline-default text-nowrap btn-sm px-3 rounded-pill"><i class="fa fa-arrow-left me-1 ms-n1"></i>
+		Back</a>
+</div>
+<div class="d-flex align-items-center mb-3">
+	<div>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="javascript:;">PAGES</a></li>
+			<li class="breadcrumb-item active">PRODUCT DETAILS</li>
+		</ol>
+		<h1 class="page-header mb-0">Edit Menu Item - </h1>
+	</div>
+</div>
+
+<form [formGroup]="menuItemForm" class="row gx-4">
+	<!-- <div class="row gx-4"> -->
+	<div class="col-lg-12">
+		<card class="mb-4">
+			<card-header class="d-flex align-items-center bg-none fw-bold">
+				Configuration
+			</card-header>
+			<card-body>
+
+				<div class="row mb-2">
+					<div class="col-4">
+						<div class="mb-3">
+							<label class="form-label">Category <span class="text-danger">*</span></label>
+							<select class="form-select" name="warranty_type_id" formControlName="categoryId">
+								<option value="">select</option>
+								<option *ngFor="let cat of categories" [value]="cat.categoryId">{{ cat.categoryName }}
+								</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="mb-3">
+							<label class="form-label">Name <span class="text-danger">*</span></label>
+							<input type="text" class="form-control" formControlName="itemName" name="title"
+								placeholder="Product name">
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="mb-3">
+							<label class="form-label">Online Display Name <span class="text-danger">*</span></label>
+							<input type="text" class="form-control" formControlName="onlineDisplayName" name="title"
+								placeholder="Product name">
+						</div>
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-4">
+						<div class="mb-3">
+							<label class="form-label">Short Code <span class="text-danger">*</span></label>
+							<input type="text" class="form-control" formControlName="shortCode" name="title"
+								placeholder="Product name">
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="mb-3">
+							<label class="form-label">Short Code 2 <span class="text-danger">*</span></label>
+							<input type="text" class="form-control" formControlName="shortCode2" name="title">
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="mb-3">
+							<label class="form-label">Item Base Price <span class="text-danger">*</span></label>
+							<input type="text" class="form-control" formControlName="basePrice" name="title">
+						</div>
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-4">
+						<div class="mb-3">
+							<label class="form-label">Container Charges <span class="text-danger">*</span></label>
+							<input type="text" class="form-control" formControlName="containerCharges" name="title">
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="mb-3">
+							<label class="form-label">Weight <span class="text-danger">*</span></label>
+							<input type="text" class="form-control" formControlName="weight" name="title">
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="mb-3">
+							<label class="form-label">Profit Margin(%) <span class="text-danger">*</span></label>
+							<input type="text" class="form-control" formControlName="profitMargin" name="title">
+						</div>
+					</div>
+				</div>
+
+				<div class="row mb-2">
+					<div class="col-xl-4">
+						<div class="small text-inverse text-opacity-50 mb-1">
+							<b class="fw-bold">Dietary</b>
+							<div class="form-group mb-4">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="inlineCheckbox1"
+										[checked]="menuItemForm.value.dietary.includes('Veg')"
+										(change)="onDietaryChange('Veg', $event)">
+									<label class="form-check-label" for="inlineCheckbox1">Veg</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="inlineCheckbox2"
+										[checked]="menuItemForm.value.dietary.includes('Non Veg')"
+										(change)="onDietaryChange('Non Veg', $event)">
+									<label class="form-check-label" for="inlineCheckbox2">Non-Veg</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="inlineCheckbox3"
+										[checked]="menuItemForm.value.dietary.includes('Egg')"
+										(change)="onDietaryChange('Egg', $event)">
+									<label class="form-check-label" for="inlineCheckbox3">Egg</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="inlineCheckbox4"
+										[checked]="menuItemForm.value.dietary.includes('Others')"
+										(change)="onDietaryChange('Others', $event)">
+									<label class="form-check-label" for="inlineCheckbox4">Other</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-4">
+						<div class="small text-inverse text-opacity-50 mb-1"><b class="fw-bold">Order Type</b>
+							<div class="form-group mb-4">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="inlineCheckbox1"
+										[checked]="menuItemForm.value.orderType.includes('Delivery')"
+										(change)="onOrderTypeChange('Delivery', $event)">
+									<label class="form-check-label" for="inlineCheckbox1">Delivery</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="inlineCheckbox2"
+										[checked]="menuItemForm.value.orderType.includes('Pick Up')"
+										(change)="onOrderTypeChange('Pick Up', $event)">
+									<label class="form-check-label" for="inlineCheckbox2">Pick Up</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="inlineCheckbox3"
+										[checked]="menuItemForm.value.orderType.includes('Dine In')"
+										(change)="onOrderTypeChange('Dine In', $event)">
+									<label class="form-check-label" for="inlineCheckbox3">Dine In</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-4">
+						<div class="form-group mb-4">
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="checkbox" id="inlineCheckbox1" formControlName=""
+									noDecimalValue>
+								<label class="form-check-label" for="inlineCheckbox1">Don't allow decimal value for
+									quantity</label>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-xl-4">
+						<div class="small text-inverse text-opacity-50 mb-1"><b class="fw-bold">Expose the items
+								in</b>
+							<div class="form-group mb-4">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="inlineCheckbox1"
+										value="option1">
+									<label class="form-check-label" for="inlineCheckbox1">Online Orders</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="inlineCheckbox2"
+										value="option2">
+									<label class="form-check-label" for="inlineCheckbox2">Captain App</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="inlineCheckbox3"
+										value="option3">
+									<label class="form-check-label" for="inlineCheckbox3">Kiosk</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="checkbox" id="inlineCheckbox3"
+										value="option3">
+									<label class="form-check-label" for="inlineCheckbox3">Other</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-4">
+						<div class="small text-inverse text-opacity-50 mb-1"><b class="fw-bold">GST Type</b>
+							<div class="form-group mb-4">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" id="inlineCheckbox1" value="Services"
+										formControlName="goodsAndService">
+									<label class="form-check-label" for="inlineCheckbox1">Services</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" id="inlineCheckbox2" value="Goods"
+										formControlName="goodsAndService">
+									<label class="form-check-label" for="inlineCheckbox2">Goods</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-4">
+						<div class="form-group mb-4">
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="checkbox" id="inlineCheckboxAllDays"
+									[checked]="isAllDaysSelected()" (change)="onAllDaysChange($event)">
+								<label class="form-check-label" for="inlineCheckboxAllDays">All Days</label>
+							</div>
+							<div class="form-check form-check-inline" *ngFor="let day of daysOfWeek">
+								<input class="form-check-input" type="checkbox" [checked]="alldays.includes(day)"
+									(change)="onDayChange(day, $event)">
+								<label class="form-check-label">{{ day }}</label>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+			</card-body>
+		</card>
+		<card class="mb-4">
+			<card-header class="bg-none fw-bold">
+				Description
+			</card-header>
+			<card-body>
+				<div class="row mb-2">
+					<div class="col-4">Item Description</div>
+				</div>
+				<div class="mb-3">
+
+					<quill-editor class="h-200px" formControlName="description"></quill-editor>
+				</div>
+			</card-body>
+		</card>
+		<card class="mb-4">
+			<card-header class="d-flex align-items-center bg-none fw-bold">
+				Tags Information
+			</card-header>
+			<card-body>
+
+				<div class="row mb-2">
+					<div class="col-4">
+						<div class="mb-3">
+							<label class="form-label">Cuisines <span class="text-danger">*</span></label>
+							<select class="form-select" formControlName="cuisine">
+								<option value="">Select Cuisine</option>
+								<option value={{Cuisine}} *ngFor="let Cuisine of cuisines">{{Cuisine}}</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-4">
+
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" id="inlineCheckbox1"
+								formControlName="ignoreTax">
+							<label class="form-check-label" for="inlineCheckbox1">Ignore Tax</label>
+							<div class="d-flex mt-1 text-body text-opacity-50 small">
+								<div><i class="fa fa-circle text-warning fs-6px d-block mt-2"></i></div>
+								<div class="flex-1 ps-2">
+									<div class="mb-2">
+										If enabled, tax will not be calculated in all the platform.
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" id="inlineCheckbox1"
+								formControlName="setAsFavorite">
+							<label class="form-check-label" for="inlineCheckbox1">Set as Favorite</label>
+							<div class="d-flex mt-1 text-body text-opacity-50 small">
+								<div><i class="fa fa-circle text-warning fs-6px d-block mt-2"></i></div>
+								<div class="flex-1 ps-2">
+									<div class="mb-2">
+										Used for the offline POS bulling only.
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" id="inlineCheckbox1"
+								formControlName="openQualityPopup">
+							<label class="form-check-label" for="inlineCheckbox1">Open Quantity Popup</label>
+							<div class="d-flex mt-1 text-body text-opacity-50 small">
+								<div><i class="fa fa-circle text-warning fs-6px d-block mt-2"></i></div>
+								<div class="flex-1 ps-2">
+									<div class="mb-2">
+										Amazon is disconnected. Connect your Amazon Seller Central account to
+										continue using this sales channel.
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row mb-2">
+					<div class="col-4">
+
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" id="inlineCheckbox1"
+								formControlName="ignoreDiscount">
+							<label class="form-check-label" for="inlineCheckbox1">Ignore Discount</label>
+							<div class="d-flex mt-1 text-body text-opacity-50 small">
+								<div><i class="fa fa-circle text-warning fs-6px d-block mt-2"></i></div>
+								<div class="flex-1 ps-2">
+									<div class="mb-2">
+										Amazon is disconnected. Connect your Amazon Seller Central account to
+										continue using this sales channel.
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" id="inlineCheckbox1"
+								formControlName="ignoreAddOn">
+							<label class="form-check-label" for="inlineCheckbox1">Ignore Add-on</label>
+							<div class="d-flex mt-1 text-body text-opacity-50 small">
+								<div><i class="fa fa-circle text-warning fs-6px d-block mt-2"></i></div>
+								<div class="flex-1 ps-2">
+									<div class="mb-2">
+										Amazon is disconnected. Connect your Amazon Seller Central account to
+										continue using this sales channel.
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" id="inlineCheckbox1"
+								formControlName="ignorePackingCharge">
+							<label class="form-check-label" for="inlineCheckbox1">Ignore Packing Charge
+								(Online)</label>
+							<div class="d-flex mt-1 text-body text-opacity-50 small">
+								<div><i class="fa fa-circle text-warning fs-6px d-block mt-2"></i></div>
+								<div class="flex-1 ps-2">
+									<div class="mb-2">
+										Amazon is disconnected. Connect your Amazon Seller Central account to
+										continue using this sales channel.
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row mb-2">
+					<div class="col-4">
+
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" id="inlineCheckbox1"
+								formControlName="mrpItem">
+							<label class="form-check-label" for="inlineCheckbox1">MRP - Item</label>
+							<div class="d-flex mt-1 text-body text-opacity-50 small">
+								<div><i class="fa fa-circle text-warning fs-6px d-block mt-2"></i></div>
+								<div class="flex-1 ps-2">
+									<div class="mb-2">
+										Amazon is disconnected. Connect your Amazon Seller Central account to
+										continue using this sales channel.
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" id="inlineCheckbox1"
+								formControlName="removeFromDineQR">
+							<label class="form-check-label" for="inlineCheckbox1">Remove from DineIn QR</label>
+							<div class="d-flex mt-1 text-body text-opacity-50 small">
+								<div><i class="fa fa-circle text-warning fs-6px d-block mt-2"></i></div>
+								<div class="flex-1 ps-2">
+									<div class="mb-2">
+										Amazon is disconnected. Connect your Amazon Seller Central account to
+										continue using this sales channel.
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" id="inlineCheckbox1"
+								formControlName="containsAlcohol">
+							<label class="form-check-label" for="inlineCheckbox1">Contains Alcohol</label>
+							<div class="d-flex mt-1 text-body text-opacity-50 small">
+								<div><i class="fa fa-circle text-warning fs-6px d-block mt-2"></i></div>
+								<div class="flex-1 ps-2">
+									<div class="mb-2">
+										Amazon is disconnected. Connect your Amazon Seller Central account to
+										continue using this sales channel.
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="row mb-2">
+					<div class="col-4">
+
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" id="inlineCheckbox1"
+								formControlName="setAsOpenItem">
+							<label class="form-check-label" for="inlineCheckbox1">Set as Open Item</label>
+							<div class="d-flex mt-1 text-body text-opacity-50 small">
+								<div><i class="fa fa-circle text-warning fs-6px d-block mt-2"></i></div>
+								<div class="flex-1 ps-2">
+									<div class="mb-2">
+										Amazon is disconnected. Connect your Amazon Seller Central account to
+										continue using this sales channel.
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-4">
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" id="inlineCheckbox1"
+								formControlName="setAsCombo" />
+							<label class="form-check-label" for="inlineCheckbox1">Set as Combo</label>
+							<div class="d-flex mt-1 text-body text-opacity-50 small">
+								<div><i class="fa fa-circle text-warning fs-6px d-block mt-2"></i></div>
+								<div class="flex-1 ps-2">
+									<div class="mb-2">
+										Amazon is disconnected. Connect your Amazon Seller Central account to continue
+										using this sales channel.
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-4">
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" id="inlineCheckbox1"
+								formControlName="glutenFree">
+							<label class="form-check-label" for="inlineCheckbox1">Gluten Free</label>
+							<div class="d-flex mt-1 text-body text-opacity-50 small">
+								<div><i class="fa fa-circle text-warning fs-6px d-block mt-2"></i></div>
+								<div class="flex-1 ps-2">
+									<div class="mb-2">
+										Amazon is disconnected. Connect your Amazon Seller Central account to
+										continue using this sales channel.
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div *ngIf="menuItemForm.get('setAsCombo')?.value" class="row mb-2">
+					<div class="row">
+						<div class="col-xl-6">
+							<div class="row mb-2">
+								<div class="fw-bold col-4">
+									Combo Type<span class="text-danger">*</span>
+								</div>
+							</div>
+							<div class="form-group mb-4">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" id="inlineRadio1" value="Straight"
+										name="comboType" [(ngModel)]="comboType" [ngModelOptions]="{standalone: true}"/>
+									<label class="form-check-label" for="inlineRadio1">Straight</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" id="inlineRadio2" value="Customizable"
+										name="comboType" [(ngModel)]="comboType" [ngModelOptions]="{standalone: true}"/>
+									<label class="form-check-label" for="inlineRadio2">Customizable</label>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div id="hoverableRows" class="mb-5">
+						<table class="table table-hover mb-0">
+							<thead>
+								<tr>
+									<th scope="col">Item Name</th>
+									<th scope="col">Qty</th>
+									<th scope="col">Price</th>
+									<th scope="col">Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let comboItem of comboItems; let i = index">
+									<td>
+										<select [(ngModel)]="comboItem.itemId" name="itemName{{ i }}"
+											class="form-control" [ngModelOptions]="{standalone: true}" (change)="onItemChange(comboItem)">
+											<option value="">Select combo item</option>
+											<option *ngFor="let item of menuItems" [value]="item.itemId">
+												{{ item.itemName }}
+											</option>
+										</select>
+									</td>
+									<td>
+										<input type="number" [(ngModel)]="comboItem.qty" name="qty{{ i }}"
+											class="form-control combo_qty" [disabled]="comboType == 'Customizable'" [ngModelOptions]="{standalone: true}"/>
+									</td>
+									<td>
+										<input type="number" [(ngModel)]="comboItem.price" name="price{{ i }}"
+											class="form-control combo_price" [disabled]="comboType == 'Straight'" [ngModelOptions]="{standalone: true}"/>
+									</td>
+									<td>
+										<button type="button" class="btn btn-success mr-1" (click)="addRow()">
+											<i class="fas fa-lg fa-fw me-2 fa-plus"></i>
+										</button>
+										<button type="button" class="btn btn-danger" (click)="deleteRow(i)">
+											<i class="fas fa-lg fa-fw me-2 fa-trash-alt"></i>
+										</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+
+
+			</card-body>
+		</card>
+
+		<card class="mb-4">
+			<card-header class="d-flex align-items-center bg-none fw-bold">
+				Swiggy/Zomato
+			</card-header>
+			<card-body>
+
+				<div class="row mb-2">
+					<div class="col-4">
+						<div class="mb-3">
+							<label class="form-label">Portion Size Value <span class="text-danger">*</span></label>
+							<select class="form-select" name="warranty_type_id">
+								<option value="">-- Select Categories --</option>
+
+							</select>
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="mb-3">
+							<label class="form-label">Serves <span class="text-danger">*</span></label>
+							<select class="form-select" name="warranty_type_id">
+								<option value="">-- Select Serves --</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="mb-3">
+							<label class="form-label">Minimum Preparation Time </label>
+							<select class="form-select" name="warranty_type_id">
+								<option value="">-- Select Preparation Time --</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-4">
+						<div class="mb-3">
+							<label class="form-label">Spice Level </label>
+							<select class="form-select" name="warranty_type_id">
+								<option value="">-- Not Applicable --</option>
+								<option value="1">No Warranty</option>
+								<option value="2">Local Supplier Warranty</option>
+								<option value="3">Local Manufacturer Warranty</option>
+								<option value="4">International Manufacturer Warranty</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="mb-3">
+							<label class="form-label">Sweet Level </label>
+							<select class="form-select" name="warranty_type_id">
+								<option value="">-- Not Applicable --</option>
+								<option value="1">No Warranty</option>
+								<option value="2">Local Supplier Warranty</option>
+								<option value="3">Local Manufacturer Warranty</option>
+								<option value="4">International Manufacturer Warranty</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="mb-3">
+							<label class="form-label">Gravy Property <span class="text-danger">*</span></label>
+							<select class="form-select" name="warranty_type_id">
+								<option value="">-- Not Applicable --</option>
+								<option value="1">No Warranty</option>
+								<option value="2">Local Supplier Warranty</option>
+								<option value="3">Local Manufacturer Warranty</option>
+								<option value="4">International Manufacturer Warranty</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-4">
+						<div class="mb-3">
+							<label class="form-label">Accompaniments</label>
+							<input type="text" class="form-control" name="title">
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option1">
+							<label class="form-check-label" for="inlineCheckbox1">Recommended</label>
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="option1">
+							<label class="form-check-label" for="inlineCheckbox1">Seasonal Ingredients</label>
+						</div>
+					</div>
+				</div>
+
+			</card-body>
+		</card>
+
+
+
+		<card class="mb-4">
+			<card-header class="bg-none fw-bold">
+				Variation/Add On
+			</card-header>
+			<card-body>
+				<div class="accordion" id="accordionExample">
+					<div class="accordion-item">
+						<h2 class="accordion-header" id="headingOne">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+								data-bs-target="#collapseOne" aria-controls="collapseOne"
+								[attr.disabled]="!isVariationsEnabled" (click)="onVariationCheckChange()"
+								[attr.aria-expanded]="isVariationsEnabled ? 'true' : 'false'">
+								<!-- Checkbox inside the button -->
+								<input class="form-check-input me-2" type="checkbox" id="variationGroupCheckbox"
+									(click)="$event.stopPropagation()" (change)="onVariationCheckChange()"
+									[checked]="isVariationsEnabled" />
+								Variation
+							</button>
+						</h2>
+						<div id="collapseOne" class="accordion-collapse collapse show"
+							[ngClass]="{ 'show': isVariationsEnabled }" aria-labelledby="headingOne"
+							data-bs-parent="#accordionExample">
+							<div class="accordion-body">
+								<button class="btn btn-primary mb-3" style="color: blue;" (click)="addVariation()">Add
+									Variation</button>
+
+								<div *ngFor="let variation of variations; let i = index"
+									class="accordion-card position-relative">
+									<button type="button" class="btn-close position-absolute top-0 end-0"
+										aria-label="Close" (click)="removeVariation(i)"></button>
+
+									<div class="accordion-card">
+										<div class="row mb-2">
+											<div class="col-lg-2">
+												<div class="mb-3">
+													<label class="form-label">Variation <span
+															class="text-danger">*</span></label>
+													<select class="form-select" name="variation"
+														[(ngModel)]="variation.restaurantVariantId"
+														[ngModelOptions]="{standalone: true}">
+														<option value="">-- Select Variation --</option>
+														<option *ngFor="let vari of variantOptions" [value]="vari.id">{{
+															vari.name
+															}}</option>
+
+													</select>
+												</div>
+											</div>
+											<div class="col-lg-2">
+												<div class="mb-3">
+													<label class="form-label">Price</label>
+													<input type="number" class="form-control" name="price"
+														[(ngModel)]="variation.price"
+														[ngModelOptions]="{standalone: true}">
+												</div>
+											</div>
+											<div class="col-lg-2">
+												<div class="mb-3">
+													<label class="form-label">Variant Name</label>
+													<input type="text" class="form-control" name="variantName"
+														[(ngModel)]="variation.variantName"
+														[ngModelOptions]="{standalone: true}">
+												</div>
+											</div>
+											<div class="col-lg-2">
+												<div class="mb-3">
+													<label class="form-label">Container Charges</label>
+													<input type="text" class="form-control" name="containerCharges"
+														[(ngModel)]="variation.containerCharges"
+														[ngModelOptions]="{standalone: true}">
+												</div>
+											</div>
+											<div class="col-lg-3">
+												<div class="mb-3">
+													<label class="form-label">Sap Code</label>
+													<input type="text" class="form-control" name="sapCode"
+														[(ngModel)]="variation.sapCode"
+														[ngModelOptions]="{standalone: true}">
+												</div>
+											</div>
+											<div class="col-lg-3">
+												<div class="mb-3">
+													<label class="form-label">Profit Margin (%)</label>
+													<input type="text" class="form-control" name="profitMargin"
+														[(ngModel)]="variation.profitMargin"
+														[ngModelOptions]="{standalone: true}">
+												</div>
+											</div>
+										</div>
+										<div class="row mb-2">
+											<div class="col-4">
+												<div class="mb-3">
+													<label class="form-label">Serves</label>
+													<select class="form-select" name="serves"
+														[(ngModel)]="variation.serves"
+														[ngModelOptions]="{standalone: true}">
+														<option value="">-- Not Applicable --</option>
+														<option value="1">1</option>
+														<option value="2">2</option>
+														<option value="3">3</option>
+														<option value="4">4</option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="row mb-2">
+											<div class="col-4">
+												<div class="form-check form-check-inline">
+													<input class="form-check-input" type="checkbox" id="inlineCheckbox3"
+														[(ngModel)]="variation.setAsCombo"
+														[ngModelOptions]="{standalone: true}">
+													<label class="form-check-label" for="inlineCheckbox3">Set as
+														combo</label>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<!-- <div class="accordion-item">
+						<h2 class="accordion-header" id="headingTwo">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+								data-bs-target="#collapseTwo" style="color: blue;" (click)="onVariationCheckChange()">
+								Addon Group
+							</button>
+						</h2>
+						<div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+							<div class="accordion-body">
+
+								<div class="container mt-4">
+									<div class="row">
+									  <div *ngFor="let addon of addons; let i = index" class="col-md-3 mb-2">
+										<div class="form-check">
+										  <input class="form-check-input" type="checkbox" id="checkbox-{{i}}" value= {{addon.id}}>
+										  <label class="form-check-label" for="checkbox-{{i}}">
+											{{addon.departmentName}}
+										  </label>
+										</div>
+									  </div>
+									</div>
+								  </div>
+
+								<strong>This is the second item's accordion body.</strong> It is hidden by default,
+								until the collapse plugin adds the appropriate classes that we use to style each
+								element. These classes control the overall appearance, as well as the showing and
+								hiding via CSS transitions. You can modify any of this with custom CSS or overriding
+								our default variables. It's also worth noting that just about any HTML can go within
+								the <code>.accordion-body</code>, though the transition does limit overflow.
+							</div>
+						</div>
+					</div> -->
+				</div>
+			</card-body>
+		</card>
+
+		<card class="mb-4">
+			<card-header class="d-flex align-items-center bg-none fw-bold">
+				Inventory
+			</card-header>
+			<card-body>
+
+				<div class="row mb-2">
+					<div class="col-4">
+						<div class="mb-3">
+							<label class="form-label">HSN Code </label>
+							<input type="text" class="form-control" name="title" formControlName="hsnCode">
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="mb-3">
+							<label class="form-label">Sap Code </label>
+							<input type="text" class="form-control" name="title" formControlName="sapCode">
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="mb-3">
+							<label class="form-label" formControlName="fsnCode">FSN Code</label>
+							<input type="text" class="form-control" name="title">
+						</div>
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-4">
+						<div class="mb-3">
+							<label class="form-label">Stock Status </label>
+							<select class="form-select" formControlName="stockStatus">
+								<option value="">-- Not Applicable --</option>
+								<option value="available">Available</option>
+								<option value="unavailable">Unavailable</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-xl-4">
+						<div class="form-group mb-4">
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+								<label class="form-check-label" for="inlineCheckbox1">All Days</label>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+			</card-body>
+		</card>
+
+
+		<card class="mb-4">
+			<card-header class="bg-none fw-bold d-flex align-items-center">
+				<div class="flex-1">
+					<div>Tags</div>
+				</div>
+			</card-header>
+			<card-body>
+				<tag-input [placeholder]="'Add tags'" [secondaryPlaceholder]="'Enter tag'"
+					[validators]="[tagsInputValidator]"></tag-input>
+				<div class="small mt-3"><a href="#">View all tags</a></div>
+			</card-body>
+
+			<card-footer class="bg-gray-100 d-flex p-3 sticky-footer">
+				<button type="button" class="btn btn-default fw-semibold fs-13px ms-auto">Cancel</button>
+				<button type="button" class="btn btn-default fw-semibold fs-13px ms-2" (click)="onSave()">Save
+					item</button>
+			</card-footer>
+		</card>
+	</div>
+	<!-- </div> -->
+</form>

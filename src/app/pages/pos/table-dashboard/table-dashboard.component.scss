@@ -1,0 +1,201 @@
+.table-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 1.25rem; /* 20px */
+}
+
+.table {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.625rem; /* 10px */
+  color: white;
+  font-size: 0.75rem; /* 12px */
+  text-align: center;
+  border-radius: 1rem; /* 8px */
+  background: linear-gradient(to right, #3a3b4f 90%, var(--status-color) 10%);
+  
+}
+
+.table.horizontal {
+  width: 7.5rem; /* 120px */
+  height: 7.5rem; /* 120px */
+}
+
+.table.vertical {
+  width: 7.5rem; /* 120px */
+  height: 13.75rem; /* 220px */
+}
+
+.table .table-name {
+  position: absolute;
+  top: 0;
+  left: 0.625rem; /* 10px */
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.table .status-info {
+  position: absolute;
+  left: 0.3125rem; /* 5px */
+  bottom: 0;
+  text-align: left;
+}
+
+.seat {
+  position: absolute;
+  width: 3.125rem; /* 50px */
+  height: 1.875rem; /* 30px */
+  background-color: #5C2453;
+  transform: translateY(-50%) rotate(90deg);
+  border-radius: 0 0 4.0625rem 0.9375rem; /* 65px 15px */
+}
+
+.seat:nth-child(odd) {
+  left: -2.8rem; /* -50px */
+  border-radius: 0 0 0.9375rem 0.9375rem; /* 15px */
+}
+
+.seat:nth-child(even) {
+  right: -2.8rem; /* -50px */
+  border-radius: 0.9375rem 0.9375rem 0 0; /* 15px */
+}
+
+/* Seat positioning */
+.seat:nth-child(1),
+.seat:nth-child(2) {
+  top: 50%;
+}
+
+.seat:nth-child(3),
+.seat:nth-child(4) {
+  top: 23%;
+}
+
+.seat:nth-child(5),
+.seat:nth-child(6) {
+  top: 23%;
+}
+
+.seat:nth-child(7),
+.seat:nth-child(8) {
+  top: 80%;
+}
+
+/* Positioning rules for the first, odd, and even seats */
+.seat:first-child {
+  top: 50%;
+}
+
+.seat:nth-child(2n+1) {
+  top: 25%;
+}
+
+.seat:nth-child(2n) {
+  top: 75%;
+}
+
+/* Small-table seat positions */
+.small-table .seat:nth-child(1),
+.small-table .seat:nth-child(2) {
+  top: 50%;
+}
+
+.small-table .seat:nth-child(3),
+.small-table .seat:nth-child(4) {
+  top: 25%;
+  top: 75%;
+}
+
+/* Status text styling */
+.status {
+  font-weight: bold;
+  font-size: 0.875rem; /* 14px */
+}
+
+.time {
+  font-size: 0.625rem; /* 10px */
+  color: #ddd;
+}
+
+/* Table status colors */
+.occupied { --status-color: #00a2ff; }
+.reserved { --status-color: #ffcc00; }
+.vacant { --status-color: #94d41d; }
+
+
+/* Media queries to adjust the layout of table containers based on screen width */
+@media (max-width: 768px) {  /* For tablets and smaller desktops/laptops */
+  .table-container {
+    justify-content: space-around; /* Adjusts spacing */
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .table {
+    flex: 0 0 50%; /* Each table will take up half the width of the container, resulting in 2 columns */
+  }
+}
+
+@media (max-width: 480px) {  /* For mobile devices */
+  .table {
+    flex: 0 0 100%; /* Each table will take up the full width of the container, resulting in 1 column */
+  }
+}
+
+// @media (min-width: 769px) {  /* For larger screens */
+//   .table-container {
+//     justify-content: space-around;
+//     flex-direction: row;
+//     flex-wrap: wrap;
+//   }
+//   .table {
+//     flex: 0 0 25%; /* Each table will take up a quarter of the width of the container, resulting in 4 columns */
+//   }
+// }
+
+// @media (min-width: 1100x) and (max-width:1350px){  /* For larger screens */
+//   .table-container {
+//     justify-content: space-around;
+//     flex-direction: row;
+//     flex-wrap: wrap;
+//   }
+
+//   .table {
+//     flex: 0 0 25%; /* Each table will take up a quarter of the width of the container, resulting in 4 columns */
+//   }  
+// }
+
+// @media (min-width: 1024px) and (max-width: 1366px) { /* Typically covers laptop screens */
+//   .table-container {
+//     transform: scale(0.8); /* Scales down everything within the container to 80% */
+//   }
+// }
+
+// @media (min-width: 1024px) {
+//   .table {
+//     flex: 0 0 24%; /* Four tables per row */
+//     height: auto;
+//   }
+// }
+
+/* Layout for smaller laptop screens */
+@media (max-width: 1280px) and (min-width: 768px) {
+  .table {
+    flex: 0 0 25%; /* Two tables per row */
+  }
+}
+
+@media (max-width: 1280px) {
+  .table {
+    flex: 0 0 20%; /* Two tables per row */
+  }
+}
+
+/* Mobile devices */
+@media (max-width: 767px) {
+  .table {
+    flex: 0 0 100%; /* One table per row for small devices */
+  }
+}

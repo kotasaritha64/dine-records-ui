@@ -1,0 +1,59 @@
+.card {
+	border-radius: 8px;
+		box-shadow: 0 2px 10px rgb(226, 228, 224);
+		
+	&.card-expand {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 1060;
+		
+		margin: 0 !important;
+		
+		& .card-header,
+		& .card-body {
+			border-radius: 0;
+		}
+		& .card-body {
+			flex: 1 0 0;
+			overflow: scroll;
+		}
+	}
+	& .card-header {
+		& .card-header-tabs {
+			& .nav-item {
+				& .nav-link {
+					&.active {
+						background: var(--#{$prefix}component-bg);
+						border-bottom-color: var(--#{$prefix}component-bg);
+					}
+				}
+			}
+		}
+	}
+	& .card-body {
+		& .nav-tabs {
+			& .nav-item {
+				& .nav-link {
+					&.active {
+						background: var(--#{$prefix}component-bg);
+						border-bottom-color: var(--#{$prefix}component-bg);
+					}
+				}
+			}
+		}
+	}
+
+	.sticky-footer {
+		position: sticky;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+	   // background-color: #fff;  /* Optional: add a background color for better visibility */
+		z-index: 10;  /* Ensures it stays on top of other content */
+		padding: 10px 15px;  /* Adjust padding as needed */
+		border-top: 1px solid #ddd;  /* Optional: add a border to separate the footer */
+	}
+}

@@ -1,0 +1,1733 @@
+.pos {
+	background: var(--#{$prefix}body-bg);
+	height: 100%;
+	
+	&.pos-with-menu {
+		@include media-breakpoint-up(lg) {
+			@if ($enable-rtl) {
+				padding-right: $pos-menu-width;
+			} @else {
+				padding-left: $pos-menu-width;
+			}
+		}
+		@include media-breakpoint-down(lg) {
+			padding-top: rem(100px);
+		}
+	}
+	&.pos-with-sidebar {
+		@include media-breakpoint-up(lg) {
+			@if ($enable-rtl) {
+				padding-left: $pos-sidebar-width;
+			} @else {
+				padding-right: $pos-sidebar-width;
+			}
+		}
+	}
+	&.pos-with-header {
+		padding-top: $pos-header-height;
+		
+		&.pos-with-sidebar {
+			@include media-breakpoint-up(lg) {
+				@if ($enable-rtl) {
+					padding-left: $pos-sidebar-width - $spacer * 2;
+				} @else {
+					padding-right: $pos-sidebar-width - $spacer * 2;
+				}
+			}
+			
+			& .pos-sidebar {
+				@include media-breakpoint-up(lg) {
+					top: $pos-header-height;
+					height: calc(100% - $pos-header-height);
+					margin: 0;
+					border-radius: 0;
+					border-top: none;
+					border-bottom: none;
+				
+					@if ($enable-rtl) {
+						border-left: none;
+					} @else {
+						border-right: none;
+					}
+				}
+			}
+		}
+	}
+		
+	& .pos-container {
+		height: 100%;
+		padding: 0;
+		
+		@include media-breakpoint-up(lg) {
+			display: flex;
+		}
+	}
+	& .pos-menu {
+		position: fixed;
+		top: 0;
+		z-index: 10;
+		
+		@include media-breakpoint-up(lg) {
+			display: flex;
+			width: $pos-menu-width;
+			flex-direction: column;
+			bottom: 0;
+			
+			@if ($enable-rtl) {
+				right: 0;
+				padding-right: $spacer;
+			} @else {
+				left: 0;
+				padding-left: $spacer;
+			}
+		}
+		@include media-breakpoint-down(lg) {
+			background: var(--#{$prefix}body-bg);
+			left: 0;
+			right: 0;
+			bottom: auto;
+			border-bottom: 1px solid var(--#{$prefix}border-color);
+		}
+	
+		& .logo {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: $spacer;
+			
+			@include media-breakpoint-down(lg) {
+				display: flex;
+				padding: $spacer * .5 $spacer;
+			}
+			
+			& a {
+				display: block;
+				text-decoration: none;
+				color: inherit;
+				
+				@include media-breakpoint-down(lg) {
+					display: flex;
+				}
+			}
+			& .logo-img {
+				text-align: center;
+				height: rem(45px);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: $font-size-base * 2.5;
+				
+				@include media-breakpoint-down(lg) {
+					height: rem(30px);
+					font-size: $font-size-base * 1.5;
+					
+					@if ($enable-rtl) {
+						margin-left: $spacer * .5;
+					} @else {
+						margin-right: $spacer * .5;
+					}
+				}
+			}
+			& .logo-text {
+				font-size: $font-size-base;
+				font-weight: $font-weight-bold;
+				letter-spacing: 1px;
+				margin-top: $spacer * .25;
+			}
+			& img {
+				max-width: 100%;
+				max-height: 100%;
+			}
+		}
+		& .nav-container {
+			flex: 1;
+		
+			@include media-breakpoint-up(lg) {
+				overflow: hidden;
+				padding: 0;
+			}
+		}
+		& .nav.nav-tabs {
+			margin: 0;
+			padding: 0;
+			display: block;
+			border: 0;
+	
+			@include media-breakpoint-down(lg) {
+				display: flex;
+				flex-wrap: nowrap;
+				padding: 0 $spacer;
+				overflow: scroll;
+				border-top: 1px solid var(--#{$prefix}border-color);
+			}
+
+			& .nav-item {
+				padding: $spacer * .35 $spacer;
+				
+				@include media-breakpoint-down(lg) {
+					padding: $spacer * .5 0;
+					
+					& + .nav-item {
+						@if ($enable-rtl) {
+							margin-right: $spacer * .5;
+						} @else {
+							margin-left: $spacer * .5;
+						}
+					}
+				}
+				& .nav-link {
+					position: relative;
+					padding: $spacer * .75;
+					white-space: nowrap;
+					text-align: center;
+					color: var(--#{$prefix}body-color);
+					border: 1px solid var(--#{$prefix}border-color);
+					font-size: $font-size-sm;
+					font-weight: $font-weight-semibold;
+					border-radius: $border-radius-lg;
+					background: var(--#{$prefix}component-bg);
+					
+					@include media-breakpoint-down(lg) {
+						display: flex;
+						align-items: center;
+						padding: $spacer * .5 $spacer;
+						border-radius: $border-radius;
+					}
+					
+					& i {
+						display: block;
+						margin: $spacer * .35 auto;
+						font-size: rem(24px);
+						color: rgba(var(--#{$prefix}body-color-rgb), .25);
+						
+						@include media-breakpoint-down(lg) {
+							font-size: $font-size-base * 1.2;
+							margin: 0;
+							
+							@if ($enable-rtl) {
+								margin-left: $spacer * .5;
+							} @else {
+								margin-right: $spacer * .5;
+							}
+						}
+					}
+					&:hover {
+						& i {
+							color: rgba(var(--#{$prefix}body-color-rgb), .75);
+						}
+					}
+					&.active {
+						color: var(--#{$prefix}theme-color);
+						border-color: var(--#{$prefix}theme);
+						background: var(--#{$prefix}theme);
+						
+						& i {
+							color: inherit;
+						}
+					}
+				}
+			}
+		}
+	}
+	& .pos-content {
+		flex: 1;
+		
+		& .pos-content-container {
+			padding: $spacer;
+		}
+	}
+	& .pos-sidebar {
+		width: calc($pos-sidebar-width - $spacer * 30);
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		flex: 0 0 $pos-sidebar-width;
+		background: var(--#{$prefix}component-bg);
+	
+		@include media-breakpoint-up(lg) {
+			position: fixed;
+			top: 0;
+			bottom: 0;
+			height: calc(100% - $spacer * 2);
+			margin: $spacer;
+			border-radius: $border-radius-lg;
+			border: 1px solid var(--#{$prefix}border-color);
+			
+			@if ($enable-rtl) {
+				left: 0;
+			} @else {
+				right: 0;
+			}
+		}
+		@include media-breakpoint-down(lg) {
+			position: fixed;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			width: auto;
+			z-index: $app-header-zindex + 1;
+			display: none;
+		}
+
+		& .pos-sidebar-header {
+			padding: $spacer $spacer * 1.5;
+			position: relative;
+			display: flex;
+			align-items: center;
+			
+			
+			@include media-breakpoint-down(lg) {
+				padding: $spacer * .75;
+			}
+		
+			& .back-btn {
+				border: none;
+				display: none;
+				
+				@if $enable-rtl {
+					margin-left: $spacer;
+				} @else {
+					margin-right: $spacer;
+				}
+				@include media-breakpoint-down(lg) {
+					display: block;
+				}
+		
+				& .btn {
+					color: var(--#{$prefix}body-color);
+					padding: 0;
+					width: 100%;
+					height: 100%;
+					font-size: $font-size-base * 1.25;
+				}
+			}
+			& .icon {
+				& img {
+					height: rem(30px);
+				}
+				& i {
+					font-size: $font-size-base * 1.5;
+					margin: rem(-10px) 0;
+					display: block;
+				}
+				& + .title {
+					@if $enable-rtl {
+						padding-right: $spacer * .75;
+					} @else {
+						padding-left: $spacer * .75;
+					}
+				}
+			}
+			& .title {
+				font-weight: $font-weight-bold;
+				flex: 1;
+			}
+			& .order {
+				display: block;
+			}
+		}
+		& .pos-sidebar-nav {
+			& .nav.nav-tabs {
+				padding: 0 $spacer * 1.5;
+				
+				& .nav-item {
+					& + .nav-item {
+						margin-left: $spacer * .5;
+					}
+				}
+			}
+		}
+		& .pos-sidebar-body {
+			padding: 0;
+			margin: 0;
+			overflow: scroll;
+			flex: 1;
+		}
+		& .pos-sidebar-footer {
+			border-top: 1px solid var(--#{$prefix}border-color);
+			padding: $spacer;
+		}
+		& .pos-order {
+			padding: $spacer * 1.5;
+			position: relative;
+			display: flex;
+			
+			& .pos-order-product {
+				display: flex;
+				flex: 1;
+				
+				& .img {
+					width: rem(72px);
+					height: rem(72px);
+					background-position: center;
+					background-size: cover;
+				}
+				& > * + * {
+					@if $enable-rtl {
+						margin-right: $spacer;
+					} @else {
+						margin-left: $spacer;
+					}
+				}
+			}
+			& > * + * {
+				@if $enable-rtl {
+					margin-right: $spacer;
+				} @else {
+					margin-left: $spacer;
+				}
+			}
+	
+			& .pos-order-confirmation {
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				z-index: 10;
+				background: rgba(var(--#{$prefix}body-bg-rgb), .97);
+				padding: $spacer;
+				margin: 0;
+			
+				& > * {
+					position: relative;
+				}
+				& .btn {
+					min-width: rem(60px);
+				}
+			}
+			
+			& + .pos-order {
+				border-top: 1px solid var(--#{$prefix}border-color);
+			}
+		}
+	}
+	& .pos-header {
+		padding: $spacer * 0.66 $spacer * 1.75;
+		height: $pos-header-height;
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		display: flex;
+		align-items: center;
+		background: var(--#{$prefix}component-bg);
+		z-index: $app-header-zindex;
+		border-bottom: 1px solid var(--#{$prefix}border-color);
+		
+		& .logo,
+		& .time,
+		& .nav {
+			width: 33.33%;
+			
+			@include media-breakpoint-down(md) {
+				width: 50%;
+			}
+		}
+		& .logo {
+			display: flex;
+			
+			& > div,
+			& > a {
+				text-align: center;
+				color: var(--#{$prefix}body-color);
+				text-decoration: none;
+				display: flex;
+				align-items: center;
+				
+				& .logo-img {
+					& img {
+						height: rem(32px);
+					}
+				}
+				& .logo-text {
+					font-weight: $font-weight-semibold;
+					font-size: rem(16px);
+					letter-spacing: rem(.75px);
+					
+					@if $enable-rtl {
+						margin-right: $spacer * .75;
+					} @else {
+						margin-left: $spacer * .75;
+					}
+				}
+			}
+		}
+		& .time {
+			font-weight: $font-weight-semibold;
+			font-size: rem(20px);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			
+			@include media-breakpoint-down(md) {
+				display: none;
+			}
+		}
+		& .nav {
+			align-items: center;
+			justify-content: flex-end;
+			
+			& .nav-item {
+				& .nav-link {
+					padding: $spacer * .333 $spacer;
+					color: var(--#{$prefix}body-color);
+					
+					@include media-breakpoint-down(md) {
+						padding: $spacer * .333 $spacer * 0.66;
+					}
+					& .nav-icon {
+						height: rem(20px);
+						font-size: rem(20px);
+					}
+					&:hover {
+						color: var(--#{$prefix}secondary-color);
+					}
+				}
+			}
+		}
+	}
+	& .pos-product {
+		text-decoration: none;
+		color: var(--#{$prefix}body-color);
+		position: relative;
+		transition: all .2s linear;
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		background: var(--#{$prefix}component-bg);
+		border: 1px solid var(--#{$prefix}border-color);
+		border-radius: $border-radius;
+		overflow: hidden;
+
+		& .img {
+			background-size: cover;
+			background-repeat: no-repeat;
+			background-position: center;
+			min-height: rem(180px);
+			transition: all .2s linear;
+			border-top-left-radius: $border-radius-sm;
+			border-top-right-radius: $border-radius-sm;
+		}
+		& .info {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			background: rgba($white, .1);
+			padding: $spacer;
+	
+			& .title {
+				font-size: $font-size-base * 1.1;
+				font-weight: $font-weight-semibold;
+				color: var(--#{$prefix}body-color);
+			}
+			& .desc {
+				font-size: 90%;
+				color: rgba(var(--#{$prefix}body-color-rgb), .5);
+				margin: 0 0 $spacer;
+				line-height: 1.4;
+				flex: 1;
+			}
+			& .price {
+				margin: 0;
+				font-weight: $font-weight-bold;
+				color: var(--#{$prefix}body-color);
+				font-size: $font-size-lg;
+			}
+		}
+		&.not-available {
+			cursor: not-allowed;
+			opacity: .5;
+	
+			& .not-available-text {
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				min-height: rem(180px);
+				background: rgba(var(--#{$prefix}body-color-rgb), .96);
+				color: var(--#{$prefix}component-bg);
+				font-size: $h4-font-size;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+		}
+	}
+	& .pos-table-booking {
+		display: block;
+		margin-bottom: $spacer * 1.25;
+		text-decoration: none;
+		color: var(--#{$prefix}body-color);
+		background: var(--#{$prefix}component-bg);
+		border: 1px solid var(--#{$prefix}border-color);
+		border-radius: $border-radius;
+	
+		&:hover {
+			& .pos-table-booking-container {
+				box-shadow: $box-shadow;
+			}
+		}
+		
+		& .pos-table-booking-container {
+			padding: 0;
+			transition: all .1s linear;
+			
+			& .pos-table-booking-header {
+				padding: $spacer;
+				border-bottom: 1px solid var(--#{$prefix}border-color);
+				color: var(--#{$prefix}body-color);
+				font-weight: $font-weight-bold;
+				
+				& .desc {
+					font-weight: $font-weight-semibold;
+					color: rgba(var(--#{$prefix}body-color-rgb), .5);
+				}
+				& .no {
+					font-size: $font-size-lg * 2.5;
+				}
+			}
+			& .pos-table-booking-body {
+				& .booking {
+					font-size: $font-size-sm;
+					padding: $spacer * .333 $spacer;
+					display: flex;
+					align-items: center;
+					& .time {
+						width: rem(75px);
+						font-weight: $font-weight-bold;
+						font-size: $font-size-base * .85;
+						color: rgba(var(--#{$prefix}body-color-rgb), .5);
+					}
+					& .info {
+						white-space: nowrap;
+						text-overflow: ellipsis;
+						overflow: hidden;
+						flex: 1;
+					}
+					& .status {
+						font-size: rem(6px);
+						color: $gray-500;
+						display: flex;
+						align-items: center;
+						
+						@if $enable-rtl {
+							padding-right: $spacer;
+						} @else {
+							padding-left: $spacer;
+						}
+						
+						&.upcoming {
+							color: var(--#{$prefix}warning);
+						}
+						&.in-progress {
+							color: var(--#{$prefix}theme);
+						}
+					}
+					&.highlight {
+						color: var(--#{$prefix}theme);
+						
+						& .time {
+							color: rgba(var(--#{$prefix}theme-rgb), .75);
+						}
+					}
+					&.highlightslot{
+							background-color: #f0f0f0;  /* Light background for the highlighted row */
+							border: 2px solid #007bff;  /* Example: blue border for highlighting */			  
+					}
+					& + .booking {
+						border-top: 1px solid var(--#{$prefix}border-color);
+					}
+				}
+			}
+		}
+	}
+	& .pos-task {
+		border-bottom: 1px solid var(--#{$prefix}border-color);
+		
+		@include media-breakpoint-up(md) {
+			display: flex;
+		}					
+		& .pos-task-info {
+			width: 30%;
+			padding: $spacer * 1.5;
+			
+			@if $enable-rtl {
+				text-align: left;
+			} @else {
+				text-align: right;
+			}
+			@include media-breakpoint-down(md) {
+				width: auto;
+				position: relative;
+				
+				@if $enable-rtl {
+					text-align: right;
+				} @else {
+					text-align: left;
+				}
+			}
+		}
+		& .pos-task-body {
+			padding: $spacer * 1.5;
+			flex: 1;
+			
+			@if $enable-rtl {
+				border-right: 1px solid var(--#{$prefix}border-color);
+			} @else {
+				border-left: 1px solid var(--#{$prefix}border-color);
+			}
+			@include media-breakpoint-down(md) {
+				border-left: none;
+				padding-top: 0;
+			}
+			
+			& .pos-task-completed {
+				font-size: rem(16px);
+				line-height: rem(36px);
+				
+				@include media-breakpoint-down(md) {
+					border-top: 1px solid var(--#{$prefix}border-color);
+					margin-top: rem(-10px);
+					padding-top: rem(10px);
+				}
+			}
+			& .pos-task-product {
+				display: flex;
+				flex-direction: column;
+				height: 100%;
+				
+				& .pos-task-product-img {
+					padding-top: 75%;
+					position: relative;
+					margin-bottom: $spacer;
+				
+					& .cover {
+						position: absolute;
+						top: 0;
+						left: 0;
+						right: 0;
+						bottom: 0;
+						background-size: cover;
+						background-repeat: no-repeat;
+						background-position: center;
+						border-radius: $border-radius-lg;
+					}
+					& .caption {
+						position: absolute;
+						top: 0;
+						left: 0;
+						right: 0;
+						bottom: 0;
+						background: rgba($gray-800, .75);
+						color: $white;
+						font-size: rem(22px);
+						border-radius: $border-radius-lg;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+					}
+				}
+				& .pos-task-product-info {
+					display: flex;
+					flex: 1;
+					margin-bottom: $spacer;
+				}
+				& .pos-task-product-action {
+					& .btn {
+						display: block;
+						
+						& + .btn {
+							margin-top: $spacer * .75;
+						}
+					}
+				}
+				&.completed {
+					& .pos-task-product-info {
+						opacity: .33;
+					}	
+				}
+			}
+		}
+	}
+	
+	& .pos-checkout-table {
+		padding: rem(1px);
+		margin: 0;
+		height: 100%;
+		
+		& .pos-checkout-table-container {
+			color: var(--#{$prefix}body-color);
+			display: block;
+			padding: 0;
+			height: 100%;
+			text-decoration: none;
+			position: relative;
+			transition: all .1s linear;
+			background: var(--#{$prefix}component-bg);
+			border-radius: $border-radius;
+			border: 1px solid var(--#{$prefix}border-color);
+			
+			&:before {
+				transition: all .1s linear;
+			}
+			& .pos-checkout-table-header {
+				padding: $spacer;
+				text-align: center;
+				
+				& .status {
+					position: absolute;
+					right: $spacer * .5;
+					top: $spacer * .5;
+					font-size: rem(8px);
+				}
+			}
+			& .pos-checkout-table-info {
+				& > .row {
+					border-top: 1px solid var(--#{$prefix}border-color);
+					margin: 0;
+					
+					& > div {
+						padding: $spacer * .25 $spacer * .5;
+						text-align: center;
+						
+						& + div {
+							@if $enable-rtl {
+								border-right: 1px solid var(--#{$prefix}border-color);
+							} @else {
+								border-left: 1px solid var(--#{$prefix}border-color);
+							}
+						}
+					}
+				}
+			}
+		}
+		&.in-use:hover:not(.disabled) {
+			position: relative;
+			z-index: 10;
+			
+			& .table-container {
+				position: relative;
+				
+				&:before {
+					content: '';
+					position: absolute;
+					z-index: 10;
+					top: 0;
+					left: 0;
+					right: 0;
+					bottom: 0;
+					background: rgba(var(--#{$prefix}component-bg-rgb), .75);
+				}
+				&:after {
+					content: '\f00c';
+					position: absolute;
+					z-index: 10;
+					top: 0;
+					left: 0;
+					right: 0;
+					bottom: 0;
+					color: var(--#{$prefix}body-color);
+					font-size: rem(32px);
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					
+					@include fontawesome();
+				}
+			}
+		}
+		&.selected:not(.disabled),
+		&.selected:not(.disabled):hover {
+			& .pos-checkout-table-container {
+				border-color: var(--#{$prefix}theme);
+				overflow: hidden;
+				
+				& .table-info-row {
+					color: var(--#{$prefix}theme-color);
+				}
+				&:before {
+					content: '';
+					position: absolute;
+					top: 0;
+					border: 20px solid var(--#{$prefix}theme);
+					border-bottom-color: transparent;
+					
+					@if ($enable-rtl) {
+						right: 0;
+						border-left-color: transparent;
+					} @else {
+						left: 0;
+						border-right-color: transparent;
+					}
+				}
+				&:after {
+					content: '\f00c';
+					position: absolute;
+					z-index: 10;
+					color: var(--#{$prefix}theme-color);
+					line-height: 1;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					top: 0;
+					width: rem(25px);
+					height: rem(25px);
+					
+					@if ($enable-rtl) {
+						right: 0;
+					} @else {
+						left: 0;
+					}
+					
+					@include fontawesome();
+				}
+			}
+		}
+		&.disabled {
+			& .pos-checkout-table-container {
+				cursor: not-allowed;
+				background: var(--#{$prefix}component-bg);
+				color: rgba(var(--#{$prefix}body-color-rgb), .25);
+			
+				& .status {
+					color: var(--#{$prefix}tertiary-bg);
+				}
+				& .text-body {
+					--#{$prefix}text-opacity: .15;
+				}
+			}
+		}
+		&.available {
+			& .pos-checkout-table-container {
+				& .status {
+					color: var(--#{$prefix}success);
+				}
+				& .pos-checkout-table-info {
+					color: transparent;
+					
+					& i {
+						color: transparent !important;
+					}
+				}
+			}
+		}
+		&.in-use {
+			& .pos-checkout-table-container {
+				background: var(--#{$prefix}component-bg);
+				position: relative;
+				
+				& .status {
+					color: var(--#{$prefix}warning);
+				}
+			}
+		}
+	}
+	&.pos-vertical {
+		& > .pos-container {
+			flex-direction: column;
+			
+			& .pos-header {
+				& + .pos-content {
+					height: calc(100% - 52px);
+				}
+			}
+		}
+	}
+	&.pos-mobile-sidebar-toggled {
+		@include media-breakpoint-down(lg) {
+			z-index: 20;
+			
+			& .pos-content,
+			& .pos-menu {
+				opacity: .25;
+			}
+			& .pos-sidebar {
+				display: flex;
+			}
+			&.pos-vertical {
+				& > .pos-container > .pos-content {
+					opacity: 1;
+				}
+			}
+		}
+	}
+}
+
+.modal.modal-pos {
+	& .close {
+		position: absolute;
+		top: rem(25px);
+		z-index: 10;
+	
+		@if $enable-rtl {
+			left: rem(25px);
+		} @else {
+			right: rem(25px);
+		}
+	}
+	& .modal-pos-product {
+		@include media-breakpoint-up(lg) {
+			display: flex;
+	
+			& .modal-pos-product-img,
+			& .modal-pos-product-info {
+				width: 50%;
+				max-width: 50%;
+				flex: 0 0 50%;
+			}
+		}
+		& .modal-pos-product-img {
+			padding: $spacer * 1.5;
+			
+			@include media-breakpoint-up(lg) {
+				@if ($enable-rtl) {
+					padding-left: $spacer * 1;
+				} @else {
+					padding-right: $spacer * 1;
+				}
+			}
+			@include media-breakpoint-down(lg) {
+				padding-bottom: 0;
+			}
+			
+			& .img {
+				height: 100%;
+				background-size: cover;
+				background-position: center;
+				background-repeat: no-repeat;
+				min-height: rem(250px);
+				border-radius: $border-radius;
+			
+				@include media-breakpoint-up(lg) {
+					min-height: rem(300px);
+				}
+			}
+		}
+		& .modal-pos-product-info {
+			padding: $spacer * 1.5;
+			
+			@include media-breakpoint-up(lg) {
+				@if ($enable-rtl) {
+					padding-right: $spacer * 1;
+				} @else {
+					padding-left: $spacer * 1;
+				}
+			}
+		
+			& .option-list {
+				margin: $spacer * -.333;
+				padding: $spacer * .333 0;
+				display: flex;
+				flex-wrap: wrap;
+
+				& .option {
+					width: 33.33%;
+					max-width: 33.33%;
+					padding: $spacer * .333;
+					flex: 0 0 33.33%;
+	
+					& .option-input {
+						display: none;
+		
+						&:checked {
+							& + .option-label {
+								color: var(--#{$prefix}body-color);
+								border: 1px solid var(--#{$prefix}body-color);
+								
+								& .option-text {
+									color: var(--#{$prefix}body-color);
+								}
+							}
+						}
+					}
+					& .option-label {
+						border: 1px solid var(--#{$prefix}border-color);
+						padding: rem(10px);
+						height: 100%;
+						border-radius: $border-radius;
+						display: flex;
+						flex-direction: column;
+						align-items: center;
+						justify-content: center;
+		
+						& .option-text {
+							display: block;
+							line-height: $headings-line-height;
+							color: rgba(var(--#{$prefix}body-color-rgb), .5);
+							font-size: $font-size-sm;
+							text-align: center;
+						}
+						& .option-price {
+							font-weight: $font-weight-bold;
+							margin-top: $spacer * .25;
+							line-height: $headings-line-height;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+.pos-mobile-sidebar-toggler {
+	position: fixed;
+	bottom: $spacer * 3;
+	right: $spacer;
+	z-index: 1020;
+	background: var(--#{$prefix}component-bg);
+	padding: $spacer * .5;
+	width: rem(60px);
+	height: rem(60px);
+	text-decoration: none;
+	color: var(--#{$prefix}body-color);
+	display: none;
+	border-radius: 50px;
+	box-shadow: $box-shadow-lg;
+	align-items: center;
+	z-index: 10;
+	
+	@include media-breakpoint-down(lg) {
+		display: flex;
+	}
+	
+	&:hover {
+		color: $gray-600;
+	}
+	& i {
+		font-size: rem(32px);
+		display: block;
+		margin: 0 auto;
+	}
+	& .badge {
+		position: absolute;
+		right: $spacer * -.3;
+		top: $spacer * -.3;
+		background-color: var(--#{$prefix}red);
+		color: $white;
+		width: rem(24px);
+		height: rem(24px);
+		font-size: $font-size-base;
+		font-weight: $font-weight-bold;
+		padding: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 20px;
+	}
+}
+
+// .pos-table-booking .pos-table-booking-body .booking {
+// 	cursor: pointer;  /* Hand cursor when hovering over the time slots */
+//   }
+  
+//   /* Highlight the selected time slot */
+//   .pos-table-booking .pos-table-booking-body .booking.highlightslot {
+// 	background-color: #9e2d2d;  /* Light background for the highlighted row */
+// 	border: 2px solid #007bff;  /* Example: blue border for highlighting */
+//   }
+
+  /* When hovered over the booking element, apply styles only to .time and .info */
+// .pos-table-booking .pos-table-booking-body .booking:hover .time,
+// .pos-table-booking .pos-table-booking-body .booking:hover .info {
+//   background-color: #eeececa2;  /* Light gray background */
+//   transition: background-color 0.3s ease;  /* Smooth transition */
+// }
+
+// /* Optionally add a slight change to cursor when hovering over the time/info */
+// .pos-table-booking .pos-table-booking-body .booking:hover .time,
+// .pos-table-booking .pos-table-booking-body .booking:hover .info {
+//   cursor: pointer;  /* Hand cursor to indicate it's clickable */
+// }
+
+
+
+/* Base styles for the time slot */
+// .pos-table-booking .pos-table-booking-body .time-slot {
+// 	padding: 10px;
+// 	text-align: center;
+// 	font-size: 0.9rem;  /* Smaller font size */
+// 	border-radius: 8px;
+// 	transition: all 0.3s ease;
+// 	//width: 100%;  /* Make the time slot fit the container */
+// 	margin-bottom: 15px;
+//   }
+  
+//   /* Ensure 3 time slots per row */
+//   .pos-table-booking .pos-table-booking-body {
+// 	display: flex;
+// 	flex-wrap: wrap;
+//   }
+  
+//   .pos-table-booking .pos-table-booking-body .time-slot {
+// 	//flex: 1 0 32%;  /* 3 items per row, 32% width with some margin */
+// 	margin: 0 5px;
+// 	box-sizing: border-box;
+// 	cursor: pointer;  /* Cursor changes to pointer */
+//   }
+  
+//   /* Styles for available time slots (no reservation) */
+//   .pos-table-booking .pos-table-booking-body .time-slot.available {
+// 	border: 2px solid green;  /* Green border for available slots */
+// 	color: green;  /* Green text for available slots */
+//   }
+  
+//   /* Styles for reserved time slots */
+//   .pos-table-booking .pos-table-booking-body .time-slot.reserved {
+// 	border: 2px solid red;  /* Red border for reserved slots */
+// 	color: red;  /* Red text for reserved slots */
+//   }
+  
+//   /* Hover effect on time slot */
+//   .pos-table-booking .pos-table-booking-body .time-slot:hover {
+// 	background-color: #f0f0f0;  /* Light gray background on hover */
+//   }
+
+
+/* Base styles for the time slot */
+// .pos-table-booking .pos-table-booking-body .time-slot {
+// 	padding: 10px;
+// 	text-align: center;
+// 	font-size: 0.9rem;  /* Smaller font size */
+// 	border-radius: 8px;
+// 	transition: all 0.3s ease;
+// 	margin-bottom: 5px;
+//   }
+  
+//   /* Ensure 3 time slots per row using CSS Grid */
+//   .pos-table-booking .pos-table-booking-body {
+// 	display: grid;
+// 	grid-template-columns: repeat(3, 1fr);  /* 3 equal-width columns */
+// 	gap: 10px;  /* Space between the time slots */
+//   }
+  
+//   /* Styles for available time slots (no reservation) */
+//   .pos-table-booking .pos-table-booking-body .time-slot.available {
+// 	border: 2px solid green;  /* Green border for available slots */
+// 	color: green;  /* Green text for available slots */
+//   }
+  
+//   /* Styles for reserved time slots */
+//   .pos-table-booking .pos-table-booking-body .time-slot.reserved {
+// 	border: 2px solid red;  /* Red border for reserved slots */
+// 	color: red;  /* Red text for reserved slots */
+//   }
+  
+//   /* Hover effect on time slot */
+//   .pos-table-booking .pos-table-booking-body .time-slot:hover {
+// 	background-color: #f0f0f0;  /* Light gray background on hover */
+// 	cursor: pointer;  /* Cursor changes to pointer */
+//   }
+  
+
+
+//   /* Base styles for the time slot */
+// .pos-table-booking .pos-table-booking-body .time-slot {
+// 	// padding: 5px 10px;  /* Smaller padding inside each time slot */
+// 	text-align: center;
+// 	font-size: 0.9rem;  /* Smaller font size */
+// 	border-radius: 4px;  /* Slightly smaller border radius */
+// 	transition: all 0.3s ease;
+// 	margin: 0;  /* Remove any margin around time slots */
+// 	box-sizing: border-box;  /* Include padding and border in total size */
+// 	cursor: pointer;  /* Pointer cursor on hover */
+//   }
+  
+//   /* Ensure 3 time slots per row using CSS Grid */
+//   .pos-table-booking .pos-table-booking-body {
+// 	display: grid;
+// 	grid-template-columns: repeat(3, 1fr);  /* 3 equal-width columns */
+// 	gap: 5px;  /* Reduced space between the time slots */
+//   }
+  
+//   /* Styles for available time slots (no reservation) */
+//   .pos-table-booking .pos-table-booking-body .time-slot.available {
+// 	border: 2px solid green;  /* Green border for available slots */
+// 	color: green;  /* Green text for available slots */
+//   }
+  
+//   /* Styles for reserved time slots */
+//   .pos-table-booking .pos-table-booking-body .time-slot.reserved {
+// 	border: 2px solid red;  /* Red border for reserved slots */
+// 	color: red;  /* Red text for reserved slots */
+//   }
+  
+//   /* Hover effect on time slot */
+//   .pos-table-booking .pos-table-booking-body .time-slot:hover {
+// 	background-color: #f0f0f0;  /* Light gray background on hover */
+//   }
+  
+  
+// .pos-table-booking .pos-table-booking-body {
+//     display: grid;
+//     grid-template-columns: repeat(3, 1fr); /* Ensures 3 items per row */
+//     gap: 15px;  /* Provides space between the blocks */
+//     padding: 10px 0;
+// }
+
+// .pos-table-booking .pos-table-booking-body .booking {
+//     padding: 2px;  /* Increases internal space inside each time block */
+//     text-align: center;
+//     font-size: 1rem;  /* Adjusts font size */
+//     background: #f8f8f8; /* Light background for time blocks */
+//     border-radius: 8px;  /* Rounded corners for the blocks */
+//     border: 1px solid #ddd; /* Light border for the blocks */
+//     transition: background-color 0.3s ease; /* Smooth background transition */
+// }
+
+// .pos-table-booking .pos-table-booking-body .booking:hover {
+//     background-color: #e0e0e0; /* Changes background color on hover */
+// }
+
+// .pos-table-booking .pos-table-booking-body .time {
+//     font-size: 0.9rem;  /* Smaller font size for time */
+//     font-weight: bold;
+// }
+
+// .pos-table-booking .pos-table-booking-body .booking.highlight {
+//     background-color: #eef7ff; /* Highlighted background color */
+//     border-color: #007bff; /* Blue border for highlighted time */
+// }
+
+// ------------------------------------------------------------------
+// .pos-table-booking .pos-table-booking-body {
+//     display: grid;
+//     grid-template-columns: repeat(3, 1fr); /* Ensures 3 items per row */
+//     gap: 5px; /* Reduced space between the blocks */
+//     padding: 1px 0;
+// }
+
+// .pos-table-booking .pos-table-booking-body .booking {
+//     padding: 10px;  /* Reduced internal space inside each time block */
+//     text-align: center;
+//     font-size: 0.75rem;  /* Smaller font size */
+//     background: #f8f8f8; /* Light background for time blocks */
+//     border-radius: 8px;  /* Rounded corners for the blocks */
+//     border: 1px solid #ddd; /* Light border for the blocks */
+//     transition: border-color 0.3s ease; /* Smooth border color transition */
+//     white-space: nowrap;  /* Ensures the text doesn’t wrap */
+//     color: #333; /* Default text color */
+// }
+
+// .pos-table-booking .pos-table-booking-body .booking:hover {
+//     border-color: #aaa; /* Darker border color on hover */
+// }
+
+// .pos-table-booking .pos-table-booking-body .time {
+//     font-size: 0.75rem;  /* Small font size for the time */
+//     font-weight: bold;
+// }
+
+// /* Red border and text color for reservation.text (reserved) */
+// .pos-table-booking .pos-table-booking-body .booking.reserved {
+//     border-color: rgb(216, 63, 63); /* Red border */
+//     color: rgb(216, 86, 86); /* Red text */
+// }
+
+// /* Green border and text color for empty reservation.text (available) */
+// .pos-table-booking .pos-table-booking-body .booking.available {
+//     border-color: rgb(179, 212, 118); /* Green border */
+//     color: rgb(142, 204, 117); /* Green text */
+// }
+
+// .pos-table-booking .pos-table-booking-body .booking.highlight {
+//     background-color: #eef7ff; /* Highlighted background color */
+//     border-color: #007bff; /* Blue border for highlighted time */
+// }
+
+
+
+
+
+.pos-table-booking .pos-table-booking-body {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Ensures 3 items per row */
+    gap: 5px; /* Reduced space between the blocks */
+    padding: 5px 0;
+}
+
+.pos-table-booking .pos-table-booking-body .booking {
+    padding: 10px;  /* Reduced internal space inside each time block */
+    text-align: center;
+    font-size: 0.75rem;  /* Smaller font size */
+    //background: #f8f8f8; /* Light background for time blocks */
+    border-radius: 3px;  /* Rounded corners for the blocks */
+    transition: all 0.3s ease; /* Smooth transition for all effects */
+    white-space: nowrap;  /* Ensures the text doesn’t wrap */
+    color: #333; /* Default text color */
+    border-bottom: 2px solid #ddd; /* Light bottom border for time slots */
+}
+
+/* Hover effect on the time slot */
+.pos-table-booking .pos-table-booking-body .booking:hover {
+    border-bottom-color: #aaa; /* Darker border on hover */
+}
+
+/* Shining effect on the border */
+.pos-table-booking .pos-table-booking-body .booking:focus, 
+.pos-table-booking .pos-table-booking-body .booking:hover {
+    animation: shining 1s infinite; /* Shining animation */
+}
+
+@keyframes shining {
+    0% {
+        border-bottom-color: rgba(0, 123, 255, 0.3); /* Light blue border */
+    }
+    50% {
+        border-bottom-color: rgba(0, 123, 255, 1); /* Full blue border */
+    }
+    100% {
+        border-bottom-color: rgba(0, 123, 255, 0.3); /* Back to light blue */
+    }
+}
+/* Red border bottom for reserved slots */
+.pos-table-booking .pos-table-booking-body .booking.reserved {
+    color: rgb(224, 81, 81); /* Red text */
+    //border-bottom-color: rgb(216, 89, 100); /* Red border bottom */
+	border-bottom: 3px solid rgb(216, 89, 100);
+}
+
+/* Green border bottom for available slots */
+.pos-table-booking .pos-table-booking-body .booking.available {
+    color: rgb(100, 150, 67); /* Green text */
+    border-bottom-color: rgb(143, 211, 112); /* Green border bottom */
+}
+
+.pos-table-booking .pos-table-booking-body .booking.highlight {
+    border-bottom-color: #d7dce2; /* Blue border for highlighted time */
+}
+
+// --------------------------
+
+.time-slot-sidebar {
+	padding: 20px;
+	overflow-y: auto;
+  }
+  
+  .time-slot-sidebar-body {
+	max-height: 80vh;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr); /* 3 columns per row */
+	gap: 15px;
+	padding: 15px;
+	overflow-y: auto;
+  }
+  .time-slot-sidebar::-webkit-scrollbar {
+	width: 0px; /* Hide the scrollbar */
+  }
+  
+  .time-slot-sidebar::-webkit-scrollbar-thumb {
+	background: transparent; /* Make the thumb invisible */
+  }
+  .time-slot-item {
+	margin-bottom: 10px;
+  }
+  
+  .time-slot-item div {
+	cursor: pointer;
+	transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+  
+  .time-slot-item div:hover {
+	transform: scale(1.05); /* Slightly enlarge on hover */
+	//background-color: #5a554b; /* Highlight with blue */
+	color: white;
+  }
+  
+  .time-slot-item div:active {
+	transform: scale(0.98); /* Slightly shrink on click */
+	//background-color: #0056b3; /* Darker blue on click */
+  }
+  
+  .time-slot-item div .fw-bold {
+	font-size: 1.1rem;
+	font-weight: bold;
+	color:  #1D794C;
+  }
+  
+  .time-slot-item div .time {
+	font-size: 0.9rem;
+	margin-top: 5px;
+	color: #fff;
+  }
+  
+  .time-slot-item div.bg-gray-60000 {
+	//background-color: #FFEEDC; /* Default gray for time slots */
+	padding: 10px;
+	border-radius: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	width: 90px;
+	height: 60px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+	border: 1px solid #1D794C;
+	font-family: monospace;
+  }
+  /* Border green for vacant tables */
+.pos-table-booking.vacant {
+    border: 3px solid green;
+}
+
+/* Border red for reserved tables */
+.pos-table-booking.reserved {
+    border: 3px solid red;
+}
+
+.selected-time-slot {
+	background-color: #ffdcf5 !important;
+}
+//   .time-slot-item div.selected {
+// 	background-color: #28a745; /* Green color for selected time slot */
+//   }
+
+  .modal .modal-body img {
+	max-width: 150px; /* Adjust as per your requirement */
+	max-height: 150px; /* Adjust as per your requirement */
+	width: auto;
+	height: auto;
+  }
+  
+  .custom-col {
+	 flex: 0 0 20%;
+	// max-width: 20%;
+	width: 169px;
+    height: 175px;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+
+  }
+
+  .fixed-footers {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	background-color: #f8f9fa; /* light grey background */
+	box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+	padding: 10px 0;
+	display: flex;
+	justify-content: center;
+	z-index: 1000;
+  }
+
+  /* Inner footer content container with gaps on left/right */
+  .footer-contents {
+	width: 90%;	
+	max-width: 1200px;
+	display: flex;
+	justify-content: space-between;
+  }
+
+  /* Styling for footer buttons */
+  .footer-btn {
+	flex: 0.1;
+	padding: 10px;
+	margin: 0 5px;
+	// background-color: #007bff;
+	// border: none;
+	// border-radius: 4px;
+	// color: #fff;
+	cursor: pointer;
+	// font-size: 16px;
+	transition: background-color 0.2s ease;
+  }
+
+  .footer-btn:hover {
+	background-color: #0056b3;
+  }
+
+//   .pos-content-container {
+// 	padding-bottom: 80px; /* Adjust this value if your footer height changes */
+//   }
+
+  @media screen and (max-width: 1024px) {
+	.time-slot-sidebar-body {
+	  grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
+	}
+  }
+
+  @media screen and (max-width: 768px) {
+	.time-slot-sidebar-body {
+	  grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
+	}
+  }
+  
+  @media screen and (max-width: 480px) {
+	.time-slot-sidebar-body {
+	  grid-template-columns: 1fr; /* 1 column on very small screens */
+	}
+  }
+  
+  .toast-loader {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(255, 255, 255, 0.7);  /* semi-transparent background */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1040;  /* Ensure this is lower than the modal's z-index */
+  }
+  
+//   -------------------------------------------
+.loader-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(255, 255, 255, 0.7); /* Transparent overlay */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 9999; /* Ensure loader appears above other modal content */
+  }
+  
+/* Modal styling */
+// .modal-pos .modal-dialog {
+// 	max-width: 600px;
+// 	border-radius: 15px;
+// 	overflow: hidden;
+//   }
+  
+//   .modal-pos .modal-content {
+// 	background-color: #fff; /* Soft light background */
+// 	border-radius: 10px;
+// 	padding: 20px;
+// 	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+//   }
+  
+//   /* Modal header */
+//   .modal-header {
+// 	//background-color: #d3d0d2;
+// 	color: #fff;
+// 	border-bottom: 1px solid #ddd;
+// 	padding: 20px;
+// 	border-radius: 10px 10px 0 0;
+//   }
+  
+//   .modal-header .modal-title {
+// 	//font-size: 1.2rem;
+// 	font-weight: 600;
+// 	display: flex;
+// 	align-items: center;
+//   }
+  
+// //   .modal-header .btn-close {
+// // 	color: #534a4a;
+// // 	font-size: 1.5rem;
+// // 	background: none;
+// // 	border: none;
+// //   }
+  
+//   /* Modal body */
+//   .modal-body {
+// 	padding: 20px;
+//   }
+  
+//   .form-label {
+// 	font-weight: 500;
+// 	color: #333;
+//   }
+  
+//   .form-group {
+// 	margin-bottom: 15px;
+//   }
+  
+//   .form-control {
+// 	border-radius: 10px;
+// 	border: 1px solid #ccc;
+// 	box-shadow: none;
+// 	padding: 10px;
+//   }
+  
+//   /* Buttons styling */
+//   .btn-outline-danger {
+// 	border: 1px solid #dc3545;
+// 	color: #dc3545;
+//   }
+  
+
+  
+//   /* Centered Status Message (success/error message) */
+//   .modal-body .d-flex {
+// 	align-items: center;
+// 	justify-content: center;
+//   }
+  
+
+//   .modal .modal-body img {
+// 	max-width: 150px; /* Adjust as per your requirement */
+// 	max-height: 150px; /* Adjust as per your requirement */
+// 	width: auto;
+// 	height: auto;
+//   }
+  
+//   .modal-body .fs-3 {
+// 	font-size: 1.5rem;
+// 	font-weight: bold;
+// 	text-align: center;
+//   }
+  
+//   /* Add spacing between the buttons */
+//   .modal-footer {
+// 	display: flex;
+// 	justify-content: space-between;
+// 	align-items: center;
+//   }
+  
+//   .modal-footer .btn {
+// 	width: 150px;
+// 	padding: 10px;
+//   }
+  
+//   /* Small screen support */
+//   @media screen and (max-width: 767px) {
+// 	.modal-dialog {
+// 	  width: 100%;
+// 	}
+  
+// 	.modal-body {
+// 	  padding: 15px;
+// 	}
+  
+// 	.modal-footer {
+// 	  flex-direction: column;
+// 	  gap: 10px;
+// 	}
+//   }
+  
+
+  ////////////////////////////
+/* Style for the progress container */
+.progress {
+	height: 20px; /* Set the height of the progress bar */
+	background-color: #f3f3f3; /* Light gray background */
+	border-radius: 10px; /* Rounded corners */
+	overflow: hidden; /* Ensures the progress bar doesn't overflow */
+	margin-top: 10px; /* Adds some spacing between the status message and the progress bar */
+  }
+  
+  /* Style for the progress bar inside the container */
+  .progress-bar {
+	width: 100%; /* Start at full width */
+	height: 100%; /* Make the bar fill the container */
+	background-color: #4caf50; /* Green color for the progress bar */
+	text-align: center; /* Align text (if any) in the center */
+	color: white; /* White text for visibility */
+	border-radius: 10px; /* Rounded corners to match the container */
+	transition: width 0.05s linear; /* Smooth transition for the width reduction */
+  }
+  
+  /* Optional: Text inside the progress bar (e.g., showing % progress) */
+  .progress-bar span {
+	display: block;
+	line-height: 20px; /* Align text vertically in the center */
+	font-weight: bold;
+  }
+  

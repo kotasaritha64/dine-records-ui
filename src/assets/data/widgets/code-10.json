@@ -1,0 +1,13 @@
+<card>
+  <card-header class="fw-bold">Today, Nov 4</card-header>
+  <div class="widget-reminder">
+    <div class="widget-reminder-item">
+      <div class="widget-reminder-time">09:00<br>12:00</div>
+      <div class="widget-reminder-divider bg-success"></div>
+      <div class="widget-reminder-content">
+        <div class="fw-bold">Meeting with HR</div>
+        <div class="fs-13px"> - Conference Room</div>
+      </div>
+    </div>
+  </div>
+</card>

@@ -1,0 +1,55 @@
+<!-- BEGIN pos -->
+<div class="pos pos-vertical pos-with-header" id="pos">
+	<!-- BEGIN pos-container -->
+	<div class="pos-container">
+		<!-- BEGIN pos-header -->
+		<div class="pos-header">
+			<div class="logo">
+				<a routerLink="/pos/counter-checkout">
+					<div class="logo-img"><i class="fa fa-bowl-rice" style="font-size: 1.5rem;"></i></div>
+					<div class="logo-text">Pine & Dine</div>
+				</a>
+			</div>
+			<!-- <div class="time" id="time">{{ getTime() }}</div> -->
+			<div class="nav">
+				<div class="nav-item">
+					<a routerLink="/pos/kitchen-order" class="nav-link">
+						<i class="far fa-clock nav-icon"></i>
+					</a>
+				</div>
+				<div class="nav-item">
+					<a routerLink="/pos/table-page/table-booking" class="nav-link">
+						<i class="far fa-calendar-check nav-icon"></i>
+					</a>
+				</div>
+				<div class="nav-item">
+					<a routerLink="/pos/menu-stock" class="nav-link">
+						<i class="fa fa-chart-pie nav-icon"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+		<!-- END pos-header -->
+	
+        <div class="nav">
+            <div class="nav-item">
+                <a routerLink="table-dashboard" class="nav-link">
+					<img src="/assets/img/pos/live.png" alt="" style="width: 12%; margin-right: 1%;"/> 
+                    <i class="far fa-clockss nav-icon"> Table Status</i>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a routerLink="table-booking" class="nav-link">
+                    <i class="far fa-calendar-check nav-icon">Table Booking</i>
+                </a>
+            </div>
+        </div>
+
+        <!-- BEGIN pos-content -->
+        <!-- Child routes will be displayed here -->
+        <router-outlet></router-outlet>
+        <!-- END pos-content -->
+
+	</div>
+	<!-- END pos-container -->
+</div>

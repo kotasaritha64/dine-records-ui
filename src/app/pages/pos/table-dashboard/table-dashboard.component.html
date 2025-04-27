@@ -1,0 +1,250 @@
+<div class="pos-content">
+
+</div>
+<div class="profile-header">
+    <div class="profile-header-content">                         
+        <ul class="profile-header-tab nav nav-tabs nav-tabs-v2 justify-content-center">
+            <div class="search-result">
+                <div class="search-tab">
+                    <div class="search-tab-item" *ngFor="let area of areas; let i = index">
+                        <a  class="search-tab-link" [class.active]="area === selectedArea" (click)="selectArea(area)">
+                            {{ area.areaName }}
+                          </a>
+                          <!-- {{ getAvailableTableForArea(area) }}/{{ area.totalTables }} -->
+                          <!-- href="javascript:void(0)" -->
+                      </div>                                       
+                </div>
+                </div>                 
+        </ul>
+    </div>
+</div>
+<div class="messenger">
+    
+	<div class="messenger-sidebar">
+        <card>
+            <ul class="nav nav-tabs nav-tabs-v2 px-4">
+                <li class="nav-item me-3"><a href="#allTab" class="nav-link active px-2" data-bs-toggle="tab">Reservation </a></li>
+                <li class="nav-item me-3"><a href="#publishedTab" class="nav-link px-2" data-bs-toggle="tab">Waiting</a></li>
+            </ul>
+        </card>
+		<div class="messenger-sidebar-header">
+            
+			<div class="position-relative w-100">
+				<button type="submit" class="btn position-absolute top-0 text-body"><i class="fa fa-search"></i></button>
+				<input type="text" class="form-control rounded-pill ps-35px" placeholder="Search Messenger">
+			</div>
+		</div>
+		<div class="messenger-sidebar-body">
+			
+            <div class="profile-sidebar">
+                <div class="desktop-sticky-top">
+                    
+                    <!-- Seated -->
+
+                    <div class="d-flex mb-3">
+                        <div class="flex-grow-1">
+                            <div class="fw-500"><a class="text-decoration-none">SEATED</a> </div>
+
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-lg fa-fw me-2 fa-users"></i> 
+                            <span>18</span>
+                          </div>                  
+                     </div> 
+                     <div class="d-flex align-items-center mb-3">
+                        <div class="d-flex flex-column align-items-center justify-content-center bg-gray-600" style="width: 50px; height: 50px;  border-radius: 4px;">
+                          <div class="fw-bold">6:00</div>
+                          <div>PM</div>
+                        </div>
+                        <div class="flex-fill px-3">
+                          <div class="fw-500 text-truncate w-100px">Noor Rowe</div>
+                          <div class="text-muted fs-13px">+1 (123) 456-7890</div> <!-- Added phone number -->
+                          <div class="fs-12px text-body text-opacity-50">3 Guests / Main Room</div>
+                        </div>
+                        <div class="w-30px h-30px me-2 border fs-16px d-flex align-items-center justify-content-center text-theme font-weight-bolder">T1</div>
+                   </div>
+                      
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="d-flex flex-column align-items-center justify-content-center bg-gray-600" style="width: 50px; height: 50px;  border-radius: 4px;">
+                            <div class="fw-bold">6:10</div>
+                            <div>PM</div>
+                          </div>
+                          <div class="flex-fill px-3">
+                            <div class="fw-500 text-truncate w-100px">Mani Sabbarapu</div>
+                            <div class="text-muted fs-13px">99989495444</div> <!-- Added phone number -->
+                            <div class="fs-12px text-body text-opacity-50">6 Guests / Main Room</div>
+                          </div>
+                          <div class="w-30px h-30px me-2 border fs-16px d-flex align-items-center justify-content-center text-theme font-weight-bolder">T2</div>
+                    </div>
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="assets/img/user/user-3.jpg" alt="" width="30" class="rounded-circle">
+                        <div class="flex-fill px-3">
+                            <div class="fw-500 text-truncate w-100px">Savannah Nicholson</div>
+                            <div class="fs-12px text-body text-opacity-50">720k followers</div>
+                        </div>
+                        <a href="#" class="btn btn-sm btn-outline-theme fs-11px fw-500">Follow</a>
+                    </div>
+                    
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="assets/img/user/user-4.jpg" alt="" width="30" class="rounded-circle">
+                        <div class="flex-fill px-3">
+                            <div class="fw-500 text-truncate w-100px">Kenny Bright</div>
+                            <div class="fs-12px text-body text-opacity-50">1.4m followers</div>
+                        </div>
+                        <a href="#" class="btn btn-sm btn-outline-theme fs-11px fw-500">Follow</a>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <img src="assets/img/user/user-5.jpg" alt="" width="30" class="rounded-circle">
+                        <div class="flex-fill px-3">
+                            <div class="fw-500 text-truncate w-100px">Cara Poole</div>
+                            <div class="fs-12px text-body text-opacity-50">989k followers</div>
+                        </div>
+                        <a href="#" class="btn btn-sm btn-outline-theme fs-11px fw-500">Follow</a>
+                    </div>
+
+                    <hr class="mt-4 mb-4">
+                    
+                    <!-- upcoming -->
+    
+                      <div class="d-flex mb-3">
+                        <div class="flex-grow-1">
+                            <div class="fw-500 fs-16px">UPCOMING</div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="far fa-thumbs-up me-1"></i> 
+                            <span>{{ upcomingReservations.length }}</span>
+                          </div>                  
+                     </div> 
+                     <div *ngFor="let reservation of upcomingReservations" class="d-flex align-items-center mb-3">
+                        <!-- Show the time block as per the new format -->
+                        <div class="d-flex flex-column align-items-center justify-content-center bg-gray-600" style="width: 50px; height: 50px; border-radius: 4px;">
+                            <div class="fw-bold">
+                                {{ formatTime(reservation.startTime) }} <!-- Format the start time -->
+                            </div>
+                            <div>{{ getAMPM(reservation.startTime) }}</div>
+                        </div>
+                    
+                        <div class="flex-fill px-3">
+                            <!-- Display reservedBy instead of user name -->
+                            <div class="fw-500 text-truncate w-100px">{{ reservation.reservedBy }}</div>
+                    
+                            <!-- Display phone number -->
+                            <div class="fs-12px text-body text-opacity-50">{{ reservation.phoneNumber }}</div>
+                        </div>
+                    
+                        <!-- Show table number based on filteredTables -->
+                        <div >
+                            {{ getTableNumber(reservation.tableName) }}
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+	</div>
+	<div class="messenger-content">
+		<div class="messenger-content-header">
+			<div class="messenger-content-header-mobile-toggler">
+				<a href="#" data-toggle="messenger-content" class="me-2">
+					<i class="fa fa-chevron-left"></i>
+				</a>
+			</div>
+			<div class="messenger-content-header-media">
+				<div class="media bg-theme text-theme-color rounded-pill fs-20px fw-bold">
+					<i class="fa fa-robot"></i>
+				</div>
+			</div>
+			<div class="messenger-content-header-info">
+				<small>10 members</small>
+			</div>
+			<div class="messenger-content-header-btn">
+			
+                <!-- <div class="w-250px">
+                    <div class="input-group">
+                        <input class="form-control" placeholder="yyyy-mm-dd" name="datepickerComponentValue" [(ngModel)]="datepickerComponentValue" ngbDatepicker #d2="ngbDatepicker" />
+                        <button class="btn btn-outline-default" (click)="d2.toggle()" type="button"><i class="far fa-calendar fa-lg"></i></button>
+                    </div>
+                </div> -->
+                <div class="w-250px">
+                    <div class="input-group">
+                        <!-- Correctly bind the model to the ngbDatepicker with ngModel -->
+                        <input class="form-control" 
+                               placeholder="yyyy-mm-dd" 
+                               name="datepickerComponentValue" 
+                               [(ngModel)]="datepickerComponentValue" 
+                               ngbDatepicker 
+                               #d2="ngbDatepicker" 
+                               [minDate]="minDate" 
+                               [maxDate]="maxDate" 
+                                />
+                        <!-- Button to toggle calendar -->
+                        <button class="btn btn-outline-default" 
+                                (click)="d2.toggle()" 
+                                type="button">
+                            <i class="far fa-calendar fa-lg"></i>
+                        </button>
+                    </div>
+                </div>
+			</div>
+		</div>
+		<div class="messenger-content-body">
+			<ng-scrollbar>
+				<div class="widget-chat">
+                    <!-- Moved areas above headers -->
+					<!-- <div class="profile-header">
+                        <div class="profile-header-content">                         
+                            <ul class="profile-header-tab nav nav-tabs nav-tabs-v2 justify-content-center">
+                                <div class="search-result">
+                                    <div class="search-tab">
+                                        <div class="search-tab-item" *ngFor="let area of areas; let i = index">
+                                            <a  class="search-tab-link" [class.active]="area === selectedArea" (click)="selectArea(area)">
+                                                {{ area.areaName }}
+                                              </a>
+                                          </div>                                       
+                                    </div>
+                                    </div>                 
+                            </ul>
+                        </div>
+                    </div> -->
+ 
+                    <div class="row gx-4">
+                        <ng-container *ngIf="filteredTables?.length > 0">
+                            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6" *ngFor="let table of filteredTables">
+                                <div [ngClass]="{'horizontal': table.numberOfPersons === 2 || table.numberOfPersons === 4, 'vertical': table.numberOfPersons > 4}"
+                                    class="table ms-5" [attr.data-pax]="table.numberOfPersons"
+                                    [style.background]="getGradientColor(table)">
+                                    <div class="table-name text-gray-300">{{ table.tableName }}</div>
+                                    <ng-container *ngFor="let _ of getSeatsArray(table.numberOfPersons); let i = index">
+                                        <div class="seat"
+                                            [class.left]="i % 2 === 0"
+                                            [class.right]="i % 2 !== 0"
+                                            [ngStyle]="{'top': getSeatPosition(i, table.numberOfPersons)}">
+                                        </div>
+                                    </ng-container>
+                                    <div class="status-info">
+                                        <div class="status">{{ table.status | uppercase }}</div>
+                                        <ng-container *ngIf="table.status === 'reserved' && table.reservedBy?.length">
+                                            <div class="reservation-time">{{ table.reservedBy }}</div>
+                                            <div class="reservation-name">{{ table.startTime }}</div>
+                                        </ng-container>
+                                        <ng-container *ngIf="table.status === 'vacant'">
+                                            <div class="reservation-name"></div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+        
+                        <!-- No records found message -->
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6" *ngIf="filteredTables?.length === 0">
+                            No records found
+                        </div>
+                    </div>
+
+
+				</div>
+			</ng-scrollbar>
+		</div>
+
+	</div>
+</div>

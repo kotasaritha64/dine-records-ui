@@ -1,0 +1,221 @@
+<div class="d-flex align-items-center mb-3">
+    <div class="p-3 d-flex align-items-center">
+        <a (click)="onCancel()" class="btn btn-outline-default text-nowrap btn-sm px-3 rounded-pill"><i
+                class="fa fa-arrow-left me-1 ms-n1"></i> Back</a>
+    </div>
+    <div>
+
+        <h1 class="page-header mb-0">{{(parentCategoryId > 0) ? 'Edit Parent Category' : 'Add ParentCategory'}}</h1>
+    </div>
+</div>
+
+
+<div class="row gx-4">
+    <div class="col-lg-12">
+        <card class="mb-4" style="border: none;">
+            <form [formGroup]="parentCategoryForm" (ngSubmit)="onSaveParentCategory()" enctype="multipart/form-data">
+                <card-body>
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="mb-lg-0 mb-3">
+
+                                    <label class="form-label">Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" formControlName="name"
+                                        placeholder="Parent Category name" (blur)="checkUniqueParentCategoryName()" />
+                                    <div *ngIf="parentCategoryForm.get('name')?.hasError('duplicate')"
+                                        class="text-danger">
+                                        Parent category name already exists.
+                                    </div>
+                                    <div *ngIf="parentCategoryForm.get('name').hasError('serverError')"
+                                        class="text-danger">
+                                        {{ parentCategoryForm.get('name').getError('serverError') }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Online Display Name</label>
+                                    <input type="text" class="form-control" formControlName="onlineDisplayName"
+                                        placeholder="Online Display Name">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-lg-6 position-relative">
+                                <label class="form-label" for="logoFile">Logo</label>
+                                <input type="file" class="form-control" id="logoFile"
+                                    (change)="onLogoImageChange($event)" accept="image/*">
+                                <div class="upload-info">Upload only png, jpeg or jpg file</div>
+                                <div class="image-container mt-2">
+                                    <img *ngIf="newImages.logo" [src]="newImages.logo" alt="Logo Preview"
+                                        class="img-thumbnail" />
+                                    <img *ngIf="!newImages.logo && existingImages.logo" [src]="existingImages.logo"
+                                        alt="Existing Logo" class="img-thumbnail" />
+                                    <button *ngIf="newImages.logo || existingImages.logo" type="button"
+                                        class="btn-close position-absolute top-0 end-0 m-2" aria-label="Close"
+                                        (click)="clearImage('logo')"></button>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 position-relative">
+                                <label class="form-label" for="onlinePartnerFile">Online Partner Image</label>
+                                <input type="file" class="form-control" id="onlinePartnerFile"
+                                    (change)="onOnlinePartnerImageChange($event)" accept="image/*">
+                                <div class="upload-info">Upload only png, jpeg or jpg file</div>
+                                <div class="image-container mt-2">
+                                    <img *ngIf="newImages.onlinePartner" [src]="newImages.onlinePartner"
+                                        alt="Online Partner Preview" class="img-thumbnail" />
+                                    <img *ngIf="!newImages.onlinePartner && existingImages.onlinePartner"
+                                        [src]="existingImages.onlinePartner" alt="Existing Online Partner"
+                                        class="img-thumbnail" />
+                                    <button *ngIf="newImages.onlinePartner || existingImages.onlinePartner"
+                                        type="button" class="btn-close position-absolute top-0 end-0 m-2"
+                                        aria-label="Close" (click)="clearImage('onlinePartner')"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <card-header class="d-flex align-items-center justify-content-between bg-none fw-bold">
+                            <span>Parent Category Schedule (Optional)</span>
+                            <div>
+                                <!-- "Add Schedule" Button -->
+                                <button *ngIf="!showSchedule" type="button" class="btn btn-outline-primary btn-sm"
+                                    (click)="toggleSchedule()">Add Schedule</button>
+                                <!-- "Remove Schedule" Button -->
+                                <button *ngIf="showSchedule" type="button" class="btn btn-outline-danger btn-sm"
+                                    (click)="toggleSchedule()">Remove Schedule</button>
+                            </div>
+                        </card-header>
+                    </div>
+
+                    <!-- Schedule Section -->
+                    <div *ngIf="showSchedule">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="mb-3">
+                                    <label class="form-label">Schedule Name</label>
+                                    <input type="text" class="form-control" formControlName="scheduleName"
+                                        placeholder="Schedule Name">
+                                </div>
+                            </div>
+                            <div class="col-lg-9">
+                                <label class="form-label">Days</label>
+                                <div class="d-flex align-items-center">
+                                    <!-- "All Days" Checkbox -->
+                                    <div class="form-check me-3">
+                                        <input class="form-check-input" type="checkbox" id="allDaysCheckbox"
+                                            [checked]="allDaysSelected" (change)="toggleAllDays()">
+                                        <label class="form-check-label" for="allDaysCheckbox">All Days</label>
+                                    </div>
+                                    <!-- Individual Day Checkboxes -->
+                                    <div *ngIf="showIndividualDays" class="d-flex flex-wrap">
+                                        <div class="form-check form-check-inline"
+                                            *ngFor="let day of daysOfWeek; let i = index">
+                                            <input class="form-check-input" type="checkbox" [checked]="day.selected"
+                                                (change)="toggleDaySelection(i)" [id]="'day-' + day.name">
+                                            <label class="form-check-label ms-2" [for]="'day-' + day.name">{{ day.name
+                                                }}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Time Slot Inputs -->
+                        <div formArrayName="timeSlots">
+                            <div *ngFor="let slot of timeSlotsArray.controls; let i = index" [formGroupName]="i"
+                                class="row align-items-center mb-2">
+                                <div class="col-lg-2">
+                                    <label class="form-label">From</label>
+                                    <select class="form-control" formControlName="from">
+                                        <option value="">Select</option> <!-- Placeholder option -->
+                                        <option *ngFor="let time of timeOptions" [value]="time">{{ time }}</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-2">
+                                    <label class="form-label">To</label>
+                                    <select class="form-control" formControlName="to">
+                                        <option value="">Select</option> <!-- Placeholder option -->
+
+                                        <option *ngFor="let time of timeOptions" [value]="time">{{ time }}</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-6 d-flex align-items-center">
+                                    <button type="button" class="btn btn-danger btn-sm"
+                                        (click)="removeTimeSlot(i)" [disabled]="timeSlotsArray.length === 1">X</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Add Timing Button -->
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-outline-success btn-sm mt-3"
+                                (click)="addTimeSlot()">Add Timing</button>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-check form-switch ms-auto">
+                        <label class="form-label" for="activeStatus">Active</label>
+                        <input type="checkbox" class="form-check-input" formControlName="status" id="activeStatus">
+                    </div>
+
+
+                    <div class="row mb-2">
+                        <card-header class="d-flex align-items-center bg-none fw-bold">
+                            Category
+                            <div class="form-check ms-auto">
+                                <input type="checkbox" class="form-check-input" id="selectAllCategories" 
+                                    [checked]="areAllCategoriesSelected()" 
+                                    (change)="toggleSelectAllCategories($event)">
+                                <label class="form-check-label" for="selectAllCategories">Select All</label>
+                            </div>
+                        </card-header>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <div class="d-flex flex-wrap" formArrayName="categories">
+                                <!-- Loop through categories -->
+                                <div *ngFor="let category of categories , let i=index"
+                                    class="alert alert-light me-3 mb-3">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <!-- Checkbox for "Check All" -->
+                                        <div class="d-flex align-items-center">
+                                            <input type="checkbox" class="form-check-input"
+                                                [id]="'checkAllCategory-' + category.categoryId"
+                                                [formControlName]="i" />
+                                            <label class="form-check-label ms-2"
+                                                [for]="'checkAllCategory-' + category.categoryName">
+                                                {{ category.categoryName }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Error Message Section -->
+                    <div *ngIf="errorMessage" class="alert alert-danger">
+                        {{ errorMessage }}
+                    </div>
+
+                </card-body>
+
+                <card-footer class="bg-none d-flex p-3">
+                    <button type="button" class="btn btn-default fw-semibold fs-13px ms-auto"
+                        (click)="onCancel()">Cancel</button>
+                    <button type="submit" class="btn btn-theme fw-semibold fs-13px ms-2">Save Parent Category</button>
+                </card-footer>
+
+            </form>
+        </card>
+    </div>
+</div>

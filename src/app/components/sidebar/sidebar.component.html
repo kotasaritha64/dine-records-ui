@@ -1,0 +1,57 @@
+<div class="app-sidebar">
+	<ng-scrollbar class="position-relative z-3">
+		<div class="app-sidebar-content">
+			<div class="menu">
+				<ng-template ngFor let-menu [ngForOf]="menus">
+					<div *ngIf="menu.is_header">
+						<div class="menu-header">{{ menu.text }}</div>
+					</div>
+					<div *ngIf="menu.is_divider;">
+						<div class="menu-divider"></div>
+					</div>
+					<div *ngIf="!menu.is_divider && !menu.is_header" class="menu-item" [ngClass]="{ 'active': (menu.path && isActive(menu.path)) || (menu.children && isChildActive(menu.children)), 'has-sub': menu.children }">
+						<a [routerLink]="!menu.children ? menu.path : null" class="menu-link" (click)="menu.children ? handleExpandSubmenu($event) : null" (mouseenter)="menu.children ? showAppSidebarFloatSubMenu(menu.children, $event) : null" (mouseleave)="menu.children ? hideAppSidebarFloatSubMenu() : null">
+							<span class="menu-icon"><i [ngClass]="menu.icon"></i></span>
+							<span class="menu-text">{{ menu.text }}</span>
+							<span class="menu-caret" *ngIf="menu.children"><b class="caret"></b></span>
+						</a>
+						<div class="menu-submenu" *ngIf="menu.children">
+							<ng-template ngFor let-childmenu [ngForOf]="menu.children">
+								<div class="menu-item" [ngClass]="{ 'active': isActive(childmenu.path) }">
+									<a [routerLink]="childmenu.path" class="menu-link">
+										<span class="menu-text">{{ childmenu.text }}</span>
+									</a>
+								</div>
+							</ng-template>
+						</div>
+					</div>
+				</ng-template>
+				<li class="nav-item">
+					<a routerLink="/payment" class="nav-link">
+						<i class="fa fa-credit-card"></i>
+						<span>Payment</span>
+					</a>
+				</li>
+			</div>
+			<div class="p-3 px-4 mt-auto hide-on-minified">
+				<a href="https://seantheme.com/studio-angular/documentation/index.html" target="_blank" class="btn btn-secondary d-block w-100 fw-600 rounded-pill">
+					<i class="fa fa-code-branch me-2 ms-n2 opacity-5"></i> Documentation
+				</a>
+			</div>
+		</div>
+	</ng-scrollbar>
+	
+	<button class="app-sidebar-mobile-backdrop z-2" (click)="toggleAppSidebarMobile()"></button>
+</div>
+
+<float-sub-menu *ngIf="appSettings.appSidebarMinified"
+  [menus]="appSidebarFloatSubMenu"
+  [top]="appSidebarFloatSubMenuTop"
+  [left]="appSidebarFloatSubMenuLeft"
+  [right]="appSidebarFloatSubMenuRight"
+  [bottom]="appSidebarFloatSubMenuBottom"
+  (remainAppSidebarFloatSubMenu)="remainAppSidebarFloatSubMenu()"
+  (hideAppSidebarFloatSubMenu)="hideAppSidebarFloatSubMenu()"
+  (calculateAppSidebarFloatSubMenuPosition)="calculateAppSidebarFloatSubMenuPosition()"
+></float-sub-menu>
+

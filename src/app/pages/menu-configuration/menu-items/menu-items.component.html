@@ -1,0 +1,657 @@
+<div *ngIf="!showEditMenu">
+    <div *ngIf="!showAddMenu">
+        <div class="messenger">
+            <div class="messenger-sidebar">
+                <div class="messenger-sidebar-header">
+                    <div class="position-relative w-100">
+                        <!-- Search Input Field with onchange event -->
+                        <input type="text" class="form-control rounded-pill ps-35px" placeholder="Search Categories"
+                            (input)="onSearchChange($event)">
+                    </div>
+                </div>
+
+                <div class="messenger-sidebar-body">
+                    <ng-scrollbar>
+                        <!-- Iterate through filtered categories -->
+                        <div class="messenger-item" *ngFor="let category of filteredCategories">
+                            <a data-toggle="messenger-content" class="messenger-link"
+                                [ngClass]="{ 'selected-category': selectedCategory === category }"
+                                (click)="getMenuItemOnCategories(category)">
+                                <div class="messenger-media">
+                                    <img [src]="category.logoImageUrl" alt="{{ category.categoryName }}"
+                                        style="border-radius: 30%;" />
+                                </div>
+                                <div class="messenger-info">
+                                    <div class="messenger-name">{{ category.categoryName }}</div>
+                                </div>
+                            </a>
+                        </div>
+                    </ng-scrollbar>
+                </div>
+
+            </div>
+            <div class="messenger-content">
+                <div class="messenger-content-header">
+                    <div class="messenger-content-header-mobile-toggler">
+                        <a href="#" data-toggle="messenger-content" class="me-2">
+                            <i class="fa fa-chevron-left"></i>
+                        </a>
+                    </div>
+                    <div class="p-3 d-flex align-items-center">
+                        <a href="javascript:window.history.back();"
+                            class="btn btn-outline-default text-nowrap btn-sm px-3 rounded-pill"><i
+                                class="fa fa-arrow-left me-1 ms-n1"></i> Back</a>
+                    </div>
+                    <div class="messenger-content-header-media">
+                        <div class="media bg-theme text-theme-color rounded-pill fs-20px fw-bold">
+                            <i class="fa fa-robot"></i>
+                        </div>
+                    </div>
+                    <div class="messenger-content-header-info" style="cursor: pointer;" (click)="onSave()">
+                        Save </div>
+                    <div class="messenger-content-header-info">
+                        <div class="me-4 mb-md-0 mb-2 dropdown-toggle">
+                            <a href="#" data-bs-toggle="dropdown"
+                                class="text-decoration-none text-body d-inline-flex align-items-center"><i
+                                    class="fa fa-gear me-2 text-body text-opacity-50 my-n1"></i> Quick Actions</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                                <div role="separator" class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Separated link</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="me-4 mb-md-0 mb-2 dropdown-toggle">
+                        <a href="#" data-bs-toggle="dropdown"
+                            class="text-decoration-none text-body d-inline-flex align-items-center"><i
+                                class="fa fa-gear me-2 text-body text-opacity-50 my-n1"></i> Actions</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                            <div role="separator" class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Separated link</a>
+                        </div>
+                    </div>
+                    <div class="ms-auto">
+                        <a href="#modalEdit" data-bs-toggle="modal" class="btn btn-theme"><i
+                                class="fa fa-plus-circle fa-fw me-1"></i> Add Menu Items</a>
+                    </div>
+                    <div class="messenger-content-header-btn">
+                        <a href="#" class="btn btn-link"><i class="fa fa-search"></i></a>
+                        <div class="dropdown">
+                            <a href="#" class="btn btn-link" data-bs-toggle="dropdown"><i
+                                    class="fa fa-ellipsis"></i></a>
+                            <div class="dropdown-menu">
+                                <a href="#" class="dropdown-item d-flex align-items-center"><i
+                                        class="fa fa-pencil my-n1 me-3"></i> Edit</a>
+                                <a href="#" class="dropdown-item d-flex align-items-center"><i
+                                        class="fa fa-info-circle my-n1 me-3"></i> Info</a>
+                                <a href="#" class="dropdown-item d-flex align-items-center"><i
+                                        class="fa fa-bell my-n1 me-3"></i> Mute</a>
+                                <a href="#" class="dropdown-item d-flex align-items-center"><i
+                                        class="fa fa-circle-xmark fs-5 my-n1 me-3"></i> Clear chat history</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item d-flex align-items-center"><i
+                                        class="fa fa-trash fs-5 my-n1 me-3"></i> Delete and leave</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="messenger-content-body">
+                    <ng-scrollbar>
+                        <div class="widget-chat">
+                            <card>
+                                <div class="tab-content p-4">
+                                    <div class="tab-pane fade show active" id="allTab">
+                                        <!-- BEGIN table -->
+                                        <div class="table-responsive">
+                                            <table class="table table-hover text-nowrap">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="border-top-0 pt-0 pb-2"></th>
+                                                        <th class="border-top-0 pt-0 pb-2">Name</th>
+                                                        <th class="border-top-0 pt-0 pb-2">Short Code</th>
+                                                        <th class="border-top-0 pt-0 pb-2">Online Display Name</th>
+                                                        <th class="border-top-0 pt-0 pb-2">Price</th>
+                                                        <th class="border-top-0 pt-0 pb-2">Description</th>
+                                                        <th class="border-top-0 pt-0 pb-2">Image</th>
+                                                        <th class="border-top-0 pt-0 pb-2">Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let item of menuItems.content; let i = index">
+                                                        <!-- Checkbox Column -->
+                                                        <td class="w-10px align-middle">
+                                                            <div class="form-check">
+                                                                <input type="checkbox" class="form-check-input"
+                                                                    [(ngModel)]="item.isChecked"
+                                                                    (change)="onCheckboxChange(i, item.isChecked)"
+                                                                    id="product{{i}}">
+                                                                <label class="form-check-label"
+                                                                    for="product{{i}}"></label>
+                                                            </div>
+                                                        </td>
+
+                                                        <!-- Item Name Column -->
+                                                        <td class="align-middle" [class.disabled]="isRowDisabled(item)">
+                                                            <div class="input-container">
+
+                                                            <input type="text"
+                                                                   class="form-control rounded-pill scrollable-input"
+                                                                   [(ngModel)]="item.itemName"
+                                                                   [readonly]="isRowDisabled(item)"
+                                                                   [ngClass]="{
+                                                                     'veg-border': item.dietary && item.dietary.includes('Veg'),
+                                                                     'nonveg-border': item.dietary && (item.dietary.includes('Non Veg') || item.dietary.includes('Egg'))
+                                                                   }">
+                                                                   <div class="icon-container">
+
+                                                                    <span
+                                                                    class="variant-icon"
+                                                                    [ngClass]="{
+                                                                      'has-variation': item.variants && item.variants.length > 0,
+                                                                      'no-variation': !item.variants || item.variants.length === 0
+                                                                    }"
+                                                                    [title]="
+                                                                      item.variants && item.variants.length > 0
+                                                                        ? 'Item having variation'
+                                                                        : 'Item has no variation'
+                                                                    "
+                                                                  >
+                                                                    {{ item.variants && item.variants.length > 0 ? 'v' : 'v+' }}
+                                                                  </span>
+                                                            
+                                                                  <!-- Separator -->
+                                                                  <span class="separator"> | </span>
+                                                            
+                                                                  <!-- Expose Icon -->
+                                                                  <span
+                                                                    class="expose-icon"
+                                                                    [ngClass]="{
+                                                                      'has-expose': item.exposeItem && item.exposeItem.length > 0,
+                                                                      'no-expose': !item.exposeItem || item.exposeItem.length === 0
+                                                                    }"
+                                                                    [title]="
+                                                                      item.exposeItem && item.exposeItem.length > 0
+                                                                        ? 'Expose in online order'
+                                                                        : 'Item is not exposed in online order'
+                                                                    "
+                                                                  >
+                                                                    {{ item.exposeItem && item.exposeItem.length > 0 ? 'o' : 'o+' }}
+                                                                  </span>
+                                                             </div>
+                                                            </div>
+                                                          </td>
+                                                          
+
+                                                        <!-- Short Code Column -->
+                                                        <td class="align-middle" [class.disabled]="isRowDisabled(item)">
+                                                            <input type="text" class="form-control rounded-pill "
+                                                                [(ngModel)]="item.shortCode"
+                                                                [readonly]="isRowDisabled(item)">
+                                                        </td>
+
+                                                        <!-- Online Display Name Column -->
+                                                        <td class="align-middle" [class.disabled]="isRowDisabled(item)">
+                                                            <input type="text" class="form-control rounded-pill "
+                                                                [(ngModel)]="item.onlineDisplayName"
+                                                                [readonly]="isRowDisabled(item)">
+                                                        </td>
+
+                                                        <!-- Base Price Column -->
+                                                        <td class="py-1 align-middle"
+                                                            [class.disabled]="isRowDisabled(item)">
+                                                            <!-- <span
+                                                                class="badge bg-teal text-teal-800 bg-opacity-25 px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center">
+                                                                <i
+                                                                    class="fa fa-circle text-teal fs-9px fa-fw me-5px"></i>
+                                                                {{item.basePrice}}
+                                                            </span> -->
+                                                            <input type="text" class="form-control  rounded-pill  "
+                                                                [(ngModel)]="item.basePrice"
+                                                                [readonly]="isRowDisabled(item)">
+
+                                                        </td>
+
+                                                        <!-- Description Column -->
+                                                        <td class="align-middle" [class.disabled]="isRowDisabled(item)">
+                                                            <textarea type="text" class="form-control " rows="1"
+                                                                [(ngModel)]="item.description"
+                                                                [readonly]="isRowDisabled(item)"></textarea>
+                                                            <!-- <textarea type="text" class="form-control" formControlName="description" rows="2"></textarea> -->
+
+                                                        </td>
+
+                                                        <!-- Image Upload Column -->
+                                                        <td class="align-middle" [class.disabled]="isRowDisabled(item)">
+                                                            <span class="align-items-center"
+                                                                style="position: relative;">
+                                                                <span class="fa fa-upload"
+                                                                    [attr.data-bs-toggle]="isRowDisabled(item) ? null : 'modal'"
+                                                                    data-bs-target="#modalLg"
+                                                                    (click)="isRowDisabled(item) ? $event.stopPropagation() : (selectedItemIndex = i)">
+                                                                </span>
+                                                            </span>
+                                                        </td>
+
+
+                                                        <!-- Edit Icon Column -->
+                                                        <td class="align-middle" style="cursor: pointer;">
+                                                            <div class="me-4 mb-md-0 mb-2">
+                                                                <i class="fas fa-lg fa-fw me-2 fa-edit text-muted"
+                                                                    (click)="onEditMenu(item)"></i>
+                                                                <i class="fas fa-lg fa-fw me-2 fa-clipboard text-muted"
+                                                                    (click)="onViewMenu(item)" data-bs-toggle="modal"
+                                                                    data-bs-target="#modalXl"></i>
+                                                                <i class="fas fa-lg fa-fw me-2"
+                                                                    [class.text-danger]="item.setAsFavourite"
+                                                                    [class.text-muted]="!item.setAsFavourite"
+                                                                    (click)="toggleFavorite(item)">
+                                                                    <!-- Red heart when favorite -->
+                                                                    <i class="fas fa-heart" *ngIf="item.setAsFavourite"
+                                                                        [(ngModel)]="item.setAsFavourite"></i>
+                                                                    <!-- Muted heart when not favorite -->
+                                                                    <i class="far fa-heart" *ngIf="!item.setAsFavourite"
+                                                                        [(ngModel)]="item.setAsFavourite"></i>
+                                                                </i>
+                                                            </div>
+
+                                                        </td>
+
+                                                    </tr>
+                                                </tbody>
+
+                                            </table>
+
+                                        </div>
+                                        <!-- END table -->
+
+                                        <div class="d-md-flex align-items-center">
+                                            <!-- <div class="me-md-auto text-md-left text-center mb-2 mb-md-0">
+                                                Showing 1 to 10 of 57 entries
+                                            </div> -->
+                                            <ul class="pagination mb-0 justify-content-center">
+                                                <li class="page-item "
+                                                    [ngClass]="{'disabled': menuItems.first || menuItems.length === 0 }">
+                                                    <a class="page-link" disable>Previous</a>
+                                                </li>
+                                                <li class="page-item"
+                                                    [ngClass]="{'disabled': menuItems.last || menuItems.length === 0}">
+                                                    <a class="page-link">Next</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </card>
+                        </div>
+                    </ng-scrollbar>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Image Upload and Preview -->
+<div class="modal fade" id="modalLg" tabindex="-1" aria-labelledby="modalLgLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLgLabel">Upload Image</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Display Uploaded Image or Default Upload Icon -->
+                <div class="text-center mb-4">
+                    <img *ngIf="menuItems?.content?.[selectedItemIndex]?.itemImageURL 
+           && !menuItems?.content?.[selectedItemIndex]?.itemImageBase64"
+                        [src]="menuItems?.content?.[selectedItemIndex]?.itemImageURL" alt="Preview" class="img-fluid"
+                        style="max-width: 100%; max-height: 300px; object-fit: contain;">
+
+                    <img *ngIf="menuItems?.content?.[selectedItemIndex]?.itemImageBase64" [src]="previewImage"
+                        alt="Preview" class="img-fluid"
+                        style="max-width: 100%; max-height: 300px; object-fit: contain;">
+                    <div *ngIf="!menuItems?.content?.[selectedItemIndex]?.itemImageURL 
+           && !menuItems?.content?.[selectedItemIndex]?.itemImageBase64" style="cursor: pointer;"
+                        (click)="triggerFileInput()">
+                        <img src="../assets/img/restaurant-icons/uploadimage.png" alt="Upload Image" class="img-fluid"
+                            style="max-width: 100%; max-height: 300px; object-fit: contain;">
+                    </div>
+                </div>
+
+                <!-- Browse Button (Right side corner) -->
+                <div class="d-flex justify-content-end mb-3">
+                    <button type="button" class="btn btn-outline-primary" (click)="triggerFileInput()">Browse</button>
+                </div>
+
+                <!-- File Input (Hidden, triggered by Upload Icon or Browse Button) -->
+                <input type="file" accept="image/*" id="fileInput" (change)="imageUpload(selectedItemIndex , $event)"
+                    style="display: none;">
+            </div>
+            <div class="modal-footer">
+                <!-- Footer Buttons -->
+                <button type="button" class="btn btn-secondary" (click)="clearImage()" data-bs-dismiss="modal">
+                    Cancel
+                </button>
+
+                <button type="button" [disabled]="!previewImage" class="btn btn-success"  data-bs-dismiss="modal" (click)="onSave()">Upload</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="modalEdit">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Items</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert bg-body">
+                    <b>Add New Items(s) using </b>
+                    <label class="form-check-label">&nbsp;</label>
+                    <button type="button" class="btn btn-yellow" (click)="onGridButtonClick()"
+                        data-bs-dismiss="modal">Grid</button>
+                    <label class="form-check-label">&nbsp;</label>
+                    <b>Or</b>
+                    <label class="form-check-label">&nbsp;</label>
+                    <button type="button" class="btn btn-yellow">Sheet</button>
+                    <label class="form-check-label">&nbsp;</label>
+                    <b>Or</b>
+                    <label class="form-check-label">&nbsp;</label>
+                    <b>Try our new feature</b>
+                    <label class="form-check-label">&nbsp;</label>
+                    <button type="button" class="btn btn-yellow">Image Scan</button>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">The Items will be addedd to the basemenu and will be in inactive
+                        status</label>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modalXl">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Menu Item Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div *ngIf="viewProp">
+
+                    <div class="row gx-4 align-items-center">
+                        <div class="col-sm-2 mb-3 mb-sm-0">
+                            <div class="profile-header-img">
+
+                                <!-- <strong>Image:</strong> -->
+                                <img *ngIf="viewProp.itemImageURL" [src]="viewProp.itemImageURL" alt="Item Image"
+                                    class="img-fluid" />
+                                <!-- </div> -->
+                            </div>
+                        </div>
+                        <div class="col-sm-10 ">
+                            <div class="mb-3">
+                                <strong>Name:</strong>
+                                <p>{{ viewProp.itemName }}</p>
+                            </div>
+                            <div class="mb-3">
+                                <hr class="mt-0 mb-2 opacity-1">
+
+                                <strong>Price:</strong>
+                                <p>{{ viewProp.basePrice }}</p>
+                            </div>
+                            <div class="mb-3">
+                                <hr class="mt-0 mb-2 opacity-1">
+
+                                <strong>Description:</strong>
+                                <p>{{ viewProp.description }}</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row gx-4 align-items-center">
+                        <div class="col-12">
+                            <div class="row">
+                                <!-- First Column (First 6 Details) -->
+                                <div class="col-sm-6">
+                                    <div class="mb-3">
+                                        <hr class="mt-0 mb-2 opacity-1">
+                                        <span><strong>Short Code:</strong> {{ viewProp.shortCode || 'N/A' }}</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <hr class="mt-0 mb-2 opacity-1">
+                                        <span><strong>Short Code2:</strong> {{ viewProp.shortCode2 || 'N/A' }}</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <hr class="mt-0 mb-2 opacity-1">
+                                        <span><strong>Online Display Name:</strong> {{ viewProp.onlineDisplayName ||
+                                            'N/A' }}</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <hr class="mt-0 mb-2 opacity-1">
+                                        <span><strong>Dietary:</strong> {{ viewProp.dietary && viewProp.dietary.length >
+                                            0 ? viewProp.dietary.join(', ') : 'N/A' }}</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <hr class="mt-0 mb-2 opacity-1">
+                                        <span><strong>Goods and Service:</strong> {{ viewProp.goodsAndService || 'N/A'
+                                            }}</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <hr class="mt-0 mb-2 opacity-1">
+                                        <span><strong>Order Type:</strong> {{ viewProp.orderType &&
+                                            viewProp.orderType.length > 0 ? viewProp.orderType.join(', ') : 'N/A'
+                                            }}</span>
+                                    </div>
+
+                                </div>
+
+                                <!-- Second Column (Second 6 Details) -->
+                                <div class="col-sm-6">
+
+                                    <div class="mb-3">
+                                        <hr class="mt-0 mb-2 opacity-1">
+                                        <span><strong>Cuisine:</strong> {{ viewProp.cuisine || 'N/A' }}</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <hr class="mt-0 mb-2 opacity-1">
+                                        <span><strong>Container Charges:</strong> {{ viewProp.containerCharges || 'N/A'
+                                            }}</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <hr class="mt-0 mb-2 opacity-1">
+                                        <span><strong>Weight:</strong> {{ viewProp.weight || 'N/A' }}</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <hr class="mt-0 mb-2 opacity-1">
+                                        <span> <strong>Profit Margin:</strong> {{ viewProp.profitMargin || 'N/A'
+                                            }}</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <hr class="mt-0 mb-2 opacity-1">
+                                        <span> <strong>Expose Item:</strong> {{ viewProp.exposeItem &&
+                                            viewProp.exposeItem.length > 0 ? viewProp.exposeItem.join(', ') : 'N/A'
+                                            }}</span>
+
+                                    </div>
+                                    <div class="mb-3">
+                                        <hr class="mt-0 mb-2 opacity-1">
+                                        <strong>All Days:</strong>
+                                        <p>{{ viewProp.allDays && viewProp.allDays.length > 0 ? viewProp.allDays.join(',
+                                            ') : 'N/A' }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row gx-4 align-items-center">
+                        <div class="col-12">
+                            <div class="row">
+                                <!-- First Column (First 6 Details) -->
+                                <div class="col-sm-6">
+                                    <div class="mb-3">
+                                        <hr class="mt-0 mb-2 opacity-1">
+                                        <span><strong>No Decimal Value:</strong> {{ viewProp.noDecimalValue || 'N/A'
+                                            }}</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <hr class="mt-0 mb-2 opacity-1">
+                                        <span><strong>Ignore Tax:</strong> {{ viewProp.ignoreTax === 'true' ? 'Yes' :
+                                            'N/A' }}</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <hr class="mt-0 mb-2 opacity-1">
+                                        <span><strong>Set as Favorite:</strong> {{ viewProp.setAsFavorite === 'true' ?
+                                            'Yes' : 'N/A' }}</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <hr class="mt-0 mb-2 opacity-1">
+                                        <span><strong>Open Quality Popup:</strong> {{ viewProp.openQualityPopup ===
+                                            'true' ? 'Yes' : 'N/A' }}</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <hr class="mt-0 mb-2 opacity-1">
+                                        <span><strong>Ignore Discount:</strong> {{ viewProp.ignoreDiscount === 'true' ?
+                                            'Yes' : 'N/A' }}</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <hr class="mt-0 mb-2 opacity-1">
+                                        <span><strong>Ignore AddOn:</strong> {{ viewProp.ignoreAddOn === 'true' ? 'Yes'
+                                            : 'N/A' }}</span>
+                                    </div>
+                                </div>
+
+                                <!-- Second Column (Second 6 Details) -->
+                                <div class="col-sm-6">
+                                    <div class="mb-3">
+                                        <hr class="mt-0 mb-2 opacity-1">
+                                        <span><strong>Ignore Packing Charge:</strong> {{ viewProp.ignorePackingCharge
+                                            === 'true' ? 'Yes' : 'N/A' }}</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <hr class="mt-0 mb-2 opacity-1">
+                                        <span><strong>MRP Item:</strong> {{ viewProp.mrpItem === 'true' ? 'Yes' : 'N/A'
+                                            }}</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <hr class="mt-0 mb-2 opacity-1">
+                                        <span><strong>Remove from Dine QR:</strong> {{ viewProp.removeFromDineQR ===
+                                            'true' ? 'Yes' : 'N/A' }}</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <hr class="mt-0 mb-2 opacity-1">
+                                        <span><strong>Contains Alcohol:</strong> {{ viewProp.containsAlcohol === 'true'
+                                            ? 'Yes' : 'N/A' }}</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <hr class="mt-0 mb-2 opacity-1">
+                                        <span><strong>Set as Open Item:</strong> {{ viewProp.setAsOpenItem === 'true' ?
+                                            'Yes' : 'N/A' }}</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <hr class="mt-0 mb-2 opacity-1">
+                                        <span><strong>Set as Combo:</strong> {{ viewProp.setAsCombo === 'true' ? 'Yes' :
+                                            'N/A' }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Optional additional fields -->
+                    <div class="row gx-4 align-items-center">
+                        <div class="col-12">
+                            <div class="row">
+                                <!-- First Column (First Additional 6 Details) -->
+                                <div class="col-sm-6">
+                                    <div class="mb-3">
+                                        <hr class="mt-0 mb-2 opacity-1">
+                                        <span><strong>Gluten Free:</strong> {{ viewProp.glutenFree === 'true' ? 'Yes' :
+                                            'N/A' }}</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <hr class="mt-0 mb-2 opacity-1">
+                                        <span><strong>HSN Code:</strong> {{ viewProp.hsnCode || 'N/A' }}</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <hr class="mt-0 mb-2 opacity-1">
+                                        <span><strong>SAP Code:</strong> {{ viewProp.sapCode || 'N/A' }}</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <hr class="mt-0 mb-2 opacity-1">
+                                        <span><strong>FSN Code:</strong> {{ viewProp.fsnCode || 'N/A' }}</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <hr class="mt-0 mb-2 opacity-1">
+                                        <span><strong>Stock Status:</strong> {{ viewProp.stockStatus || 'N/A' }}</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <hr class="mt-0 mb-2 opacity-1">
+                                        <span><strong>Addon Department IDs:</strong> {{ viewProp.addonDepartmentIds ||
+                                            'N/A' }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class=" mb-3"><b class="fw-bold">Item Variation:</b></div>
+
+                    <!-- Check if variants array is empty, if yes show N/A -->
+                    <div *ngIf="viewProp.variants && viewProp.variants.length > 0; else noVariants">
+                        <table class="table">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col">Variation Name</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Container Charge</th>
+                                    <th scope="col">Sap Code</th>
+                                    <th scope="col">Profit Margin (%)</th>
+                                    <th scope="col">Serves</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Loop over variants and display each variant's details -->
+                                <tr *ngFor="let variant of viewProp.variants; let i = index">
+                                    <th scope="row">{{ variant.variantName || 'N/A' }}</th>
+                                    <td>{{ variant.price || 'N/A' }}</td>
+                                    <td>{{ variant.setAsCombo ? 'Active' : 'N/A' }}</td>
+                                    <td>{{ variant.containerCharges || 'N/A' }}</td>
+                                    <td>{{ variant.sapCode || 'N/A' }}</td>
+                                    <td>{{ variant.profitMargin || 'N/A' }}</td>
+                                    <td>{{ variant.serves || 'N/A' }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Template for when variants array is empty -->
+                    <ng-template #noVariants>
+                        <p>N/A</p>
+                    </ng-template>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Add this to display the add-menu component when showAddMenu is true -->
+<app-add-menu *ngIf="showAddMenu" (closeAddMenu)="closeAddMenu()"
+    [category]="selectedCategory.categoryId"></app-add-menu>
+<app-edit-menu *ngIf="showEditMenu" (closeEdit)="onCloseEdit()" [menuItem]="editProp"></app-edit-menu>

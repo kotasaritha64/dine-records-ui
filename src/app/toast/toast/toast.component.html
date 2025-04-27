@@ -1,0 +1,45 @@
+<div class="toast-container position-fixed top-0 end-0 p-3">
+  <div *ngFor="let toast of toasts" class="toast fade show mb-3" [ngClass]="toast.type" role="alert">
+    <div class="toast-header">
+      <strong class="me-auto">{{ toast.title }}</strong>
+      <button type="button" class="btn-close" (click)="removeToast(toast)"></button>
+    </div>
+    <div class="toast-body">
+      {{ toast.message }}
+    </div>
+  </div>
+</div>
+
+<!-- <div class="loader-overlay" *ngIf="isLoading">
+  <div class="spinner"></div>
+</div> -->
+
+<!-- <div class="loader-overlay" *ngIf="isLoading">
+  <div class="loader"></div>
+</div> -->
+
+<div class="loader-overlay" *ngIf="isLoading">
+  <div class="loader">
+    <img src="assets/img/fork.png" alt="Fork" class="fork" />
+    <img src="assets/img/spoon.png" alt="Spoon" class="spoon" />
+  </div>
+</div>
+
+<!-- <div class="loader-overlay" *ngIf="isLoading">
+  <div class="spinner">
+    <div class="fork"></div>
+    <div class="spoon"></div>
+  </div>
+</div> -->
+
+<!-- <div class="loader-overlay" *ngIf="isLoading">
+  <div class="spinner">
+    <div class="plate"></div>
+    <div class="utensils">
+      <div class="fork"></div>
+      <div class="spoon"></div>
+    </div>
+  </div>
+</div> -->
+
+

@@ -1,0 +1,59 @@
+.img-circle {
+    width: 80px;
+    height: 80px;
+    // border-radius: 80%;
+    object-fit: cover;
+  }
+  .expanded-card {
+    width: 350px; /* Adjust width as needed */
+    padding: 20px; /* Optional: Add padding to make it look roomier */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add subtle shadow for depth */
+    border-radius: 10px; /* Optional: Rounded corners */
+  }
+
+  .stylish-card {
+    width: 350px; /* Adjust width as needed */
+    padding: 20px;
+    border: 3px solid transparent; /* Base border */
+    border-radius: 15px; /* Rounded corners */
+    // background-image: linear-gradient(white, white), 
+                      // linear-gradient(45deg, #ff9a9e, #fad0c4); /* Gradient border */
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Subtle shadow */
+  }
+
+  .cursor-pointer {
+    cursor: pointer;
+  }
+  
+  /* General dark mode styling */
+.dark-mode .stylish-card {
+    background: linear-gradient(135deg, #1a1a1a, #333);
+    color: #e0e0e0; /* Lighter text for better visibility */
+    border: 1px solid #444; /* Softer borders to match dark mode */
+  }
+  
+  .dark-mode .stylish-card .fw-semibold {
+    color: #f5f5f5; /* Make text lighter */
+  }
+  
+  /* Adjust gradient to be less intense in dark mode */
+  .dark-mode .stylish-card-body {
+    background: rgba(255, 255, 255, 0.1); /* Less intense background */
+  }
+  
+  .dark-mode .img-circle {
+    border: 2px solid #f5f5f5; /* Add light border to images for contrast */
+  }
+  
+  /* Optional: Add subtle shadow in dark mode */
+  .dark-mode .stylish-card {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Handle hover effects */
+  .dark-mode .stylish-card:hover {
+    background: linear-gradient(135deg, #333, #555); /* Slightly brighter on hover */
+  }
+  

@@ -1,0 +1,224 @@
+<!-- orders-dashboard.component.html -->
+<div class="top-bar">
+    <!-- Brand Info + Channels Online -->
+    <div class="brand-info">
+      <div class="brand-dropdown">
+        <span>All Brands</span>
+        <i class="arrow-down"></i>
+      </div>
+      <div class="channels-online text-warning">
+          {{channels.length}} channels are online
+      </div>
+    </div>
+  
+    <!-- Search Bar -->
+    <!-- <div class="search-bar">
+      <input
+        type="text"
+        placeholder="Enter token number or order ID to search"
+      />
+    </div> -->
+    <!-- <div class="messenger-sidebar">
+        <div class="messenger-sidebar-header">
+    <div class="position-relative w-300">
+        <input type="text" class="form-control rounded-pill ps-35px" placeholder="Enter token number or order ID to search" >
+    </div>
+    </div>
+    </div> -->
+    <!-- <div class="card-footer pt-3 pb-3"> -->
+        <div class="d-flex align-items-center">
+            <div class="flex-fill ps-2">
+                <div class="position-relative w-300">
+                    <input type="text" class="form-control rounded-pill ps-35px" style="padding-right: 420px;"
+                           placeholder="Enter token number or order ID to search" (input)="onSearch($event)">
+
+                </div>
+            </div>
+        </div>
+    <!-- </div> -->
+  
+    <!-- Actions -->
+    <div class="actions">
+        <!-- <div class="col"> -->
+            <a href="#" class="text-body text-opacity-75 text-decoration-none " (click)="onMute()">
+                <i class="fas fa-bell-slash me-1 d-block d-sm-inline"></i> Mute
+            </a>
+        <!-- </div> -->
+        <!-- <div class="col"> -->
+        <a href="#" class="text-body text-opacity-75 text-decoration-none" (click)="onRefresh($event)">
+            <i class="fas fa-lg fa-fw me-2 fa-sync-alt"></i> Refresh
+        </a>
+
+        <!-- </div> -->
+        <!-- <div class="col"> -->
+            <a href="#" class="text-body text-opacity-75 text-decoration-none" (click)="onMute()">
+                <i class="fas fa-lg fa-fw me-2 fa-sticky-note"></i> Report
+            </a>
+        <!-- </div> -->
+      <!-- <button class="text-body text-opacity-75 text-decoration-none d-block p-2" (click)="onMute()"><i class="far fa-bell-slash me-1 d-block d-sm-inline"></i> Mute</button>
+      <button (click)="onRefresh()">Refresh</button>
+      <button (click)="onReport()">Report</button> -->
+  
+      <!-- Online Toggle -->
+      <!-- <label class="online-toggle">
+        Online
+        <input type="checkbox" (change)="onToggleOnline()" checked />
+        <span class="slider"></span>
+      </label> -->
+      <div class="form-check form-switch">
+        <input type="checkbox" class="form-check-input" id="customSwitch1">
+        <label class="form-check-label" for="customSwitch1">Online</label>
+      </div>
+    </div>
+</div>
+  
+  <div class="dashboard-container ">
+    <!-- Sidebar -->
+    <aside class="sidebar bg-gradient bg-dark ">
+      <!-- <div class="sidebar-header">
+        <h2>All Channels</h2>
+      </div> -->
+  
+      <nav class="channel-list ">
+        <ul>
+        <div class="d-flex align-items-center mb-3 bg-primary-subtle p-2 rounded" (click)="filterOrders('all')" style="cursor: pointer;">
+            <a href="#"><img src="assets/img/onlineorders/online.jpeg" alt="" width="50" class="rounded-circle"></a>
+            <div class="flex-fill ps-2 ">
+                <div class="fw-500"><a href="#" class="text-decoration-none text-gray-900">All Channels</a></div>
+                <div class="text-body text-opacity-50 fs-13px text-gray-900">{{orders.length}} Orders Received</div>
+            </div>
+        </div>
+
+        <div *ngFor="let channel of channels" class="d-flex align-items-center mb-3" (click)="filterOrders(channel.name)" style="cursor: pointer;">
+            <a href="#">
+                <img [src]="'assets/img/onlineorders/' + channel.name.toLowerCase() + '.jpeg'" alt="{{ channel.name }}" width="50" class="rounded-circle">
+            </a>
+            <div class="flex-fill ps-2">
+                <div class="fw-500">
+                    <a href="#" class="text-decoration-none text-gray-100">{{ channel.name }}</a>
+                </div>
+                <div class="text-body text-opacity-50 fs-13px text-gray-100">
+                    {{ ordersCount(channel.name) }} Orders Received
+                </div>
+            </div>
+        </div>
+        </ul>
+      </nav>
+
+        <button class="btn btn-primary add-channel-btn" (click)="openModal()">+ Add Channel</button>
+    </aside>
+  
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Orders Section -->
+      <section class="orders-section">
+        <!-- New Orders -->
+        <div class="orders-column">
+          <h4>New Orders ({{ newOrders.length }})</h4>
+          <div class="order-card" *ngFor="let order of newOrders">
+            <div class="order-top">
+              <div class="order-info">
+                <div class="bill-no">Bill No: {{ order.billNo }}</div>
+                <div class="token-no">Token: {{ order.tokenNo }}</div>
+              </div>
+              <div class="channel">   <img [src]="'assets/img/onlineorders/' + order.channel.toLowerCase() + '.jpeg'" alt="{{ order.channel }}" width="30" class="rounded-circle"> {{ order.channel }} ({{ order.orderId }})</div>
+            </div>
+            <div class="order-details">
+              <div class="ordered-by">{{ order.orderedBy }}</div>
+              <div class="address">{{ order.address }}</div>
+            </div>
+            <div class="order-bottom">
+              <div class="duration">Duration: {{ order.duration }}</div>
+              <div class="amount">{{ order.amount }}</div>
+              <button class="btn btn-info text-white-100" (click)="updateOrderStatus(order.orderId, 'preparing')">Preparing</button>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Preparing Orders -->
+        <div class="orders-column">
+          <h4>Preparing ({{ preparingOrders.length }})</h4>
+          <div class="order-card" *ngFor="let order of preparingOrders">
+            <div class="order-top">
+              <div class="order-info">
+                <div class="bill-no">Bill No: {{ order.billNo }}</div>
+                <div class="token-no">Token: {{ order.tokenNo }}</div>
+              </div>
+              <div class="channel">
+                <img [src]="'assets/img/onlineorders/' + order.channel.toLowerCase() + '.jpeg'" alt="{{ order.channel }}" width="30" class="rounded-circle">
+                {{ order.channel }} ({{ order.orderId }})</div>
+            </div>
+            <div class="order-details">
+              <div class="ordered-by">{{ order.orderedBy }}</div>
+              <div class="address">{{ order.address }}</div>
+            </div>
+            <div class="order-bottom">
+              <div class="duration">Duration: {{ order.duration }}</div>
+              <div class="amount">{{ order.amount }}</div>
+              <button class="btn btn-warning text-white-100" (click)="updateOrderStatus(order.orderId, 'ready')">Ready</button>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Ready For Delivery -->
+        <div class="orders-column">
+          <h4>Ready For Delivery ({{ readyOrders.length }})</h4>
+          <div class="order-card" *ngFor="let order of readyOrders">
+            <div class="order-top">
+              <div class="order-info">
+                <div class="bill-no">Bill No: {{ order.billNo }}</div>
+                <div class="token-no">Token: {{ order.tokenNo }}</div>
+              </div>
+              <div class="channel">
+                <img [src]="'assets/img/onlineorders/' + order.channel.toLowerCase() + '.jpeg'" alt="{{ order.channel }}" width="30" class="rounded-circle">
+                {{ order.channel }} ({{ order.orderId }})</div>
+            </div>
+            <div class="order-details">
+              <div class="ordered-by">{{ order.orderedBy }}</div>
+              <div class="address">{{ order.address }}</div>
+            </div>
+            <div class="order-bottom">
+              <div class="duration">Duration: {{ order.duration }}</div>
+              <div class="amount">{{ order.amount }}</div>
+              <button class="action-btn done" (click)="updateOrderStatus(order.orderId, 'done')">Done</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+<!-- Add Channel Modal -->
+<div #addChannelModal class="modal fade" id="addChannelModal" tabindex="-1" aria-labelledby="addChannelModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addChannelModalLabel">Add New Channel</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form (submit)="addChannel()">
+                    <div class="mb-3">
+                        <label for="channelName" class="form-label">Channel Name</label>
+                        <input type="text" class="form-control" id="channelName" [(ngModel)]="newChannel.name" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="contactEmail" class="form-label">Contact Email</label>
+                        <input type="email" class="form-control" id="contactEmail" [(ngModel)]="newChannel.contactEmail" name="contactEmail" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="contactPhone" class="form-label">Contact Phone</label>
+                        <input type="text" class="form-control" id="contactPhone" [(ngModel)]="newChannel.contactPhone" name="contactPhone" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add Channel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+  

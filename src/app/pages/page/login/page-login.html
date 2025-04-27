@@ -1,0 +1,63 @@
+<!-- BEGIN login -->
+<div class="login">
+	<!-- BEGIN login-content -->
+	<div class="login-content">
+	  <form #f="ngForm" (ngSubmit)="formSubmit(f)">
+		<h1 class="text-center">Sign In</h1>
+		<div class="text-muted text-center mb-4">
+		  For your protection, please verify your identity.
+		</div>
+  
+		<!-- Email Input Field -->
+		<div class="mb-3">
+		  <label class="form-label">Email Address</label>
+		  <input 
+			type="email" 
+			class="form-control form-control-lg fs-15px" 
+			placeholder="username@address.com" 
+			name="email" 
+			[(ngModel)]="user.email" 
+			required />
+		</div>
+  
+		<!-- Password Input Field -->
+		<div class="mb-3">
+		  <div class="d-flex">
+			<label class="form-label">Password</label>
+			<a href="#" class="ms-auto text-muted">Forgot password?</a>
+		  </div>
+		  <input 
+			type="password" 
+			class="form-control form-control-lg fs-15px" 
+			placeholder="Enter your password" 
+			name="password" 
+			[(ngModel)]="user.password" 
+			required />
+		</div>
+  
+		<!-- Error Message -->
+		<div class="text-danger" *ngIf="errorMessage">
+		  {{ errorMessage }}
+		</div>
+  
+		<!-- Remember Me Checkbox -->
+		<div class="mb-3">
+		  <div class="form-check">
+			<input class="form-check-input" type="checkbox" value="" id="customCheck1">
+			<label class="form-check-label fw-500" for="customCheck1">Remember me</label>
+		  </div>
+		</div>
+  
+		<!-- Sign In Button -->
+		<button type="submit" class="btn btn-theme btn-lg d-block w-100 fw-500 mb-3">Sign In</button>
+  
+		<!-- Link to Sign Up Page -->
+		<div class="text-center text-muted">
+		  Don't have an account yet? <a routerLink="/page/register">Sign up</a>.
+		</div>
+	  </form>
+	</div>
+	<!-- END login-content -->
+  </div>
+  <!-- END login -->
+  

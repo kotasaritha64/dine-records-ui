@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dine-records
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dine-records
+  template:
+    metadata:
+      labels:
+        app: dine-records
+    spec:
+      containers:
+      - name: dine-records
+        image: kotasaritha/dine-records:latest # e.g., yourdockerhubusername/dine-records:latest
+        ports:
+        - containerPort: 80

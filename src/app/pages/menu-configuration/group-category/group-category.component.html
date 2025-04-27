@@ -1,0 +1,134 @@
+<div class="d-flex align-items-center mb-3">
+	<div class="p-3 d-flex align-items-center">
+		<a (click)="onCancel()" class="btn btn-outline-default text-nowrap btn-sm px-3 rounded-pill"><i
+				class="fa fa-arrow-left me-1 ms-n1"></i> Back</a>
+	</div>
+
+	<div>
+		<h1 class="page-header mb-0">{{(groupCategoryId != null) ? 'Edit Group Category' : 'Add Group Category'}} </h1>
+	</div>
+</div>
+
+<div class="row gx-4">
+	<div class="col-lg-8">
+		<card class="mb-4" style="border: none;"> 
+			<form [formGroup]="groupCategoryForm" (ngSubmit)="onSaveGroupCategory()">
+				<card-body>
+					<div class="mb-3">
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="mb-lg-0 mb-3">
+									<label class="form-label">Name <span class="text-danger">*</span></label>
+									<input type="text" class="form-control" formControlName="name" placeholder="Group Category name" 
+										(blur)="checkUniqueGroupCategoryName()" />
+									<div *ngIf="groupCategoryForm.get('name')?.hasError('duplicate')" class="text-danger">
+										Group category name already exists.
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="mb-3">
+									<label class="form-label">SAC Code</label>
+									<input type="text" class="form-control" formControlName="sacCode" />
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- <div class="row mb-2">
+						<div class="col-4">
+							<div class="mb-3">
+								<label class="form-label">Parent Category <span class="text-danger">*</span></label>
+								<select class="form-select" formControlName="parentCategoryId">
+									<option value="">Select Parent Category</option>
+									<option *ngFor="let parentCategory of parentCategories" [value]="parentCategory.id">
+										{{ parentCategory.name }}
+									</option>
+								</select>
+							</div>
+						</div>
+					</div> -->
+
+					<div class="row mb-2">
+						<card-header class="d-flex align-items-center bg-none fw-bold">
+							Printer Settings
+						</card-header>
+					</div>
+					<div class="mb-3">
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="mb-lg-0 mb-3">
+									<label class="form-label">Restaurant Name</label>
+									<input type="text" class="form-control" formControlName="restaurantName" />
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="mb-lg-0 mb-3">
+									<label class="form-label" for="logoFile">Logo</label>
+									<input type="file" class="form-control" id="logoFile" (change)="onLogoImageChange($event)">
+									<div class="upload-info">Upload only png, jpeg or jpg file</div>
+									<div class="image-container mt-2">
+										<img *ngIf="logoImage" [src]="newImages.logo" alt="Logo Preview" class="img-thumbnail" />
+										<img *ngIf="!logoImage && existingImages.logo" [src]="existingImages.logo" alt="Existing Logo" class="img-thumbnail" />
+										<button *ngIf="logoImage || existingImages.logo" type="button" class="btn-close position-absolute top-0 end-0 m-2" aria-label="Close" (click)="clearImage('logo')"></button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="mb-3">
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="mb-3">
+									<label class="form-label">Header Text </label>
+									<textarea type="text" class="form-control " rows="4" formControlName="headerText"></textarea>
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="mb-3">
+									<label class="form-label">Footer Text </label>
+									<textarea type="text" class="form-control " rows="4" formControlName="footerText"></textarea>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-check form-switch ms-auto">
+						<label class="form-label" for="activeStatus">Active</label>
+						<input type="checkbox" class="form-check-input" formControlName="status" id="activeStatus">
+					</div>
+
+					<div class="row mb-2">
+						<card-header class="d-flex align-items-center bg-none fw-bold">
+							Category
+							<div class="form-check ms-auto">
+								<input type="checkbox" class="form-check-input" id="selectAllCategories" 
+									[checked]="areAllCategoriesSelected()" 
+									(change)="toggleSelectAllCategories($event)">
+								<label class="form-check-label" for="selectAllCategories">Select All</label>
+							</div>
+						</card-header>
+					</div>
+					<div class="row mb-2">
+						<div class="col">
+							<div class="d-flex flex-wrap checkbox-container" formArrayName="categories">
+								<!-- Loop through categories -->
+								<div *ngFor="let category of categories; let i = index" class="form-check me-3">
+									<input type="checkbox" class="form-check-input" [formControlName]="i" id="category{{i}}"> 
+									<label class="form-check-label" [for]="'category' + i">{{ category.categoryName }}</label>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</card-body>
+
+				<card-footer class="bg-none d-flex p-3">
+					<button type="button" class="btn btn-default fw-semibold fs-13px ms-auto" (click)="onCancel()">Cancel</button>
+					<button type="submit" class="btn btn-theme fw-semibold fs-13px ms-2">Save Grouping Category</button>
+				</card-footer>
+			</form>
+		</card>
+	</div>
+</div>

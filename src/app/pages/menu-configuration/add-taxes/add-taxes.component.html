@@ -1,0 +1,192 @@
+<card class="mb-4">
+    <form [formGroup]="taxForm" (ngSubmit)="saveTax()">
+
+        <card-header class="d-flex align-items-center bg-none fw-bold">
+            Tax
+        </card-header>
+        <card-body>
+
+
+            <div class="row mb-2">
+
+                <div class="col-4">
+                    <label class="form-label">Tax Type</label>
+                    <div class="form-group mb-4">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="forward" value="Forward"
+                                formControlName="taxType">
+                            <label class="form-check-label" for="forward">Forward</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="backward" value="Backward"
+                                formControlName="taxType">
+                            <label class="form-check-label" for="backward">Backward</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <label class="form-label">Title</label>
+                    <input type="text" class="form-control" formControlName="title">
+                </div>
+                <div class="col-4">
+                    <label class="form-label">Online Display Name</label>
+                    <input type="text" class="form-control" formControlName="title">
+                </div>
+            </div>
+
+
+            <div class="row mb-2">
+                <div class="col-xl-4">
+                    <label class="form-label">Order Type</label>
+
+                    <div class="form-group mb-4">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" value="Delivery"
+                            (change)="onCheckboxChange($event)"
+                            [checked]="taxForm.get('orderType')?.value.includes('Delivery')">
+                        
+                            <label class="form-check-label">Delivery</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" value="PickUp"
+                                (change)="onCheckboxChange($event)"
+                                [checked]="taxForm.get('orderType')?.value.includes('PickUp')">
+                            <label class="form-check-label">Pick Up</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" value="DineIn"
+                                (change)="onCheckboxChange($event)"
+                                [checked]="taxForm.get('orderType')?.value.includes('DineIn')">
+                            <label class="form-check-label">Dine In</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-4">
+                    <label class="form-label">Tax Value</label>
+                    <div class="form-group mb-4">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="percent" value="Percent"
+                                formControlName="type">
+                            <label class="form-check-label" for="percent">Percentage</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="fixed" value="Fixed"
+                                formControlName="type">
+                            <label class="form-check-label" for="fixed">Fixed</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <label class="form-label">Amount</label>
+                    <input type="number" class="form-control" formControlName="amount">
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <label class="form-label">Description</label>
+                <textarea type="text" class="form-control" formControlName="description" rows="2"></textarea>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col-4">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1"
+                            formControlName="ignoreTax">
+                        <label class="form-check-label" for="inlineCheckbox1">Consider this in core amount
+                            calculation</label>
+                        <div class="d-flex mt-1 text-body text-opacity-50 small">
+                            <div><i class="fa fa-circle text-warning fs-6px d-block mt-2"></i></div>
+                            <div class="flex-1 ps-2">
+                                <div class="mb-2">
+                                    Note:Check this box only if you are taking taxes on certain applied taxes.
+                                    Eg: If you want to take 18% service charge on items purchase and want to calculate
+                                    GST on item + service charge than mark this box.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <card-body>
+                <!-- Categories Section -->
+                <div *ngFor="let category of categories" class="alert alert-light mb-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <!-- Checkbox for "Check All" in the Category section (left of the + icon) -->
+                        <div class="d-flex align-items-center">
+                            <input type="checkbox" class="form-check-input"
+                                [id]="'checkAllCategory-' + category.categoryId"
+                                (change)="toggleCategoryCheckAll(category.categoryId)"
+                                [checked]="selectedCategories.includes(category.categoryId)">
+
+                            <label class="form-check-label ms-2" for="checkAllCategory-{{category.categoryId}}">{{
+                                category.categoryName }}</label>
+                        </div>
+
+                        <!-- Expand/Collapse Button for Category -->
+                        <button type="button" class="btn btn-outline-secondary btn-sm" (click)="toggleExpand(category.categoryId)">
+                            <i *ngIf="expandedCategories.includes(category.categoryId)" class="fa fa-minus"></i>
+                            <i *ngIf="!expandedCategories.includes(category.categoryId)" class="fa fa-plus"></i>
+                        </button>
+                    </div>
+
+                    <!-- Menu Items Table - Expand/Collapse Logic -->
+                    <div *ngIf="expandedCategories.includes(category.categoryId)">
+                        <table class="table table-bordered mt-3">
+                            <thead>
+                                <tr>
+                                    <!-- Checkbox for selecting all menu items in the category -->
+                                    <th>
+                                        <input class="form-check-input" type="checkbox"
+                                            [id]="'checkAllItemsCategory-' + category.categoryId"
+                                            (change)="selectAllItemsInCategory($event, category.categoryId)"
+                                            [checked]="selectedCategories.includes(category.categoryId)">
+                                    </th>
+                                    <th>Item Name</th>
+                                    <th *ngFor="let area of areas">
+                                        <input 
+                                            class="form-check-input" 
+                                            type="checkbox" 
+                                            [id]="'areaCheck-' + area.id"
+                                            (change)="selectAllMenuItemsInArea($event, area.id, category.categoryId)"
+                                            [checked]="isAllItemsAssigned(category.items, area.id)">
+                                        {{ area.areaName }}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of category.items">
+                                    <!-- Checkbox for menu item (when selected, all areas in that row are selected) -->
+                                    <td>
+                                        <input class="form-check-input" type="checkbox"
+                                            [id]="'itemCheck-' + item.itemId" (change)="selectItemInRow($event, item.itemId)"
+                                            [checked]="selectedCategories.includes(category.categoryId) || (taxedItemsForArea.get(item.itemId)?.length === areas?.length)">
+                                    </td>
+                                    <td>{{ item.itemName }}</td>
+                                    <td *ngFor="let area of areas">
+                                        <input class="form-check-input" type="checkbox"
+                                            [id]="'item-' + item.itemId + '-area-' + area.id"
+                                            (change)="onItemAreaCheckboxChange($event, item.itemId, area.id)"
+                                            [checked]="taxedItemsForArea.get(item.itemId)?.includes(area.id)">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </card-body>
+
+
+
+        </card-body>
+
+        <card-footer class="bg-primary-100 d-flex p-3 sticky-footer ">
+            <button type="button" class="btn btn-default fw-semibold fs-13px ms-auto"
+                (click)="closeCreateTax.emit(false)">Cancel</button>
+            <button type="submit" class="btn btn-theme fw-semibold fs-13px ms-2" [disabled]="taxForm.invalid">Save
+                Tax</button>
+        </card-footer>
+    </form>
+</card>

@@ -1,0 +1,96 @@
+<div class="d-flex align-items-center mb-3"  *ngIf="!showTaxes" >
+    <div class="ms-auto">
+        <a (click)="toggleTax()"  class="btn btn-theme">
+            <i class="fa fa-plus-circle fa-fw me-1"></i> Create Tax
+        </a>
+    </div>
+    <div class="ms-md-4 mt-md-0 mt-2 dropdown-toggle">
+        <a href="#" data-bs-toggle="dropdown" class="text-body text-decoration-none">More Actions</a>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+            <div role="separator" class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Separated link</a>
+        </div>
+    </div>
+</div>
+
+<app-add-taxes *ngIf="showTaxes" [editTax]="editTax" (closeCreateTax)="closeCreateTax($event)"></app-add-taxes>
+
+<div *ngIf="!showTaxes">
+
+    <!-- <div class="mb-md-4 mb-3 d-md-flex">
+        <div class="mt-md-0 mt-2"><a href="#" class="text-body text-decoration-none"><i
+                    class="fa fa-download fa-fw me-1 text-muted"></i> Export</a></div>
+        <div class="ms-sm-4 mt-sm-0 mt-2"><a href="#" class="text-body text-decoration-none"><i
+                    class="fa fa-upload fa-fw me-1 text-muted"></i> Import</a></div>
+        <div class="ms-md-4 mt-md-0 mt-2 dropdown-toggle">
+            <a href="#" data-bs-toggle="dropdown" class="text-body text-decoration-none">More Actions</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+                <div role="separator" class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Separated link</a>
+            </div>
+        </div>
+    </div> -->
+
+    <card style="border: none;">
+      
+        <div class="tab-content p-4">
+            <div class="tab-pane fade show active" id="allTab">
+                <div class="input-group mb-4">
+                    <div class="flex-fill position-relative">
+                        <div class="input-group">
+                            <input type="text" class="form-control ps-35px" placeholder="Filter Taxes">
+                            <div class="input-group-text position-absolute top-0 bottom-0 bg-none border-0"
+                                style="z-index: 1020;">
+                                <i class="fa fa-search opacity-5"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BEGIN table -->
+                <div class="table-responsive">
+                    <table class="table table-hover text-nowrap">
+                        <thead>
+                            <tr>
+                                <th class="border-top-0 pt-0 pb-2"></th>
+                                <th class="border-top-0 pt-0 pb-2">Tax Title</th>
+                                <th class="border-top-0 pt-0 pb-2">Tax Type</th>
+                                <th class="border-top-0 pt-0 pb-2">Type</th>
+                                <th class="border-top-0 pt-0 pb-2">Amount</th>
+                                <th class="border-top-0 pt-0 pb-2">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let  tax of taxes || []">
+                                <td class="w-10px align-middle">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="product{{tax.id}}">
+                                        <label class="form-check-label" for="product{{tax.id}}"></label>
+                                    </div>
+                                </td>
+                                <td class="align-middle">{{tax.title}}</td>
+                                <td class="align-middle">{{tax.taxType}}</td>
+                                <td class="align-middle">{{tax.type}}</td>
+                                <td class="align-middle">{{tax.amount}}</td>
+                                <td class="align-middle">
+                                    <div class="me-4 mb-md-0 mb-2" (click)="onEdit(tax)">
+                                        <i class="fa fa-pen me-2 text-body text-opacity-50 my-n1"></i> Edit
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-md-flex align-items-center">
+
+                </div>
+            </div>
+        </div>
+    </card>
+</div>

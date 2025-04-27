@@ -1,0 +1,8 @@
+body, html, #app, #root {
+	@if $enable-rtl {
+		direction: rtl;
+	}
+	@include media-breakpoint-up(lg) {
+		height: 100%;
+	}
+}

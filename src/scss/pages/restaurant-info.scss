@@ -1,0 +1,66 @@
+
+@mixin alignContent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.widget-icon {
+    @include alignContent ();
+    width: 50px !important;
+    height:50px  !important;
+    background-color: #eee;
+    border-radius: 50%;   
+    font-size: 24px;
+    font-family: cursive;
+}
+.custom-icon {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.mat-card {
+    box-shadow: none !important; 
+    // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 0 auto;
+    height: 100%; /* Ensure cards fill up the height */
+}
+
+.mat-card-content {
+    padding: 16px;
+}
+
+.row {
+    --bs-gutter-x: 2rem; /* Adjust gap between columns */
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.rounded-4 {
+    border-radius: var(--bs-border-radius-xl) !important;
+}
+
+.d-flex {
+    display: flex !important;
+}
+
+.flex-column {
+    flex-direction: column !important;
+}
+
+.gap-3 {
+    gap: 1rem !important;
+}
+
+.align-items-center {
+    align-items: center !important;
+}
+
+.justify-content-between {
+    justify-content: space-between !important;
+}

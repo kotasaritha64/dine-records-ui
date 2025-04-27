@@ -1,0 +1,52 @@
+<div class="d-flex align-items-center mb-md-3 mb-2">
+	<div class="flex-fill">
+		<ul class="breadcrumb">
+			<li class="breadcrumb-item">Menu Configuration</li>
+			<li class="breadcrumb-item active">Menu Items</li>
+      <li class="breadcrumb-item active">{{currentComponent}}</li>
+		</ul>
+	</div>
+</div>
+
+  <nav class=" nav nav-pills mb-3" >
+    <a class="nav-link" [class.active]="currentComponent === 'items'" (click)="showComponent('items')">Items</a>
+    <a class="nav-link" [class.active]="currentComponent === 'categories'" (click)="showComponent('categories')">Categories</a>
+    <a class="nav-link" [class.active]="currentComponent === 'variants'" (click)="showComponent('variants')">Variants</a>
+    <a class="nav-link" [class.active]="currentComponent === 'add-ons'" (click)="showComponent('add-ons')">Add-Ons</a>
+    <a class="nav-link" [class.active]="currentComponent === 'table-area'" (click)="showComponent('table-area')">Tables</a>
+    <a class="nav-link" [class.active]="currentComponent === 'taxes'" (click)="showComponent('taxes')">Taxes</a>
+    <a class="nav-link" [class.active]="currentComponent === 'discounts'" (click)="showComponent('discounts')">Discounts</a>
+</nav>
+
+  <!-- This section will load the component based on the currentComponent variable -->
+  <div class="mt-3">
+    <ng-container *ngIf="currentComponent === 'items'">
+      <app-menu-landing-page></app-menu-landing-page>
+
+    </ng-container>
+  
+    <ng-container *ngIf="currentComponent === 'categories'">
+      <app-categories></app-categories>
+      
+    </ng-container>
+  
+    <ng-container *ngIf="currentComponent === 'variants'">
+      <app-variants></app-variants>    
+    </ng-container>
+  
+    <ng-container *ngIf="currentComponent === 'add-ons'">
+      <app-add-ons></app-add-ons>
+    </ng-container>
+
+    <ng-container *ngIf="currentComponent === 'table-area'">
+      <app-table-area></app-table-area>
+    </ng-container>
+  
+    <ng-container *ngIf="currentComponent === 'taxes'">
+      <app-taxes></app-taxes>
+    </ng-container>
+  
+    <ng-container *ngIf="currentComponent === 'discounts'">
+     <app-discounts></app-discounts>
+    </ng-container>
+  </div>

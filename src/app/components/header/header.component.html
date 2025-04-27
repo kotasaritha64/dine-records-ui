@@ -1,0 +1,86 @@
+<!-- BEGIN mobile-toggler -->
+<div class="mobile-toggler">
+	<button type="button" class="menu-toggler" (click)="handleToggleMobileSidebar($event)">
+		<span class="bar"></span>
+		<span class="bar"></span>
+	</button>
+</div>
+<!-- END mobile-toggler -->
+
+<!-- BEGIN brand -->
+<div class="brand">
+	<div class="desktop-toggler">
+		<button type="button" class="menu-toggler" (click)="handleToggleSidebarMinify($event)">
+			<span class="bar"></span>
+			<span class="bar"></span>
+		</button>
+	</div>
+	
+	<a routerLink="/" class="brand-logo">
+		<img src="/assets/img/logo.png" class="invert-dark" alt="" height="20" />
+	</a>
+</div>
+<!-- END brand -->
+
+<!-- BEGIN menu -->
+<div class="menu">
+	<form class="menu-search" method="POST" name="header_search_form">
+		<div class="menu-search-icon"><i class="fa fa-search"></i></div>
+		<div class="menu-search-input">
+			<input type="text" class="form-control" placeholder="Search menu...">
+		</div>
+	</form>
+	<div class="menu-item dropdown">
+		<a href="#" data-bs-toggle="dropdown" data-display="static" class="menu-link">
+			<div class="menu-icon"><i class="fa fa-bell nav-icon"></i></div>
+			<div class="menu-label">{{ notificationData.length }}</div>
+		</a>
+		<div class="dropdown-menu dropdown-menu-end dropdown-notification">
+			<h6 class="dropdown-header text-body-emphasis mb-1">Notifications</h6>
+			
+			<ng-container *ngIf="notificationData.length > 0">
+				<a href="javascript:;" class="dropdown-notification-item" *ngFor="let notification of notificationData">
+					<div class="dropdown-notification-icon">
+						<i *ngIf="notification.icon" [ngClass]="notification.icon"></i>
+						<img *ngIf="notification.img" [src]="notification.img" alt="" width="26" />
+					</div>
+					<div class="dropdown-notification-info">
+						<div class="title">{{ notification.title }}</div>
+						<div class="time">{{ notification.time }}</div>
+					</div>
+				<div class="dropdown-notification-arrow">
+					<i class="fa fa-chevron-right"></i>
+				</div>
+				</a>
+			</ng-container>
+			<ng-container *ngIf="notificationData.length == 0">
+				<div class="dropdown-notification-item">
+					No record found
+				</div>
+			</ng-container>
+			
+			<div class="p-2 text-center mb-n1">
+				<a href="#" class="text-body-emphasis text-opacity-50 text-decoration-none">See all</a>
+			</div>
+		</div>
+	</div>
+	<div class="menu-item dropdown">
+		<a href="#" data-bs-toggle="dropdown" data-display="static" class="menu-link">
+			<div class="menu-img online">
+				<img src="/assets/img/user/user.jpg" alt="" class="ms-100 mh-100 rounded-circle">
+			</div>
+			<div class="menu-text">{{this.email}}</div>
+		</a>
+		<div class="dropdown-menu dropdown-menu-end me-lg-3">
+			<a class="dropdown-item d-flex align-items-center" routerLink="/profile">Edit Profile <i class="fa fa-user-circle fa-fw ms-auto text-body text-opacity-50"></i></a>
+			<a class="dropdown-item d-flex align-items-center" routerLink="/email/inbox">Inbox <i class="fa fa-envelope fa-fw ms-auto text-body text-opacity-50"></i></a>
+			<a class="dropdown-item d-flex align-items-center" routerLink="/calendar">Calendar <i class="fa fa-calendar-alt fa-fw ms-auto text-body text-opacity-50"></i></a>
+			<a class="dropdown-item d-flex align-items-center" routerLink="/settings">Setting <i class="fa fa-wrench fa-fw ms-auto text-body text-opacity-50"></i></a>
+			<div class="dropdown-divider"></div>
+			<button class="dropdown-item d-flex align-items-center" (click)="logout()">Log Out 
+				<i class="fa fa-toggle-off fa-fw ms-auto text-body text-opacity-50"></i>
+			  </button>
+		</div>
+	</div>
+</div>
+<!-- END menu -->

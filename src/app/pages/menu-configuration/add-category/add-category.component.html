@@ -1,0 +1,208 @@
+<div class="d-flex align-items-center mb-3">
+	<div class="p-3 d-flex align-items-center">
+		<a (click)="onCancel()" class="btn btn-outline-default text-nowrap btn-sm px-3 rounded-pill"><i
+				class="fa fa-arrow-left me-1 ms-n1"></i> Back</a>
+	</div>
+	<div>
+		<h1 class="page-header mb-0">{{(categoryId > 0) ? 'Edit Category' : 'Add Category'}} </h1>
+	</div>
+</div>
+
+<div class="row gx-4">
+	<div class="col-lg-8">
+		<card class="mb-4" style="border: none;">
+			<form [formGroup]="categoryForm" (ngSubmit)="saveCategory()">
+				<card-body>
+					<div class="mb-3">
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="mb-lg-0 mb-3">
+
+									<label class="form-label">Name <span class="text-danger">*</span></label>
+									<input type="text" class="form-control" formControlName="name"
+										placeholder="Category name" (blur)="checkUniqueCategoryName()" />
+									<div *ngIf="categoryForm.get('name')?.hasError('duplicate')" class="text-danger">
+										Category name already exists.
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="mb-lg-0 mb-3">
+									<label class="form-label">Category Group</label>
+									<select class="form-select" formControlName="categoryGroupId">
+										<option value="">Select Category Group</option>
+										<option *ngFor="let group of categoryGroups" [value]="group.id">{{ group.name }}
+										</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="mb-3">
+						<label class="form-label">Online Display Name</label>
+						<input type="text" class="form-control" formControlName="onlineDisplayName"
+							placeholder="Online Display Name">
+					</div>
+					<div class="mb-3">
+
+					</div>
+
+					<div class="mb-3">
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="mb-lg-0 mb-3">
+									<label class="form-label" for="logoFile">Logo</label>
+									<input type="file" class="form-control" id="logoFile"
+										(change)="onFileChange($event, 'logoImage')">
+									<div class="upload-info">Upload only png, jpeg or jpg file</div>
+									<button *ngIf="logoImage || newImages.logo || existingImages.logo" type="button"
+										class="btn btn-danger btn-sm position-absolute"
+										(click)="clearImage('logoImage')">X</button>
+									<img *ngIf="logoImage" [src]="newImages.logo" alt="Logo Preview"
+										class="img-thumbnail" />
+									<img *ngIf="!logoImage && existingImages.logo" [src]="existingImages.logo"
+										alt="Existing Logo" class="img-thumbnail" />
+
+
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="mb-lg-0 mb-3">
+									<label class="form-label" for="onlinePartnerFile">Online Partner Image</label>
+									<input type="file" class="form-control" id="onlinePartnerFile"
+										(change)="onFileChange($event, 'onlinePartnerImage')">
+									<div class="upload-info">Upload only png, jpeg or jpg file</div>
+									<button
+										*ngIf="onlinePartnerImage || newImages.onlinePartner || existingImages.onlinePartner"
+										type="button" class="btn btn-danger btn-sm position-absolute"
+										(click)="clearImage('onlinePartnerImage')">X</button>
+									<img *ngIf="onlinePartnerImage" [src]="newImages.onlinePartner"
+										alt="Online Partner Preview" class="img-thumbnail" />
+									<img *ngIf="!onlinePartnerImage && existingImages.onlinePartner"
+										[src]="existingImages.onlinePartner" alt="Existing Online Partner"
+										class="img-thumbnail" />
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+					<div class="mb-3">
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="mb-lg-0 mb-3">
+									<label class="form-label" for="kioskFile">Kiosk Image</label>
+									<input type="file" class="form-control" id="kioskFile"
+										(change)="onFileChange($event, 'kioskImage')">
+									<div class="upload-info">Upload only png, jpeg or jpg file</div>
+									<button *ngIf="kioskImage || newImages.kiosk || existingImages.kiosk" type="button"
+										class="btn btn-danger btn-sm position-absolute"
+										(click)="clearImage('kioskImage')">X</button>
+									<img *ngIf="kioskImage" [src]="newImages.kiosk" alt="Kiosk Preview"
+										class="img-thumbnail" />
+									<img *ngIf="!kioskImage && existingImages.kiosk" [src]="existingImages.kiosk"
+										alt="Existing Kiosk Image" class="img-thumbnail" />
+
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row mb-2">
+						<card-header class="d-flex align-items-center justify-content-between bg-none fw-bold">
+							<span>Menu Category Schedule (Optional)</span>
+							<div>
+								<!-- "Add Schedule" Button -->
+								<button *ngIf="!showSchedule" type="button" class="btn btn-outline-primary btn-sm"
+									(click)="toggleSchedule()">Add Schedule</button>
+								<!-- "Remove Schedule" Button -->
+								<button *ngIf="showSchedule" type="button" class="btn btn-outline-danger btn-sm"
+									(click)="toggleSchedule()">Remove Schedule</button>
+							</div>
+						</card-header>
+					</div>
+
+					<!-- Schedule Section -->
+					<div *ngIf="showSchedule">
+						<div class="row">
+							<div class="col-lg-3">
+								<div class="mb-3">
+									<label class="form-label">Schedule Name</label>
+									<input type="text" class="form-control" formControlName="scheduleName"
+										placeholder="Schedule Name">
+								</div>
+							</div>
+							<div class="col-lg-9">
+								<label class="form-label">Days</label>
+								<div class="d-flex align-items-center">
+									<!-- "All Days" Checkbox -->
+									<div class="form-check me-3">
+										<input class="form-check-input" type="checkbox" id="allDaysCheckbox"
+											[checked]="allDaysSelected" (change)="toggleAllDays()">
+										<label class="form-check-label" for="allDaysCheckbox">All Days</label>
+									</div>
+									<!-- Individual Day Checkboxes -->
+									<div *ngIf="showIndividualDays" class="d-flex flex-wrap">
+										<div class="form-check form-check-inline"
+											*ngFor="let day of daysOfWeek; let i = index">
+											<input class="form-check-input" type="checkbox" [checked]="day.selected"
+												(change)="toggleDaySelection(i)" [id]="'day-' + day.name">
+											<label class="form-check-label ms-2" [for]="'day-' + day.name">{{ day.name
+												}}</label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Time Slot Inputs -->
+						<div formArrayName="timeSlots">
+							<div *ngFor="let slot of timeSlotsArray.controls; let i = index" [formGroupName]="i"
+								class="row align-items-center mb-2">
+								<div class="col-lg-5">
+									<label class="form-label">From</label>
+									<select class="form-control" formControlName="from">
+										<option value="">Select</option>
+										<option *ngFor="let time of timeOptions" [value]="time">{{ time }}</option>
+									</select>
+								</div>
+								<div class="col-lg-5">
+									<label class="form-label">To</label>
+									<select class="form-control" formControlName="to">
+										<option value="">Select</option>
+										<option *ngFor="let time of timeOptions" [value]="time">{{ time }}</option>
+									</select>
+								</div>
+								<div class="col-lg-2 d-flex align-items-center">
+									<button type="button" class="btn btn-danger btn-sm" (click)="removeTimeSlot(i)"
+										[disabled]="timeSlotsArray.length === 1">X</button>
+								</div>
+							</div>
+						</div>
+
+						<!-- Add Timing Button -->
+						<div class="d-flex justify-content-end">
+							<button type="button" class="btn btn-outline-success btn-sm mt-3"
+								(click)="addTimeSlot()">Add Timing</button>
+						</div>
+					</div>
+
+					<div class="form-check form-switch ms-auto">
+						<label class="form-label" for="activeStatus">{{ categoryForm.get('status').value ? 'Active' :
+							'Inactive' }}</label>
+						<input type="checkbox" class="form-check-input" formControlName="status" id="activeStatus">
+					</div>
+				</card-body>
+
+				<card-footer class="bg-none d-flex p-3">
+					<button type="button" class="btn btn-default fw-semibold fs-13px ms-auto"
+						(click)="onCancel()">Cancel</button>
+					<button type="submit" class="btn btn-theme fw-semibold fs-13px ms-2"
+						[disabled]="categoryForm.invalid">Save Category</button>
+				</card-footer>
+			</form>
+		</card>
+	</div>
+</div>

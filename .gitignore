@@ -1,0 +1,22 @@
+# Dependency directories
+node_modules/
+bower_components/
+
+# Compiled output
+dist/
+build/
+
+# Logs
+*.log
+
+# Angular cache
+.angular/
+
+# IDE and editor files
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.csproj
+

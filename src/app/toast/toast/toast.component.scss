@@ -1,0 +1,146 @@
+
+:root {
+  --loader-size: 120px; /* Size of the loader */
+  --loader-color: #514b82; /* Color of the loader */
+  --overlay-bg: rgba(0, 0, 0, 0.5); /* Semi-transparent background for the overlay */
+}
+
+/* Overlay styling for full-screen loading effect */
+.loader-overlay {
+  position: fixed; /* Position the overlay fixed to the viewport */
+  top: 0; /* Align to the top */
+  left: 0; /* Align to the left */
+  width: 100vw; /* Full width of the viewport */
+  height: 100vh; /* Full height of the viewport */
+  background-color: rgba(0, 0, 0, 0.167); /* Semi-transparent background */
+  display: flex; /* Use flexbox to center the loader */
+  align-items: center; /* Vertically center the loader */
+  justify-content: center; /* Horizontally center the loader */
+  z-index: 1000; /* Make sure it's above other content */
+}
+
+/* Loader styles */
+.loader {
+  width: 120px; /* Size of the loader */
+  aspect-ratio: 1; /* Maintain a square aspect ratio */
+  display: grid; /* Use grid display */
+  color: #5f4d4f; /* Color of the loader  514b82, bd0413*/
+  background: 
+    conic-gradient(from 90deg at 3px 3px, #0000 90deg, currentColor 0)
+     -3px -3px/calc(50% + 1.5px) calc(50% + 1.5px); /* Create a conic gradient effect */
+    //  -3px -3px/calc(120% + 2px) calc(120% + 2px); /* Create a conic gradient effect */
+    //-3px -3px/calc(var(--loader-size) + 1.5px) calc(var(--loader-size) + 1.5px);
+  animation: l28 2s infinite; /* Animation for rotation */
+}
+
+// .loader {
+//   width: var(--loader-size); /* Use the loader size variable */
+//   aspect-ratio: 1; /* Maintain a square aspect ratio */
+//   display: grid; /* Use grid display */
+//   color: var(--loader-color); /* Use the loader color variable */
+//   background: 
+//     conic-gradient(from 90deg at 3px 3px, #0000 90deg, currentColor 0)
+//     -3px -3px/calc(var(--loader-size) + 2px) calc(var(--loader-size) + 2px); /* Adjusted for larger size */
+//   animation: l28 2s infinite; /* Animation for rotation */
+// }
+
+.loader::before,
+.loader::after {
+  content: ""; 
+  grid-area: 1/1;
+  background: repeating-conic-gradient(transparent 0 35deg, currentColor 0 90deg);
+  mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 0); /* Standard mask property */
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 0); /* WebKit prefix for older browsers */
+  border-radius: 50%;
+}
+
+
+.loader::after {
+  margin: 20%; /* Create an offset for the after element */
+}
+.loader img {
+  position: absolute; /* Position absolutely within the loader */
+  width: 50px; /* Size of the spoon and fork */
+  height: 50px; /* Size of the spoon and fork */
+}
+
+.loader img.fork {
+  top: 50%; /* Center the fork vertically */
+  left: 20%; /* Adjust position as needed */
+  transform: translate(-50%, -50%) rotate(0deg); /* Center and rotate */
+}
+
+.loader img.spoon {
+  top: 50%; /* Center the spoon vertically */
+  right: 20%; /* Adjust position as needed */
+  transform: translate(50%, -50%) rotate(0deg); /* Center and rotate */
+}
+@keyframes l28 {
+  100% { transform: rotate(1turn); } /* Rotation animation */
+}
+
+.toast-container {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1055;
+}
+
+.toast {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  color: #ffffff; /* White text color */
+  font-weight: bold;
+  min-width: 250px;
+}
+
+.toast.success {
+  background-color: #1f6b31; /* Green background for success */
+}
+
+.toast.error {
+  background-color: #b6303e; /* Red background for error */
+}
+
+.toast-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #ffffff; /* White text color */
+  font-size: 1.2rem;
+}
+
+.toast-title {
+  flex: 1;
+}
+
+.toast-body {
+  margin-top: 0.5rem;
+  padding: 0.5rem 0;
+  font-weight: normal;
+  font-size: 1.1rem; 
+}
+
+.btn-close {
+  color: #ffffff; /* White color for close button */
+  opacity: 1;
+  font-size: 1.2rem;
+}
+
+.btn-close:hover {
+  color: #e0e0e0; /* Slightly lighter on hover */
+}
+
+// .btn-close::before {
+//   content: "×";
+//   font-weight: bold;
+// }
+
+

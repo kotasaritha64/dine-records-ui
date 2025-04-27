@@ -1,0 +1,242 @@
+<div class="mb-md-4 mb-3 d-md-flex">
+	<div class="p-3 d-flex align-items-center">
+		<a (click)="onClose()" class="btn btn-outline-default text-nowrap btn-sm px-3 rounded-pill"><i
+				class="fa fa-arrow-left me-1 ms-n1"></i> Back</a>
+	</div>
+	<div class="p-3 d-flex align-items-center" (click)="onSubmit(true)">
+		<a class="btn btn-primary btn-lg active">Save & Exit</a>
+	</div>
+	<div class="p-3 d-flex align-items-center">
+		<a class="btn btn-primary btn-lg active" (click)="onSubmit(false)">Save & Add Menu Items</a>
+	</div>
+
+</div>
+
+<card>
+
+	<div class="tab-content p-4">
+		<div class="tab-pane fade show active" id="allTab">
+
+			<!-- BEGIN table -->
+			<div class="table-responsive  ">
+				<form [formGroup]="menuItemForm">
+
+					<table class="table table-hover text-nowrap table-borderless">
+						<thead class="table-light">
+							<tr>
+								<th class="border-top-0 pt-0 pb-2">Item Name</th>
+								<th class="border-top-0 pt-0 pb-2">Short Code</th>
+								<th class="border-top-0 pt-0 pb-2">Online Display Name</th>
+								<th class="border-top-0 pt-0 pb-2">Category</th>
+								<th class="border-top-0 pt-0 pb-2">Price</th>
+								<th class="border-top-0 pt-0 pb-2">Description</th>
+								<th class="border-top-0 pt-0 pb-2">Choice</th>
+								<th class="border-top-0 pt-0 pb-2">Goods & Services</th>
+								<th class="border-top-0 pt-0 pb-2">Desktop Type</th>
+								<th class="border-top-0 pt-0 pb-2">Add Variation</th>
+								<!-- <th class="border-top-0 pt-0 pb-2">Add Add-Ons</th> -->
+							</tr>
+						</thead>
+						<tbody formArrayName="items">
+							<ng-container *ngFor="let item of items.controls; let i = index" [formGroupName]="i">
+
+								<tr>
+									<td class="align-middle">
+										<input type="text" formControlName="itemName" class="form-control"
+											id="exampleFormControlInput1">
+									</td>
+									<td class="align-middle">
+										<input type="text" formControlName="shortCode" class="form-control "
+											id="exampleFormControlInput1">
+									</td>
+									<td class="align-middle">
+										<input type="text" formControlName="onlineDisplayName" class="form-control"
+											id="exampleFormControlInput1">
+									</td>
+									<td class="align-middle">
+										<select class="form-select" formControlName="categoryId">
+											<!-- <option value="" disabled selected>Select Category</option> -->
+											<option *ngFor="let category of categories|| []"
+												[value]="category.categoryId">{{ category.categoryName }}</option>
+										</select>
+									</td>
+									<td class="align-middle">
+										<input type="number" formControlName="price" class="form-control"
+											id="exampleFormControlInput1">
+									</td>
+									<td class="align-middle">
+										<input type="text" formControlName="description" class="form-control"
+											id="exampleFormControlInput1">
+									</td>
+									<td class="w-10px align-middle">
+										<div *ngFor="let choice of choices">
+											<input type="checkbox" class="form-check-input" [value]="choice"
+												(change)="onChoiceChange(i, choice)"
+												[checked]="item.get('choice').value.includes(choice)" />
+											<label>{{ choice }}</label>
+										</div>
+									</td>
+									<td class="w-10px align-middle">
+										<div class="form-check">
+										  <input type="radio" class="form-check-input"
+												 [value]="'Services'"
+												 [checked]="menuItemForm.get('items').controls[i].get('goodsAndServices').value === 'Services'"
+												 (change)="onGoodsAndServicesChange(i, 'Services')" 
+												 id="services{{i}}">
+										  <label class="form-check-label" for="services{{i}}">Services</label>
+										</div>
+										<div class="form-check">
+										  <input type="radio" class="form-check-input"
+												 [value]="'Goods'"
+												 [checked]="menuItemForm.get('items').controls[i].get('goodsAndServices').value === 'Goods'"
+												 (change)="onGoodsAndServicesChange(i, 'Goods')" 
+												 id="goods{{i}}">
+										  <label class="form-check-label" for="goods{{i}}">Goods</label>
+										</div>
+									  </td>
+									  
+									<td class="w-10px align-middle">
+										<div class="form-check">
+											<input type="checkbox" class="form-check-input"
+												[checked]="menuItemForm.get('items').controls[i].get('desktopType').value.includes('Delivery')"
+												(change)="onDeliveryOptionChange(i, 'Delivery')" id="delivery{{i}}">
+											<label class="form-check-label" for="delivery{{i}}">Delivery</label>
+										</div>
+										<div class="form-check">
+											<input type="checkbox" class="form-check-input"
+												[checked]="menuItemForm.get('items').controls[i].get('desktopType').value.includes('Pick Up')"
+												(change)="onDeliveryOptionChange(i, 'Pick Up')" id="pickup{{i}}">
+											<label class="form-check-label" for="pickup{{i}}">Pick Up</label>
+										</div>
+										<div class="form-check">
+											<input type="checkbox" class="form-check-input"
+												[checked]="menuItemForm.get('items').controls[i].get('desktopType').value.includes('Dine In')"
+												(change)="onDeliveryOptionChange(i, 'Dine In')" id="dinein{{i}}">
+											<label class="form-check-label" for="dinein{{i}}">Dine In</label>
+										</div>
+										<div class="form-check">
+											<input type="checkbox" class="form-check-input"
+												[checked]="menuItemForm.get('items').controls[i].get('desktopType').value.includes('Online')"
+												(change)="onDeliveryOptionChange(i, 'Online')" id="online{{i}}">
+											<label class="form-check-label" for="online{{i}}">Online</label>
+										</div>
+									</td>
+
+
+									<td class="w-10px align-middle">
+										<div class="form-check">
+											<input type="checkbox" formControlName="addVariation"
+												[checked]="menuItemForm.get('items').controls[i].get('addVariation').value"
+												(change)="onAddVariationChange(i)"
+												class="form-check-input">
+											<label class="form-check-label" for="addVariation{{i}}"></label>
+										</div>
+									</td>
+									<!-- <td class="w-10px align-middle">
+										<div class="form-check">
+											<input type="checkbox" class="form-check-input" id="product1">
+											<label class="form-check-label" for="product1"></label>
+										</div>
+									</td> -->
+								</tr>
+								<!-- <tr *ngIf="item.get('addVariation').value">
+									<td colspan="12">
+									  <div *ngFor="let varia of item.get('variations').controls; let j = index" class="d-flex align-items-center mb-2" [formGroupName]="j">
+										<select class="form-select" formControlName="variant">
+										  <option value="" selected>Select Variant</option>
+										  <option *ngFor="let vari of variants || []" [value]="vari.id">{{ vari.name }}</option>
+										</select>
+										<input type="text" class="form-control ms-2" placeholder="Enter price" formControlName="price">
+										<button class="btn btn-outline-danger ms-2" (click)="removeVariant(i, j)">
+										  <i class="fa fa-trash"></i>
+										</button>
+									  </div>
+									  <button class="btn btn-outline-primary ms-2" (click)="addVariant(i)">
+										<i class="fa fa-plus"></i> Add Variant
+									  </button>
+									</td>
+								  </tr> -->
+								<tr>
+									<td *ngIf="item.get('addVariation').value" colspan="12">
+										<div formArrayName="variations">
+											<div *ngFor="let variant of item.get('variations').controls; let j = index"
+												[formGroupName]="j" class="d-flex align-items-center mb-2">
+												<select formControlName="restaurantVariantId" class="form-select">
+													<option value="" selected>Select Variant</option>
+													<option *ngFor="let vari of variants" [value]="vari.id">{{ vari.name
+														}}</option>
+												</select>
+												<input type="text" formControlName="price" placeholder="Enter price"
+													class="form-control ms-2">
+													<input type="text" formControlName="variantName" placeholder="Enter variantName"
+													class="form-control ms-2">
+												<button (click)="removeVariant(i, j)"
+													class="btn btn-outline-danger ms-2"><i
+														class="fa fa-trash"></i></button>
+											</div>
+										</div>
+										<button (click)="addVariant(i)" class="btn btn-outline-primary ms-2"><i
+												class="fa fa-plus"></i> Add Variant</button>
+									</td>
+								</tr>
+
+							</ng-container>
+
+						</tbody>
+					</table>
+				</form>
+			</div>
+			<!-- END table -->
+
+			<!-- <div class="d-md-flex align-items-center">
+				<div class="me-md-auto text-md-left text-center mb-2 mb-md-0">
+					Showing 1 to 10 of 57 entries
+				</div>
+				<ul class="pagination mb-0 justify-content-center">
+					<li class="page-item disabled"><a class="page-link">Previous</a></li>
+					<li class="page-item"><a class="page-link" href="#">1</a></li>
+					<li class="page-item active"><a class="page-link" href="#">2</a></li>
+					<li class="page-item"><a class="page-link" href="#">3</a></li>
+					<li class="page-item"><a class="page-link" href="#">4</a></li>
+					<li class="page-item"><a class="page-link" href="#">5</a></li>
+					<li class="page-item"><a class="page-link" href="#">6</a></li>
+					<li class="page-item"><a class="page-link" href="#">Next</a></li>
+				</ul>
+			</div> -->
+		</div>
+	</div>
+</card>
+
+
+<!-- <div class="modal fade" id="variantsModal" #variantsModal>
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add Variation</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" #myButton id="myButton" (click)="onClose()"></button>
+        </div>
+        <div class="modal-body">
+			<div class="mb-3">
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="mb-lg-0 mb-3">
+
+							<select class="form-select" >
+								<option selected>Select Variation</option>
+								<option *ngFor="let category of categories?.content || []" [value]="category.id">{{ category.categoryName }}</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<div class="mb-lg-0 mb-3">
+							<label class="form-label">Variation Price<span class="text-danger">*</span></label>
+							<input type="text" class="form-control" formControlName="subCategory"
+								placeholder="Variation Price">
+						</div>
+					</div>
+				</div>
+			</div>
+        </div>
+      </div>
+    </div>
+  </div> -->

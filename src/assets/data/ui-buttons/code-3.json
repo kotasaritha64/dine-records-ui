@@ -1,0 +1,5 @@
+<!-- large button -->
+<button type="button" class="btn btn-primary btn-lg">Large button</button>
+
+<!-- small button -->
+<button type="button" class="btn btn-default btn-sm">Small button</button>
